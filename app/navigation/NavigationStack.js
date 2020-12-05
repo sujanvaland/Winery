@@ -7,6 +7,8 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 import AsyncStorage from '@react-native-community/async-storage';
 import NavStyles from './NavigationStyle';
 import { HeaderComponent } from 'app/components';
+import { UserAreaComponent } from 'app/components';
+import { CustomDrawerComponent } from 'app/components';
 
 
 
@@ -22,7 +24,20 @@ import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 
 
+const customDrawer = (props) => (
 
+    <View style={NavStyles.LeftMenuarea}>
+        <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }} style={NavStyles.SafeAeaMenu}>
+            <View style={NavStyles.UserArea}>
+               <UserAreaComponent />
+            </View>
+            <View>
+                <DrawerItems {...props} />
+                <CustomDrawerComponent />
+            </View>
+        </SafeAreaView>
+    </View>
+);
 
 
 const LoginApp = createStackNavigator({
@@ -72,7 +87,7 @@ const HomeApp = createStackNavigator({
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => (
-                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Fit4Life" pagetitle={true} />
+                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Winary" pagetitle={true} />
                 ),
                 gestureEnabled: true,
             };
@@ -86,7 +101,7 @@ const MyProfileApp = createStackNavigator({
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => (
-                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Fit4Life" pagetitle={true} />
+                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Winary" pagetitle={true} />
                 ),
                 gestureEnabled: true,
             };
@@ -178,44 +193,8 @@ const RNApp = createDrawerNavigator(
     },
 
     {
-        contentComponent: (props) => (
-            <View style={NavStyles.LeftMenuarea}>
-
-                <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }} style={NavStyles.SafeAeaMenu}>
-                    <View style={NavStyles.UserArea}>
-                        <View style={NavStyles.ProfilePic}>
-                            <Image source={require('../assets/img/img_avtar.jpg')} resizeMode="contain" style={NavStyles.PrifileImage} />
-                        </View>
-                        <Text style={NavStyles.UserName}>John Smith</Text>
-                        <Text style={NavStyles.Location}>San Francisco, CA</Text>
-                    </View>
-
-                    <DrawerItems {...props} />
-                    <TouchableOpacity onPress={() =>
-                        Alert.alert(
-                            'Log out',
-                            'Do you want to logout?',
-                            [
-                                { text: 'Cancel', onPress: () => { return null } },
-                                {
-                                    text: 'Confirm', onPress: () => {
-                                        AsyncStorage.clear();
-                                        props.navigation.navigate('Login')
-                                    }
-                                },
-                            ],
-                            { cancelable: false }
-                        )
-                    } style={NavStyles.LogoutBtn}>
-
-                        <Image source={require('../assets/img/icon_logoutmenu.png')} resizeMode="contain" style={NavStyles.LogoutMenuIcon} />
-                        <Text style={NavStyles.LogoutBtnText}>Logout</Text>
-                    </TouchableOpacity>
-                </SafeAreaView>
-
-            </View>
-        ),
-        initialRouteName: 'ChangePassword',
+        initialRouteName: 'Home',
+        contentComponent: customDrawer,
         draweOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',
         drawerToggleRoute: 'DrawerToggle',
@@ -228,8 +207,7 @@ const RNApp = createDrawerNavigator(
             },
             TintColor: '#67024e',
             activeTintColor: '#67024e',
-            activeBackgroundColor: '#67024e',
-            //  fontFamily: Styles.Typography.FONT_LIGHT
+            activeBackgroundColor: '#67024e'
         },
     });
 
@@ -238,16 +216,14 @@ const RNApp = createDrawerNavigator(
 
 export default createAppContainer(
     createSwitchNavigator(
-        {
-            //AuthLoading: AuthLoadingScreen,
-            App: RNApp,
-            initialRouteName: 'ChangePassword',
-            //  Auth: LoginApp,
-        },
-        //  {
-        // initialRouteName: 'AuthLoading',
-        //  initialRouteName: 'Contracts',
-        // }
+      {
+        AuthLoading: AuthLoadingScreen,
+        App: RNApp,
+        Auth: LoginApp,
+      },
+      {
+        initialRouteName: 'AuthLoading',
+      }
     )
 );
 
@@ -271,9 +247,4 @@ const NavigationStyles = StyleSheet.create({
         borderColor: 'black',
         margin: 0,
     },
-
-
-
-
 });
-

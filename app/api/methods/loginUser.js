@@ -5,20 +5,10 @@ export default function loginUser(username, password) {
     return Api(
         ApiConstants.LOGINPATH,
         {
-            username: username,
-            password: password,
-            rememberMe: false
+            email: username,
+            password: password
         },
         'post',
         null
     );
 }
-
-// export default function loginUser(username, password) {
-//     return Api(
-//         ApiConstants.LOGIN + '?username=' + username + '&password=' + password,
-//         null,
-//         'post',
-//         null
-//     );
-// }
