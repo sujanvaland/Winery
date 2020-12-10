@@ -10,17 +10,12 @@ import { TextBoxElement, PhoneTextBoxElement, ButtonElement, OverlayActivityIndi
 import { ScrollView } from 'react-native-gesture-handler';
 
 import SplashScreen from 'react-native-splash-screen';
-import navigationActions from '../../actions/navigationActions';
+import * as navigationActions from '../../actions/navigationActions';
 
-const { heading } = Resource_EN;
-const { content } = Resource_EN;
-const { button } = Resource_EN;
 class SignUpView extends Component {
 
   constructor(props) {
     super(props);
-    //this.props.singupresponse.result ="";
-    //this.props.singupresponse.message=true;
     this.state = {
       mainpage: false,
       isSelected: false,
@@ -55,7 +50,7 @@ class SignUpView extends Component {
 
 
   signup = () => {
-    const { userDetails, isvalidfirstname, isvalidlastname, isvalidemail, isvalidphone, isvalidpassword } = this.state;
+    const { isvalidfirstname, isvalidlastname, isvalidemail, isvalidphone, isvalidpassword } = this.state;
     let allInputsValidated = false;
 
     //console.log(isvalidfirstname, isvalidlastname, isvalidemail,isvalidphone,isvalidpassword)
@@ -85,6 +80,16 @@ class SignUpView extends Component {
 
   componentDidMount() {
     SplashScreen.hide();
+    this.setState(prevState => ({
+      userDetails: {                   // object that we want to update
+        ...prevState.userDetails,    // keep all other key-value pairs
+        firstname: '',
+        lastname: '',
+        email: '',
+        phone: '',
+        password: ''
+      }
+    }));
   }
   validateEmail = (value) => {
     if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(value)) {
@@ -229,22 +234,15 @@ class SignUpView extends Component {
 
 
 
-  // navigateToLogin = () => {
-  //   navigationActions.navigateToLogin();
-  // }
-
-
   navigateToLogin = () => {
-    this.props.Login();
+    navigationActions.navigateToLogin();
   }
 
 
   render() {
 
     const { userDetails } = this.state;
-    const { isSelected } = this.state;
-    const { country, loading, disabled } = this.props;
-    const { overlayStyle } = styles;
+    const { loading, disabled } = this.props;
 
     return (
 
@@ -356,11 +354,9 @@ class SignUpView extends Component {
 
                 <View style={styles.NewRegistration}>
                   <Text style={styles.accountText}>Already having Account?</Text>
-                  <TouchableOpacity style={styles.BtnSignup} onPress={this.navigateToLogin}>
-
+                  <TouchableOpacity style={styles.BtnSignup} onPress={() => this.navigateToLogin()}>
                     <Text style={styles.TextSignup}>Sign In</Text>
                   </TouchableOpacity>
-
                 </View>
 
 

@@ -3,7 +3,7 @@
  */
 import { put, call, select } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-import { Alert } from 'react-native';
+import { Alert, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as signupActions from 'app/actions/signupActions';
 import * as loginActions from 'app/actions/loginActions';
@@ -15,51 +15,26 @@ import { signup, accountverification } from 'app/api/methods/signUp';
 function* signupAsync(action) {
     yield put(loginActions.enableLoader());
     const response = yield call(signup, action.userdetail);
-    console.log(response);
+    //console.log(response);
     if (response.status === "true") {
-        yield put(signupActions.onsignupResponse(response));
-        yield put(loginActions.disableLoader({}));
-        yield _AddEventLog(action.userdetail.email,action.userdetail.username);
-        let obj={ username: action.userdetail.username };
-        navigationActions.navigateToAccountVerification(obj);
+      Alert.alert(
+        'Success',
+        'Signup Success :' + response.message,
+        [
+          {text: 'OK'},
+        ]
+      );
+      yield put(signupActions.onsignupResponse(response));
+      yield put(loginActions.disableLoader({}));
+      navigationActions.navigateToLogin();
     } 
     else 
     {
-        yield put(signupActions.signupFailed(response));
-      //  if(response.status === "missing_required_fields:last_name"){
-      //     alermessage = "Please enter last name";
-      //  }
-      //  if(response.status === "not_unique:email"){
-      //    alermessage = "User with this email address already exists";
-      //  }
-
-      var alermessage = "Something went wrong.!!!!!";
-
-      if(response.status === "not_unique:login"){
-        alermessage = "User with this username already exists";
-      }
-       
-       Alert.alert(
-          'Fail',
-          'Signup Failed :' + alermessage,
-          [
-            {text: 'OK'},
-          ]
-        );
-        yield put(loginActions.disableLoader({}));
+      ToastAndroid.show(response.message, ToastAndroid.LONG);
+      yield put(signupActions.signupFailed(response));
+      yield put(loginActions.disableLoader({}));
     }
 }
-
-// _AddEventLog = async (emailId,username) => {
-//   try {
-//       await analytics().logEvent('Customer_creation', {
-//         email: emailId,
-//         username:username
-//       });
-//   } catch (error) {
-//     // Error retrieving data
-//   }
-// };
 
 function* accountverificationAsync(action) {
   yield put(loginActions.enableLoader());

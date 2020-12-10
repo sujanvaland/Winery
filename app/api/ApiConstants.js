@@ -7,6 +7,8 @@ const ApiConstants = {
     //API PATH
     LOGINPATH: 'login.php',
     SIGNUPPATH:'registerwithout.php',
+    FORGOTPASSWORD: 'resetpasswordlinksend.php',
+    VERIFYOTP:'resetpassword.php',
     ACCOUNTDETAIL:'account',
     EVENTLIST: 'event-attendances',
 

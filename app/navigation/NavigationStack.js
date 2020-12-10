@@ -22,6 +22,7 @@ import Home from 'app/screens/Home';
 import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
+import Verifyotp from 'app/screens/Verifyotp';
 
 
 const customDrawer = (props) => (
@@ -50,9 +51,6 @@ const LoginApp = createStackNavigator({
             };
         },
     },
-});
-
-const SignupApp = createStackNavigator({
     Signup: {
         screen: Signup,
         navigationOptions: ({ navigation }) => {
@@ -64,9 +62,6 @@ const SignupApp = createStackNavigator({
             }
         }
     },
-});
-
-const ForgotpasswordApp = createStackNavigator({
     Forgotpassword: {
         screen: Forgotpassword,
         navigationOptions: ({ navigation }) => {
@@ -79,7 +74,18 @@ const ForgotpasswordApp = createStackNavigator({
             }
         }
     },
+    Verifyotp: {
+        screen: Verifyotp,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerShown: false,
+                gestureEnabled: true,
+            };
+        },
+    },
 });
+
+
 
 const HomeApp = createStackNavigator({
     Home: {
@@ -136,24 +142,6 @@ const StoreListingdApp = createStackNavigator({
 
 const RNApp = createDrawerNavigator(
     {
-        Login: {
-            screen: LoginApp,
-            navigationOptions: {
-                drawerLabel: () => null
-            },
-        },
-        Signup: {
-            screen: SignupApp,
-            navigationOptions: {
-                drawerLabel: () => null
-            },
-        },
-        Forgotpassword: {
-            screen: ForgotpasswordApp,
-            navigationOptions: {
-                drawerLabel: () => null
-            },
-        },
         Home: {
             screen: HomeApp,
             navigationOptions: {

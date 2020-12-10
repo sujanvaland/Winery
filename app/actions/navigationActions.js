@@ -32,6 +32,6 @@ export function navigateToStoreListing(params) {
     NavigationService.navigate('StoreListing', params);
 }
 
-
-
-
+export function navigateToVerifyotp(params) {
+    NavigationService.navigate('Verifyotp', params);
+}

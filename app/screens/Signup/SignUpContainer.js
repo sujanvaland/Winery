@@ -30,13 +30,9 @@ class SignUpContainer extends Component {
           }
         });
     }
-    navigateToLogin =()=>{
-      navigationActions.navigateToLogin();
-    }
     
     render() {
-        return <SignUpView {...this.props} 
-        Login ={this.navigateToLogin}/>;
+        return <SignUpView {...this.props}/>;
     }
 }
 

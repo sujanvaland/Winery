@@ -7,7 +7,7 @@ import NetInfo from "@react-native-community/netinfo";
 // import RNFetchBlob from 'react-native-fetch-blob'
 export default function api(path, params, method, token) {
     return CallApi(params,path,method).then((data) => {
-      console.log(data);
+      //console.log(data);
         try {
           let response = JSON.parse(data);
           return response;
