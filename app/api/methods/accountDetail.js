@@ -10,6 +10,68 @@ export  function getAccountDetail(action) {
   );
 }
 
+export function getAllUserType(action){
+  return Api(
+    ApiConstants.GETALLUSERTYPE,
+    null,
+    get,
+    null
+  );
+}
+
+export function getWineTypeByUserType(action){
+  return Api(
+    ApiConstants.GETWINETYPEBYUSERTYPE,
+    {
+      UserTypeId:action.UserTypeId
+    },
+    post,
+    null
+  );
+}
+
+export function getWineeriesByWineType(action){
+  return Api(
+    ApiConstants.GETWINERIESBYWINETYPE,
+    {
+      WineTypeIds:action.WineTypeIds
+    },
+    post,
+    null
+  );
+}
+
+export function insertTour(action){
+  return Api(
+    ApiConstants.INSERTTOUR,
+    action,
+    post,
+    null
+  );
+}
+
+export function getTourById(action){
+  return Api(
+    ApiConstants.GETTOURBYID,
+    {
+      Id:action.Id
+    },
+    post,
+    null
+  );
+}
+
+export function deleteTour(action){
+  return Api(
+    ApiConstants.DELETETOUR,
+    {
+      Id:action.Id
+    },
+    post,
+    null
+  );
+}
+
 export  function updatePersonalDetail(action) {
   return Api(
       ApiConstants.UPDATEPERSONALDETAIL,

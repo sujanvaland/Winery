@@ -10,6 +10,12 @@ const ApiConstants = {
     FORGOTPASSWORD: 'resetpasswordlinksend.php',
     VERIFYOTP:'resetpassword.php',
     ACCOUNTDETAIL:'account',
+    GETALLUSERTYPE:'getallusertypes.php',
+    GETWINETYPEBYUSERTYPE:'getwinetypesbyusertype.php',
+    GETWINERIESBYWINETYPE:'getwineriesbywinetypes.php',
+    INSERTTOUR:'inserttour.php',
+    GETTOURBYID:'gettourbyid.php',
+    DELETETOUR:'deletetour.php',
     EVENTLIST: 'event-attendances',
 
     // Update before build

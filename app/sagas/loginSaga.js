@@ -20,15 +20,14 @@ function* loginAsync(action) {
     const response = yield call(loginUser, action.username, action.password);
     //console.log("123");
     //console.log(response);
-    if (response.status==="true") {
+    if (response.status.toLower() ==="true") {
         yield put(loginActions.onLoginResponse(response));
         _storeData("login_token",response.jwt);
         _storeData("customerguid",response.userId);
         _storeData("customername",response.userName);
         _storeData("loginuser",action.username);
         _storeData("password",action.password);
-        //yield put(accountActions.getAccountDetail());
-        yield call(navigationActions.navigateToHome);
+        yield call(navigationActions.navigateToStoreListing);
         yield put(loginActions.disableLoader({}));   
     } else {
           yield put(loginActions.loginFailed(response));
