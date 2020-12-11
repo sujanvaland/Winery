@@ -5,66 +5,64 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
+import SplashScreen from 'react-native-splash-screen';
 
 class LoginContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-  async componentDidMount() {
-    let currentRoute = this.props.navigation.state.routeName;
-    let navigation = this.props.navigation;
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      if (currentRoute == "Login") {
-        BackHandler.exitApp();
-        return true;
-      }
-      else {
-        navigation.goBack();
-        return true;
-      }
-    });
-  }
-
-  navigateToForgotPassword = () => {
-    navigationActions.navigateToForgotPassword();
-  }
-
-  navigateToSignup = () => {
-    navigationActions.navigateToSignup();
-  }
-
-  navigateToStoreMap = () => {
-    navigationActions.navigateToStoreMap();
-  }
-
-  _retrieveData = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem('TDMDeliveryApp:' + key);
-      if (value !== null) {
-        return value
-      }
-    } catch (error) {
+    constructor(props) {
+        super(props);
     }
-  };
+    async componentDidMount() {
+        SplashScreen.hide();
+        let currentRoute = this.props.navigation.state.routeName;
+        let navigation = this.props.navigation;
+        BackHandler.addEventListener ('hardwareBackPress', function(){
+          if (currentRoute == "Login") {
+            BackHandler.exitApp();
+            return true;
+          }
+          else{
+            navigation.goBack();
+            return true;
+          }
+        });
+    }
+  
+    navigateToForgotPassword = () => {
+        navigationActions.navigateToForgotPassword();
+    }
 
-  render() {
-    return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup} StoreMap={this.navigateToStoreMap} />;
-  }
+    navigateToSignup = () => {
+        navigationActions.navigateToSignup();
+    }
+
+    _retrieveData = async (key) => {
+        try {
+          const value = await AsyncStorage.getItem('TDMDeliveryApp:'+key);
+          if (value !== null) {
+            return value
+          }
+        } catch (error) {
+        }
+      };
+
+    render() {
+        return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup}/>;
+    }
 }
 
 
 function mapStateToProps(state) {
-  return {
-    loginresponse: state.loginReducer,
-    loading: state.loadingReducer
-  };
+    return {
+        loginresponse: state.loginReducer,
+        loading: state.loadingReducer
+    };
 }
 function mapDispatchToProps(dispatch) {
-  return {
-    onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))
-  };
+    return {
+        onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))      
+    };
 }
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(LoginContainer);

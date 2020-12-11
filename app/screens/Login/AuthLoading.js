@@ -9,9 +9,11 @@ import {
   View,
 } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
+import SplashScreen from 'react-native-splash-screen';
 
 class AuthLoadingScreen extends React.Component {
   componentDidMount() {
+    SplashScreen.hide();
     this._bootstrapAsync();
   }
 

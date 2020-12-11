@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { BackHandler } from 'react-native';
-import ForgotpassView from './ForgotpassView';
+import VerifyotpView from './VerifyotpView';
 import { connect } from 'react-redux';
-import * as forgotPasswordActions from 'app/actions/forgotPasswordActions';
+import * as verifyOtpActions from 'app/actions/verifyOtpActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
-class ForgotpassContainer extends Component {
+class VerifyotpContainer extends Component {
     constructor(props) {
         super(props);
     }
-
-
+    navigateToLogin = () => {
+        navigationActions.navigateToLogin();
+    }
 
     componentDidMount() {
         let currentRoute = this.props.navigation.state.routeName;
@@ -20,6 +21,7 @@ class ForgotpassContainer extends Component {
                 BackHandler.exitApp();
                 return true;
             }
+
             else {
                 navigation.goBack();
                 return true;
@@ -27,27 +29,24 @@ class ForgotpassContainer extends Component {
         });
     }
 
-    navigateToLogin = () => {
-        navigationActions.navigateToLogin();
-    }
-
     render() {
-        return <ForgotpassView {...this.props} login={this.navigateToLogin} />;
+        return <VerifyotpView {...this.props} />;
     }
 }
 
 function mapStateToProps(state) {
     return {
-        forgotPasswordresponse: state.forgotPasswordReducer,
-        loading: state.loadingReducer
+         Verifyotpresponse: state.VerifyotpReducer,
+         userdetails:state.forgotPasswordReducer.userdetails,
+         loading: state.loadingReducer
     };
 }
 function mapDispatchToProps(dispatch) {
     return {
-        onForgotPassword: (email) => dispatch(forgotPasswordActions.requestForgotPassword(email))
+        onVerifyotp: (obj) => dispatch(verifyOtpActions.verifyOtprequest(obj))
     };
 }
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ForgotpassContainer);
+)(VerifyotpContainer);
