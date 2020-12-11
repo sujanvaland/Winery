@@ -26,12 +26,12 @@ export const loginReducer = createReducer(initialState, {
     [types.LOGIN_RESPONSE](state, action) {
         return {
             ...state,
+            id: action.response.userId,
             isLoggedIn:true,
-            userId:action.response.userId,
-            userName:action.response.userName,
-            status:action.response.status,
-            expireAt:action.response.expireAt,
-            login_token: action.response.jwt
+            login_token: action.response.jwt,
+            username:action.response.userName,
+            email:action.response.email,
+            userdetail:action.response
         };
     },
     [types.LOGIN_FAILED](state,action) {

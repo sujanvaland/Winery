@@ -12,12 +12,3 @@ export default function loginUser(username, password) {
         null
     );
 }
-
-// export default function loginUser(username, password) {
-//     return Api(
-//         ApiConstants.LOGIN + '?username=' + username + '&password=' + password,
-//         null,
-//         'post',
-//         null
-//     );
-// }

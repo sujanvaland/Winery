@@ -6,11 +6,12 @@ const ApiConstants = {
     SITEURL:'http://wineloversmap.com/',
     //API PATH
     LOGINPATH: 'login.php',
-    REGISTERWITHOUTAUTH:'registerwithout.php',
-    REGISTERWITHAUTH:'registernew.php',
-    UPDATEUSER: 'userupdate.php',
-    RESETLINK:'resetpasswordlinksend.php',
-    RESETPASSWORD:'resetpassword.php',
+    SIGNUPPATH:'registerwithout.php',
+    FORGOTPASSWORD: 'resetpasswordlinksend.php',
+    VERIFYOTP:'resetpassword.php',
+    ACCOUNTDETAIL:'account',
+    EVENTLIST: 'event-attendances',
+
     // Update before build
     BUILDNO: "b01",
     VERSION: "1.0.0"
