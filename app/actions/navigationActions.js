@@ -34,4 +34,10 @@ export function navigateToStoreListing(params) {
 
 
 
+export function navigateToStoreMap(params) {
+    NavigationService.navigate('StoreMap', params);
+}
+
+
+
 

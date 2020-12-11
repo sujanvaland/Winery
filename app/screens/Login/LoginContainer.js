@@ -7,60 +7,64 @@ import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
 class LoginContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
-    async componentDidMount() {
-        let currentRoute = this.props.navigation.state.routeName;
-        let navigation = this.props.navigation;
-        BackHandler.addEventListener ('hardwareBackPress', function(){
-          if (currentRoute == "Login") {
-            BackHandler.exitApp();
-            return true;
-          }
-          else{
-            navigation.goBack();
-            return true;
-          }
-        });
-    }
-  
-    navigateToForgotPassword = () => {
-        navigationActions.navigateToForgotPassword();
-    }
+  constructor(props) {
+    super(props);
+  }
+  async componentDidMount() {
+    let currentRoute = this.props.navigation.state.routeName;
+    let navigation = this.props.navigation;
+    BackHandler.addEventListener('hardwareBackPress', function () {
+      if (currentRoute == "Login") {
+        BackHandler.exitApp();
+        return true;
+      }
+      else {
+        navigation.goBack();
+        return true;
+      }
+    });
+  }
 
-    navigateToSignup = () => {
-        navigationActions.navigateToSignup();
-    }
+  navigateToForgotPassword = () => {
+    navigationActions.navigateToForgotPassword();
+  }
 
-    _retrieveData = async (key) => {
-        try {
-          const value = await AsyncStorage.getItem('TDMDeliveryApp:'+key);
-          if (value !== null) {
-            return value
-          }
-        } catch (error) {
-        }
-      };
+  navigateToSignup = () => {
+    navigationActions.navigateToSignup();
+  }
 
-    render() {
-        return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup}/>;
+  navigateToStoreMap = () => {
+    navigationActions.navigateToStoreMap();
+  }
+
+  _retrieveData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem('TDMDeliveryApp:' + key);
+      if (value !== null) {
+        return value
+      }
+    } catch (error) {
     }
+  };
+
+  render() {
+    return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup} StoreMap={this.navigateToStoreMap} />;
+  }
 }
 
 
 function mapStateToProps(state) {
-    return {
-        loginresponse: state.loginReducer,
-        loading: state.loadingReducer
-    };
+  return {
+    loginresponse: state.loginReducer,
+    loading: state.loadingReducer
+  };
 }
 function mapDispatchToProps(dispatch) {
-    return {
-        onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))      
-    };
+  return {
+    onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))
+  };
 }
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(LoginContainer);

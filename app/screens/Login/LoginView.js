@@ -104,6 +104,10 @@ class LoginView extends Component {
     this.props.Signup();
   }
 
+  navigateToStoreMap = () => {
+    this.props.StoreMap();
+  }
+
   updateState = (fieldName, value) => {
 
     this.setState({
@@ -224,7 +228,7 @@ class LoginView extends Component {
 
                 <View style={loginStyles.NewRegistration}>
                   <Text style={loginStyles.accountText}>New Registratoin?</Text>
-                  <TouchableOpacity style={loginStyles.BtnSignup} onPress={this.navigateToSignup}>
+                  <TouchableOpacity style={loginStyles.BtnSignup} onPress={this.navigateToStoreMap}>
                     <Text style={loginStyles.TextSignup}>Cilck here</Text>
                   </TouchableOpacity>
                 </View>

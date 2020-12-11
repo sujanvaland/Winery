@@ -20,6 +20,7 @@ import Home from 'app/screens/Home';
 import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
+import StoreMap from 'app/screens/StoreMap';
 
 
 
@@ -107,12 +108,24 @@ const ChangePasswordApp = createStackNavigator({
     },
 });
 
-const StoreListingdApp = createStackNavigator({
+const StoreListingApp = createStackNavigator({
     StoreListing: {
         screen: StoreListing,
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Listing" />,
+                gestureEnabled: false
+            }
+        }
+    },
+});
+
+const StoreMapApp = createStackNavigator({
+    StoreMap: {
+        screen: StoreMap,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Map" />,
                 gestureEnabled: false
             }
         }
@@ -148,9 +161,19 @@ const RNApp = createDrawerNavigator(
             },
         },
         StoreListing: {
-            screen: StoreListingdApp,
+            screen: StoreListingApp,
             navigationOptions: {
                 drawerLabel: 'Store Listing',
+                drawerIcon: () => (
+                    <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                ),
+            },
+        },
+
+        StoreMap: {
+            screen: StoreMapApp,
+            navigationOptions: {
+                drawerLabel: 'Store Map',
                 drawerIcon: () => (
                     <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
                 ),
@@ -215,7 +238,7 @@ const RNApp = createDrawerNavigator(
 
             </View>
         ),
-        initialRouteName: 'ChangePassword',
+        initialRouteName: 'Login',
         draweOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',
         drawerToggleRoute: 'DrawerToggle',
@@ -241,7 +264,7 @@ export default createAppContainer(
         {
             //AuthLoading: AuthLoadingScreen,
             App: RNApp,
-            initialRouteName: 'ChangePassword',
+            initialRouteName: 'Login',
             //  Auth: LoginApp,
         },
         //  {
