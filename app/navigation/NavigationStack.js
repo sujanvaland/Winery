@@ -23,6 +23,7 @@ import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 import Verifyotp from 'app/screens/Verifyotp';
+import StoreMap from 'app/screens/StoreMap';
 
 
 const customDrawer = (props) => (
@@ -30,7 +31,7 @@ const customDrawer = (props) => (
     <View style={NavStyles.LeftMenuarea}>
         <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }} style={NavStyles.SafeAeaMenu}>
             <View style={NavStyles.UserArea}>
-               <UserAreaComponent />
+                <UserAreaComponent />
             </View>
             <View>
                 <DrawerItems {...props} />
@@ -140,6 +141,18 @@ const StoreListingdApp = createStackNavigator({
     },
 });
 
+const StoreMapApp = createStackNavigator({
+    StoreMapApp: {
+        screen: StoreMapApp,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Listing" />,
+                gestureEnabled: false
+            }
+        }
+    },
+});
+
 const RNApp = createDrawerNavigator(
     {
         Home: {
@@ -154,6 +167,15 @@ const RNApp = createDrawerNavigator(
             screen: StoreListingdApp,
             navigationOptions: {
                 drawerLabel: 'Store Listing',
+                drawerIcon: () => (
+                    <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                ),
+            },
+        },
+        StoreMap: {
+            screen: StoreMapApp,
+            navigationOptions: {
+                drawerLabel: 'Store Map',
                 drawerIcon: () => (
                     <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
                 ),
@@ -204,14 +226,14 @@ const RNApp = createDrawerNavigator(
 
 export default createAppContainer(
     createSwitchNavigator(
-      {
-        AuthLoading: AuthLoadingScreen,
-        App: RNApp,
-        Auth: LoginApp,
-      },
-      {
-        initialRouteName: 'AuthLoading',
-      }
+        {
+            AuthLoading: AuthLoadingScreen,
+            App: RNApp,
+            Auth: LoginApp,
+        },
+        {
+            initialRouteName: 'AuthLoading',
+        }
     )
 );
 
