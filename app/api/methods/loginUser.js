@@ -5,9 +5,8 @@ export default function loginUser(username, password) {
     return Api(
         ApiConstants.LOGINPATH,
         {
-            username: username,
-            password: password,
-            rememberMe: false
+            email: username,
+            password: password
         },
         'post',
         null

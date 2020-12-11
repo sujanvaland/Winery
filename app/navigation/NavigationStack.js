@@ -215,7 +215,7 @@ const RNApp = createDrawerNavigator(
 
             </View>
         ),
-        initialRouteName: 'ChangePassword',
+        initialRouteName: 'LoginApp',
         draweOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',
         drawerToggleRoute: 'DrawerToggle',
