@@ -143,7 +143,7 @@ const StoreListingdApp = createStackNavigator({
 
 const StoreMapApp = createStackNavigator({
     StoreMapApp: {
-        screen: StoreMapApp,
+        screen: StoreMap,
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Listing" />,
