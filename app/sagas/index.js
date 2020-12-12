@@ -9,7 +9,6 @@ import forgotPasswordSaga from './forgotPasswordSaga';
 import {verifyOtpAsync} from './verifyOtpSaga';
 import { getAccountDetailAsync,getAllUserTypeAsync,getWineTypeByUserTypeAsync,
     getWineeriesByWineTypeAsync,insertTourAsync,deleteTourAsync,getTourByIdAsync } from './accountSaga';
-import { getUpcomingEventsAsync, getPastEventsAsync } from './eventSaga';
 
 export default function* watch() {
     yield all([takeEvery(types.LOGIN_REQUEST, loginAsync)]);

@@ -45,8 +45,6 @@ class StoreMapView extends Component {
           longitude: 73.226840
         }
       ],
-
-      isSelected: false
     };
 
     this.mapView = null;
@@ -67,120 +65,90 @@ class StoreMapView extends Component {
 
   render() {
     return (
-      <View style={StoreMapStyles.InnerContainer}>
-        <View style={StoreMapStyles.SearchStore}>
-          <View style={StoreMapStyles.PickeBoxMain}>
+      <MapView
+        initialRegion={{
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }}
+        style={StyleSheet.absoluteFill}
+        ref={c => this.mapView = c}
+        onPress={this.onMapPress}
+      >
+        {this.state.coordinates.map((coordinate, index) =>
+          <MapView.Marker
+            key={`coordinate_${index}`} coordinate={coordinate}
+            title={"Winery 1"}
+            description={"Windery desc 1"}>
+            <MapView.Callout >
+              {/* <TouchableHighlight onPress={() => this.markerClick()} underlayColor='#dddddd'> */}
+              <Text>
 
-            <View style={StoreMapStyles.PickeBox}>
-              <Picker
-                style={StoreMapStyles.PickeElement}
-              >
-                <Picker.Item value="" label="Location" />
-                <Picker.Item value="" label="Select" />
-              </Picker>
-            </View>
-            <View style={StoreMapStyles.PickeBox}>
-              <Picker
-                style={StoreMapStyles.PickeElement}
-              >
-                <Picker.Item value="" label="Wines" />
-                <Picker.Item value="" label="Select" />
-              </Picker>
-            </View>
-          </View>
-        </View>
+              </Text>
+              <View>
+                <Text>{"Winery 1"}{"\n"}{"Windery desc 1"}</Text>
+              </View>
+              {/* </TouchableHighlight> */}
+            </MapView.Callout>
+          </MapView.Marker>
+        )}
+        {(this.state.coordinates.length >= 2) && (
+          <MapViewDirections
+            origin={{
+              latitude: 22.253214,
+              longitude: 73.214607,
+            }}
+            waypoints={[
+              {
+                latitude: 22.289414,
+                longitude: 73.128661,
+              },
+              {
+                latitude: 22.307838,
+                longitude: 73.181553,
+              },
+              {
+                latitude: 22.311713,
+                longitude: 73.138204,
+              },
+              {
+                latitude: 22.326322,
+                longitude: 73.226840
+              }
+            ]}
+            destination={{
+              latitude: 22.253214,
+              longitude: 73.214607,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={3}
+            strokeColor="blue"
+            optimizeWaypoints={true}
+            mode={'DRIVING'}
+            onStart={(params) => {
+              console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+            }}
 
-        <MapView
-          initialRegion={{
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }}
-          style={StyleSheet.absoluteFill}
-          ref={c => this.mapView = c}
-          onPress={this.onMapPress}
-        >
-          {this.state.coordinates.map((coordinate, index) =>
-            <MapView.Marker
-              key={`coordinate_${index}`} coordinate={coordinate}
-              title={"Winery 1"}
-              description={"Windery desc 1"}>
-              <MapView.Callout tooltip>
-                {/* <TouchableHighlight onPress={() => this.markerClick()} underlayColor='#dddddd'> */}
-                <View style={StoreMapStyles.MapPopup}>
+            onReady={result => {
+              console.log(`Distance: ${result.distance} km`)
+              console.log(`Duration: ${result.duration} min.`)
 
-                  <Text style={StoreMapStyles.MapImageBox}>
-
-                    <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
-                  </Text>
-
-                  <Text style={StoreMapStyles.StoreNameBox}>
-                    <CheckBox />
-                    {"Winery 1"}{"\n"}{"Windery desc 1"}</Text>
-                </View>
-                {/* </TouchableHighlight> */}
-              </MapView.Callout>
-            </MapView.Marker>
-          )}
-          {(this.state.coordinates.length >= 2) && (
-            <MapViewDirections
-              origin={{
-                latitude: 22.253214,
-                longitude: 73.214607,
-              }}
-              waypoints={[
-                {
-                  latitude: 22.289414,
-                  longitude: 73.128661,
-                },
-                {
-                  latitude: 22.307838,
-                  longitude: 73.181553,
-                },
-                {
-                  latitude: 22.311713,
-                  longitude: 73.138204,
-                },
-                {
-                  latitude: 22.326322,
-                  longitude: 73.226840
+              this.mapView.fitToCoordinates(result.coordinates, {
+                edgePadding: {
+                  right: (width / 20),
+                  bottom: (height / 20),
+                  left: (width / 20),
+                  top: (height / 20),
                 }
-              ]}
-              destination={{
-                latitude: 22.253214,
-                longitude: 73.214607,
-              }}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={3}
-              strokeColor="blue"
-              optimizeWaypoints={true}
-              mode={'DRIVING'}
-              onStart={(params) => {
-                console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
-              }}
-
-              onReady={result => {
-                console.log(`Distance: ${result.distance} km`)
-                console.log(`Duration: ${result.duration} min.`)
-
-                this.mapView.fitToCoordinates(result.coordinates, {
-                  edgePadding: {
-                    right: (width / 20),
-                    bottom: (height / 20),
-                    left: (width / 20),
-                    top: (height / 20),
-                  }
-                });
-              }}
-              onError={(errorMessage) => {
-                // console.log('GOT AN ERROR');
-              }}
-            />
-          )}
-        </MapView>
-
-      </View>
+              });
+            }}
+            onError={(errorMessage) => {
+              // console.log('GOT AN ERROR');
+            }}
+          />
+        )}
+      </MapView>
     );
   }
 }

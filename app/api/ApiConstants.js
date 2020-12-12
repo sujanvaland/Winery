@@ -1,21 +1,12 @@
 /* App config for apis
  */
 const ApiConstants = {
-    BASE_URL: 'http://wineloversmap.com/api',
+    BASE_URL: 'https://fit4life-293902.uc.r.appspot.com/api',
     LANGUAGE: 'language',
-    SITEURL:'http://wineloversmap.com/',
+    SITEURL:'https://fit4life-293902.uc.r.appspot.com/',
     //API PATH
-    LOGINPATH: 'login.php',
-    SIGNUPPATH:'registerwithout.php',
-    FORGOTPASSWORD: 'resetpasswordlinksend.php',
-    VERIFYOTP:'resetpassword.php',
+    LOGINPATH: 'authenticate',
     ACCOUNTDETAIL:'account',
-    GETALLUSERTYPE:'getallusertypes.php',
-    GETWINETYPEBYUSERTYPE:'getwinetypesbyusertype.php',
-    GETWINERIESBYWINETYPE:'getwineriesbywinetypes.php',
-    INSERTTOUR:'inserttour.php',
-    GETTOURBYID:'gettourbyid.php',
-    DELETETOUR:'deletetour.php',
     EVENTLIST: 'event-attendances',
 
     // Update before build

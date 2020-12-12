@@ -105,7 +105,7 @@ class LoginView extends Component {
   }
 
   navigateToStoreMap = () => {
-    this.props.StoreMap();
+    this.props.Signup();
   }
 
   updateState = (fieldName, value) => {
