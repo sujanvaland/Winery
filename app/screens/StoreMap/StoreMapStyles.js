@@ -3,14 +3,14 @@ import Styles from '../../config/styles';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const { color, Typography } = Styles;
 
-const StoreListingStyles = StyleSheet.create({
+const StoreMapStyles = StyleSheet.create({
     InnerContainer: {
 
         height: viewportHeight,
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         borderWidth: 0,
     },
@@ -18,7 +18,7 @@ const StoreListingStyles = StyleSheet.create({
         flex: 1,
         height: viewportHeight,
         width: viewportWidth,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         display: 'flex',
         justifyContent: 'flex-start',
         paddingBottom: viewportHeight * 0.1,
@@ -297,8 +297,9 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'center',
         width: viewportWidth,
         paddingHorizontal: viewportWidth * 0.020,
-        paddingVertical: viewportWidth * 0.02,
         paddingBottom: viewportWidth * 0.04,
+        width: viewportWidth,
+
 
     },
     CheckBoxText: {
@@ -327,10 +328,56 @@ const StoreListingStyles = StyleSheet.create({
     },
     PickeElement: {
         color: '#c670b1',
-
-
+    },
+    StoreImageMap: {
+        width: viewportWidth
+    },
+    ButtonArea: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: color.COLOR_PRIMARY,
+        paddingTop: viewportWidth * 0.030,
+        paddingBottom: viewportWidth * 0.038,
+        paddingHorizontal: viewportWidth * 0.035
+    },
+    MapBox: {
+        height: viewportHeight - viewportWidth * 0.55,
+        width: viewportWidth,
+        borderWidth: 0,
+    },
+    FlexBox: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '60%'
+    },
+    ButtonFeedback: {
+        color: 'white',
+        paddingTop: viewportWidth * 0.02,
+        paddingBottom: viewportWidth * 0.023,
+        display: 'flex',
+        justifyContent: 'center',
+        paddingHorizontal: viewportWidth * 0.05,
+        backgroundColor: '#a52586',
+        borderRadius: 100,
+    },
+    ButtonStart: {
+        color: 'white',
+        paddingTop: viewportWidth * 0.02,
+        paddingBottom: viewportWidth * 0.022,
+        display: 'flex',
+        justifyContent: 'center',
+        paddingHorizontal: viewportWidth * 0.05,
+        backgroundColor: '#320025',
+        borderRadius: 100,
+    },
+    WhiteText: {
+        color: 'white'
     }
+
 
 });
 
-export default StoreListingStyles;
+export default StoreMapStyles;
