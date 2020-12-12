@@ -21,6 +21,7 @@ import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 import StoreMap from 'app/screens/StoreMap';
+import Verifyotp from 'app/screens/Verifyotp';
 
 
 
