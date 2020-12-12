@@ -1,7 +1,9 @@
 import { put, call, select } from 'redux-saga/effects';
 import * as loginActions from 'app/actions/loginActions';
 import * as accountActions from 'app/actions/accountActions';
-import {getAccountDetail,updatePersonalDetail,updateDeviceToken,changePassword,loadProfileImage} from 'app/api/methods/accountDetail';
+import {getAccountDetail,getAllUserType,getWineTypeByUserType,getWineeriesByWineType,insertTour,
+  getTourById,deleteTour,
+  updatePersonalDetail,updateDeviceToken,changePassword,loadProfileImage} from 'app/api/methods/accountDetail';
 import * as navigationActions from 'app/actions/navigationActions';
 
 // Our worker Saga that loads filter
@@ -15,6 +17,78 @@ function* getAccountDetailAsync(action) {
       yield put(loginActions.disableLoader({}));
   } else {
       yield put(accountActions.getAccountDetailFailed(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* getWineTypeByUserTypeAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(getWineTypeByUserType,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.ongetWineTypeByUserTypeResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.ongetWineTypeByUserTypeFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* getAllUserTypeAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(getAllUserType,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.ongetAllUserTypeResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.ongetAllUserTypeFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* getWineeriesByWineTypeAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(getWineeriesByWineType,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.ongetWineriesWineTypeResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.ongetWineriesWineTypeFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* insertTourAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(insertTour,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.oninsertTourResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.oninsertTourFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* getTourByIdAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(getTourById,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.ongetTourByIdResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.ongetTourByIdFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
+function* deleteTourAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(deleteTour,action);
+  if (response.status.toLower() ==="true") {
+      yield put(accountActions.ondeleteTourResponse(response));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.ondeleteTourFailResponse(response));
       yield put(loginActions.disableLoader({}));
   }
 };
@@ -109,5 +183,11 @@ export {
   updatePersonalDetailAsync,
   updateDeviceTokenAsync,
   changePasswordAsync,
-  loadprofileimageAsync 
+  loadprofileimageAsync,
+  getAllUserTypeAsync,
+  getWineTypeByUserTypeAsync,
+  getWineeriesByWineTypeAsync,
+  insertTourAsync,
+  getTourByIdAsync,
+  deleteTourAsync
 }

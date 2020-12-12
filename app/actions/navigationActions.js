@@ -32,6 +32,7 @@ export function navigateToStoreListing(params) {
     NavigationService.navigate('StoreListing', params);
 }
 
+<<<<<<< HEAD
 
 
 export function navigateToStoreMap(params) {
@@ -41,3 +42,8 @@ export function navigateToStoreMap(params) {
 
 
 
+=======
+export function navigateToVerifyotp(params) {
+    NavigationService.navigate('Verifyotp', params);
+}
+>>>>>>> NewApi
