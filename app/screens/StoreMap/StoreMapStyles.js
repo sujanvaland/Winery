@@ -48,6 +48,8 @@ const StoreListingStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: '83%'
+
+
     },
 
     textBoxImg: {
@@ -59,6 +61,8 @@ const StoreListingStyles = StyleSheet.create({
         height: viewportWidth * 0.06,
         width: viewportWidth * 0.05,
         marginRight: viewportWidth * 0.035,
+
+
     },
     ImageBack: {
         height: viewportHeight,
@@ -263,6 +267,10 @@ const StoreListingStyles = StyleSheet.create({
     WineStoreName: {
         fontSize: viewportWidth * 0.035,
         fontFamily: Typography.FONT_MEDIUM,
+
+
+
+
     },
 
     BtnGetRoute: {
@@ -291,9 +299,7 @@ const StoreListingStyles = StyleSheet.create({
         paddingHorizontal: viewportWidth * 0.020,
         paddingVertical: viewportWidth * 0.02,
         paddingBottom: viewportWidth * 0.04,
-        position: 'absolute',
-        top: 0,
-        zIndex: 999999,
+
     },
     CheckBoxText: {
         color: '#c670b1',
@@ -317,50 +323,12 @@ const StoreListingStyles = StyleSheet.create({
         width: '48%',
         borderBottomWidth: 1,
         borderBottomColor: '#c670b1'
+
     },
     PickeElement: {
         color: '#c670b1',
-    },
-    MapPopup: {
-        backgroundColor: '#ffffff',
-        paddingHorizontal: viewportWidth * 0.015,
-        paddingVertical: viewportWidth * 0.015,
-        borderWidth: 1,
-        borderColor: '#cccccc',
-        position: 'relative'
-    },
-    StoreImage: {
-        // width: 100,
-        // height: 150,
-        borderWidth: 2,
-        zIndex: 9999,
-        // position: 'absolute',
-        top: 0,
-    },
-    StoreNameBox: {
-        fontSize: viewportWidth * 0.035,
-        textAlign: 'center'
-    },
-    MapImageBox: {
-        borderWidth: 0,
-        // height: 100,
-        // width: 100,
-        position: 'relative',
-        paddingVertical: 0,
-        paddingHorizontal: 0,
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor: 'red',
-        flexDirection: 'row'
-    },
-    CallOutBox: {
-        borderWidth: 0,
-    },
-    CheckboxAbsolute: {
-        position: 'absolute',
-        top: 0,
-        left: 0
+
+
     }
 
 });

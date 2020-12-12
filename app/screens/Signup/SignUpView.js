@@ -10,12 +10,17 @@ import { TextBoxElement, PhoneTextBoxElement, ButtonElement, OverlayActivityIndi
 import { ScrollView } from 'react-native-gesture-handler';
 
 import SplashScreen from 'react-native-splash-screen';
-import * as navigationActions from '../../actions/navigationActions';
+import navigationActions from '../../actions/navigationActions';
 
+const { heading } = Resource_EN;
+const { content } = Resource_EN;
+const { button } = Resource_EN;
 class SignUpView extends Component {
 
   constructor(props) {
     super(props);
+    //this.props.singupresponse.result ="";
+    //this.props.singupresponse.message=true;
     this.state = {
       mainpage: false,
       isSelected: false,
@@ -26,21 +31,21 @@ class SignUpView extends Component {
       showNewsCheckbox: true,
       isvalidTextInput: true,
       userDetails: {
-        firstname: "",
-        lastname: "",
+        fullname: "",
         email: "",
         phone: "",
+        username: "",
         password: "",
-        isvalidfirstname: true,
-        isvalidlastname: true,
+        isvalidfullname: true,
         isvalidemail: true,
         isvalidphone: true,
+        isvalidusername: true,
         isvalidpassword: true,
       },
-      isvalidfirstname: false,
-      isvalidlastname: false,
+      isvalidfullname: false,
       isvalidemail: false,
       isvalidphone: false,
+      isvalidusername: false,
       isvalidpassword: false,
       toggleCheckBox: false,
 
@@ -50,18 +55,18 @@ class SignUpView extends Component {
 
 
   signup = () => {
-    const { isvalidfirstname, isvalidlastname, isvalidemail, isvalidphone, isvalidpassword } = this.state;
+    const { userDetails, isvalidfullname, isvalidemail, isvalidphone, isvalidusername, isvalidpassword } = this.state;
     let allInputsValidated = false;
 
-    //console.log(isvalidfirstname, isvalidlastname, isvalidemail,isvalidphone,isvalidpassword)
-    if (isvalidfirstname && isvalidlastname && isvalidemail && isvalidphone && isvalidpassword) {
+    //console.log(isvalidfullname,isvalidemail,isvalidphone,isvalidusername,isvalidpassword)
+    if (isvalidfullname && isvalidemail && isvalidphone && isvalidusername && isvalidpassword) {
       allInputsValidated = true;
     }
     else {
-      this.updateState("isvalidfirstname", isvalidfirstname);
-      this.updateState("isvalidlastname", isvalidlastname);
+      this.updateState("isvalidfullname", isvalidfullname);
       this.updateState("isvalidemail", isvalidemail);
       this.updateState("isvalidphone", isvalidphone);
+      this.updateState("isvalidusername", isvalidusername);
       this.updateState("isvalidpassword", isvalidpassword);
     }
 
@@ -80,16 +85,6 @@ class SignUpView extends Component {
 
   componentDidMount() {
     SplashScreen.hide();
-    this.setState(prevState => ({
-      userDetails: {                   // object that we want to update
-        ...prevState.userDetails,    // keep all other key-value pairs
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        password: ''
-      }
-    }));
   }
   validateEmail = (value) => {
     if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(value)) {
@@ -117,38 +112,20 @@ class SignUpView extends Component {
 
 
   validateInputs = (fieldName) => {
-    if (fieldName == "firstname") {
-      if (this.state.userDetails.firstname == "") {
-        this.updateState("isvalidfirstname", false);
-        this.setState({ isvalidfirstname: false });
+    if (fieldName == "fullname") {
+      if (this.state.userDetails.fullname == "") {
+        this.updateState("isvalidfullname", false);
+        this.setState({ isvalidfullname: false });
       }
       else {
-        if (this.state.userDetails.firstname.length >= 3 && this.state.userDetails.firstname.length <= 50) {
-          this.updateState("isvalidfirstname", true);
-          this.setState({ isvalidfirstname: true });
+        if (this.state.userDetails.fullname.length >= 3 && this.state.userDetails.fullname.length <= 50) {
+          this.updateState("isvalidfullname", true);
+          this.setState({ isvalidfullname: true });
         }
         else {
-          ToastAndroid.show("firstname should have min 3 chars and max 50", ToastAndroid.SHORT);
-          this.updateState("isvalidfirstname", false);
-          this.setState({ isvalidfirstname: false });
-        }
-      }
-    }
-
-    if (fieldName == "lastname") {
-      if (this.state.userDetails.lastname == "") {
-        this.updateState("isvalidlastname", false);
-        this.setState({ isvalidlastname: false });
-      }
-      else {
-        if (this.state.userDetails.lastname.length >= 3 && this.state.userDetails.lastname.length <= 50) {
-          this.updateState("isvalidlastname", true);
-          this.setState({ isvalidlastname: true });
-        }
-        else {
-          ToastAndroid.show("lastname should have min 3 chars and max 50", ToastAndroid.SHORT);
-          this.updateState("isvalidlastname", false);
-          this.setState({ isvalidlastname: false });
+          ToastAndroid.show("Fullname should have min 3 chars and max 50", ToastAndroid.SHORT);
+          this.updateState("isvalidfullname", false);
+          this.setState({ isvalidfullname: false });
         }
       }
     }
@@ -197,6 +174,24 @@ class SignUpView extends Component {
       }
     }
 
+    if (fieldName == "username") {
+      if (this.state.userDetails.username == "") {
+        this.updateState("isvalidusername", false);
+        this.setState({ isvalidusername: false });
+      }
+      else {
+        if (this.validateAlphanumeric(this.state.userDetails.username)) {
+          this.updateState("isvalidusername", true);
+          this.setState({ isvalidusername: true });
+        }
+        else {
+          ToastAndroid.show("Username should have min 3 and max 30 char", ToastAndroid.SHORT);
+          this.updateState("isvalidusername", false);
+          this.setState({ isvalidusername: false });
+        }
+      }
+    }
+
     if (fieldName == "password") {
       if (this.state.userDetails.password == "") {
         this.updateState("isvalidpassword", false);
@@ -214,10 +209,30 @@ class SignUpView extends Component {
         }
       }
     }
+
+    if (fieldName == "company") {
+      if (this.state.userDetails.company != "") {
+        if (this.state.userDetails.company.length > 200) {
+          ToastAndroid.show("Company name should be less then 200 char", ToastAndroid.SHORT);
+          this.updateState("isvalidcompany", false);
+          this.setState({ isvalidpassword: false });
+        }
+        else {
+          this.updateState("isvalidcompany", true);
+          this.setState({ isvalidcompany: true });
+        }
+      }
+      else {
+        this.updateState("isvalidcompany", true);
+        this.setState({ isvalidcompany: true });
+      }
+    }
   };
 
   updateState = (fieldName, value) => {
-
+    if (fieldName == "username") {
+      value = value.toLowerCase();//To convert Lower Case
+    }
     this.setState(prevState => ({
       userDetails: {                   // object that we want to update
         ...prevState.userDetails,    // keep all other key-value pairs
@@ -225,7 +240,7 @@ class SignUpView extends Component {
       }
     }));
 
-    if (this.state.password != '' && this.state.firstname != '' && this.state.lastname != '' && this.state.phone != '' && this.state.email != '') {
+    if (this.state.username != '' && this.state.password != '' && this.state.fullname != '' && this.state.phone != '' && this.state.email != '') {
       this.submitted = false;
     } else {
       this.submitted = true;
@@ -234,15 +249,22 @@ class SignUpView extends Component {
 
 
 
+  // navigateToLogin = () => {
+  //   navigationActions.navigateToLogin();
+  // }
+
+
   navigateToLogin = () => {
-    navigationActions.navigateToLogin();
+    this.props.Login();
   }
 
 
   render() {
 
     const { userDetails } = this.state;
-    const { loading, disabled } = this.props;
+    const { isSelected } = this.state;
+    const { country, loading, disabled } = this.props;
+    const { overlayStyle } = styles;
 
     return (
 
@@ -280,11 +302,11 @@ class SignUpView extends Component {
                 <View style={styles.textBoxContent}>
                   <TextBoxElement
                     placeholder={"First Name"}
-                    value={userDetails.firstname}
+                    value={userDetails.fullname}
                     autoCapitalize={'none'}
-                    onChangeText={value => this.updateState("firstname", value)}
-                    isvalidInput={userDetails.isvalidfirstname}
-                    onEndEditing={() => this.validateInputs("firstname")}
+                    onChangeText={value => this.updateState("fullname", value)}
+                    isvalidInput={userDetails.isvalidfullname}
+                    onEndEditing={() => this.validateInputs("fullname")}
                     maxLength={50}
                     style={styles.TextBox}
                   />
@@ -293,11 +315,11 @@ class SignUpView extends Component {
                 <View style={styles.textBoxContent}>
                   <TextBoxElement
                     placeholder={"Last Name"}
-                    value={userDetails.lastname}
+                    value={userDetails.fullname}
                     autoCapitalize={'none'}
-                    onChangeText={value => this.updateState("lastname", value)}
-                    isvalidInput={userDetails.isvalidlastname}
-                    onEndEditing={() => this.validateInputs("lastname")}
+                    onChangeText={value => this.updateState("fullname", value)}
+                    isvalidInput={userDetails.isvalidfullname}
+                    onEndEditing={() => this.validateInputs("fullname")}
                     maxLength={50}
                     style={styles.TextBox}
                   />
@@ -312,10 +334,6 @@ class SignUpView extends Component {
                     isvalidInput={userDetails.isvalidemail}
                     onEndEditing={() => this.validateInputs("email")}
                     maxLength={200}
-                    caretHidden
-                    autoCorrect={false}
-                    keyboardType='email-address'
-                    autoCompleteType='email'
                   />
 
                 </View>
@@ -331,10 +349,33 @@ class SignUpView extends Component {
                   />
 
                 </View>
-                
+                <View style={styles.textBoxContent}>
+                  <TextBoxElement
+                    placeholder={"Username"}
+                    value={userDetails.username}
+                    autoCapitalize={'none'}
+                    onChangeText={value => this.updateState("username", value)}
+                    isvalidInput={userDetails.isvalidusername}
+                    onEndEditing={() => this.validateInputs("username")}
+                    maxLength={200}
+                  />
+
+                </View>
                 <View style={styles.textBoxContent}>
                   <TextBoxElement
                     placeholder={"Password"}
+                    secureTextEntry={true}
+                    value={userDetails.password}
+                    onChangeText={value => this.updateState("password", value)}
+                    isvalidInput={userDetails.isvalidpassword}
+                    onEndEditing={() => this.validateInputs("password")}
+                    autoCapitalize={'none'}
+                  />
+
+                </View>
+                <View style={styles.textBoxContent}>
+                  <TextBoxElement
+                    placeholder={"Confirm Password"}
                     secureTextEntry={true}
                     value={userDetails.password}
                     onChangeText={value => this.updateState("password", value)}
@@ -354,9 +395,11 @@ class SignUpView extends Component {
 
                 <View style={styles.NewRegistration}>
                   <Text style={styles.accountText}>Already having Account?</Text>
-                  <TouchableOpacity style={styles.BtnSignup} onPress={() => this.navigateToLogin()}>
+                  <TouchableOpacity style={styles.BtnSignup} onPress={this.navigateToLogin}>
+
                     <Text style={styles.TextSignup}>Sign In</Text>
                   </TouchableOpacity>
+
                 </View>
 
 

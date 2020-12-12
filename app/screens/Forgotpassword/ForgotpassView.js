@@ -6,7 +6,9 @@ import globalStyles from '../../assets/css/globalStyles';
 import Resource_EN from '../../config/Resource_EN';
 import PropTypes from 'prop-types';
 import { TextBoxElement, LinkButton, ButtonElement, OverlayActivityIndicatorElement } from "../../components";
-
+const { heading } = Resource_EN;
+const { content } = Resource_EN;
+const { button } = Resource_EN;
 class ForgotpassView extends Component {
   state = {
     username: "",
@@ -35,7 +37,6 @@ class ForgotpassView extends Component {
   _keyboardDidHide = () => {
     this.setState({ enableScroll: false });
   }
-
   forgotpassword = () => {
     this.props.onForgotPassword(this.state.username);
   };
@@ -49,21 +50,8 @@ class ForgotpassView extends Component {
       this.setState({ disablebtn: true });
     }
     else {
-      if (this.validateEmail(this.state.username)) {
-        this.setState({ disablebtn: false });
-      }
-      else
-      {
-        this.setState({ disablebtn: true });
-      }
+      this.setState({ disablebtn: false });
     }
-  }
-
-  validateEmail = (value) => {
-    if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(value)) {
-      return true;
-    }
-    return false;
   }
 
   updateState = (fieldName, value) => {
@@ -90,19 +78,15 @@ class ForgotpassView extends Component {
                 <Text style={ForgotPasswordstyles.TitleText}>forgot your password?</Text>
                 <View style={ForgotPasswordstyles.textBoxContent}>
                   <TextBoxElement
-                        placeholder={'Enter Your Email'}
-                        value={username}
-                        onBlur={value => this.validateUsername()}
-                        onChangeText={value => this.updateState("username", value)}
-                        autoCapitalize={'none'}
-                        caretHidden
-                        autoCorrect={false}
-                        keyboardType='email-address'
-                        autoCompleteType='email'
-                    />
+                    placeholder={'Enter Username'}
+                    value={username}
+                    autoCapitalize={'none'}
+                    onBlur={value => this.validateUsername()}
+                    onChangeText={value => this.updateState("username", value)}
+                  />
                 </View>
-                <Text style={ForgotPasswordstyles.FgtText}>We send you a email successfully, please confirm the OTP.</Text>
-                <TouchableOpacity disabled={disablebtn} onPress={this.forgotpassword} style={[ForgotPasswordstyles.buttonStyle, (disablebtn) ? ForgotPasswordstyles.buttonStyleDisable : ForgotPasswordstyles.buttonStyleActive]}
+                <Text style={ForgotPasswordstyles.FgtText}>We send you a email successfully, please confirm the link.</Text>
+                <TouchableOpacity disabled={disablebtn} style={[ForgotPasswordstyles.buttonStyle, (disablebtn) ? ForgotPasswordstyles.buttonStyleDisable : ForgotPasswordstyles.buttonStyleActive]}
                 >
                   <Text style={ForgotPasswordstyles.btnText}>Send Confirmation</Text>
                 </TouchableOpacity>
