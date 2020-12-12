@@ -82,6 +82,9 @@ class StoreMapView extends Component {
             description={"Windery desc 1"}>
             <MapView.Callout >
               {/* <TouchableHighlight onPress={() => this.markerClick()} underlayColor='#dddddd'> */}
+              <Text>
+
+              </Text>
               <View>
                 <Text>{"Winery 1"}{"\n"}{"Windery desc 1"}</Text>
               </View>
