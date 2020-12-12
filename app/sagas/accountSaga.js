@@ -109,5 +109,11 @@ export {
   updatePersonalDetailAsync,
   updateDeviceTokenAsync,
   changePasswordAsync,
-  loadprofileimageAsync 
+  loadprofileimageAsync,
+  getAllUserTypeAsync,
+  getWineTypeByUserTypeAsync,
+  getWineeriesByWineTypeAsync,
+  insertTourAsync,
+  getTourByIdAsync,
+  deleteTourAsync
 }

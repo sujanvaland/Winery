@@ -3,6 +3,7 @@
  */
 import * as types from './types';
 
+
 export function getAccountDetail() {
     return {
         type: types.GETACCOUNT_REQUEST

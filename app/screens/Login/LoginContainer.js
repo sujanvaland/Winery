@@ -7,23 +7,28 @@ import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
 class LoginContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-  async componentDidMount() {
-    let currentRoute = this.props.navigation.state.routeName;
-    let navigation = this.props.navigation;
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      if (currentRoute == "Login") {
-        BackHandler.exitApp();
-        return true;
-      }
-      else {
-        navigation.goBack();
-        return true;
-      }
-    });
-  }
+    constructor(props) {
+        super(props);
+    }
+    async componentDidMount() {
+        SplashScreen.hide();
+        let currentRoute = this.props.navigation.state.routeName;
+        let navigation = this.props.navigation;
+        BackHandler.addEventListener ('hardwareBackPress', function(){
+          if (currentRoute == "Login") {
+            BackHandler.exitApp();
+            return true;
+          }
+          else{
+            navigation.goBack();
+            return true;
+          }
+        });
+    }
+  
+    navigateToForgotPassword = () => {
+        navigationActions.navigateToForgotPassword();
+    }
 
   navigateToForgotPassword = () => {
     navigationActions.navigateToForgotPassword();
