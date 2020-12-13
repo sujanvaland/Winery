@@ -1,7 +1,10 @@
 package com.winelovers;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
 import org.devio.rn.splashscreen.SplashScreen; // here 
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends ReactActivity {
 
@@ -13,5 +16,15 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
      SplashScreen.show(this);  // here 
     return "WineLovers";
+  }
+
+   @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegate(this, getMainComponentName()) {
+      @Override
+      protected ReactRootView createRootView() {
+       return new RNGestureHandlerEnabledRootView(MainActivity.this);
+      }
+    };
   }
 }

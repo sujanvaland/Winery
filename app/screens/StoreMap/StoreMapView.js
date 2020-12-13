@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StatusBar, Picker, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { View, Text, Image, StatusBar, Button, TextInput, Picker, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
 import StoreMapStyles from './StoreMapStyles';
 import globalStyles from '../../assets/css/globalStyles';
 import PropTypes from 'prop-types';
@@ -10,6 +10,8 @@ import SplashScreen from 'react-native-splash-screen';
 import { Dimensions, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Modal from 'react-native-modal';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -45,11 +47,18 @@ class StoreMapView extends Component {
         }
       ],
 
-      isSelected: false
+      isSelected: false,
+      isModalVisible: false,
     };
 
     this.mapView = null;
   }
+
+
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+
 
   onMapPress = (e) => {
     this.setState({
@@ -78,7 +87,7 @@ class StoreMapView extends Component {
               <Picker
                 style={StoreMapStyles.PickeElement}
               >
-                <Picker.Item value="" label="Location" />
+                <Picker.Item value="" label="Select Category" />
                 <Picker.Item value="" label="Select" />
               </Picker>
             </View>
@@ -86,7 +95,7 @@ class StoreMapView extends Component {
               <Picker
                 style={StoreMapStyles.PickeElement}
               >
-                <Picker.Item value="" label="Wines" />
+                <Picker.Item value="" label="Select Wines" />
                 <Picker.Item value="" label="Select" />
               </Picker>
             </View>
@@ -109,7 +118,7 @@ class StoreMapView extends Component {
                 key={`coordinate_${index}`} coordinate={coordinate}
                 title={"Winery 1"}
                 description={"Windery desc 1"}>
-                <MapView.Callout tooltip>
+                <MapView.Callout>
                   {/* <TouchableHighlight onPress={() => this.markerClick()} underlayColor='#dddddd'> */}
                   <View style={StoreMapStyles.MapPopup}>
 
@@ -119,8 +128,7 @@ class StoreMapView extends Component {
                     </Text>
 
                     <Text style={StoreMapStyles.StoreNameBox}>
-                      <CheckBox />
-                      {"Winery 1"}{"\n"}{"Windery desc 1"}</Text>
+                      {"Store Name"}{"\n"}{"Address"}</Text>
                   </View>
                   {/* </TouchableHighlight> */}
                 </MapView.Callout>
@@ -185,7 +193,7 @@ class StoreMapView extends Component {
         </View>
         <View style={StoreMapStyles.BototmButton}>
           <View style={StoreMapStyles.FlexBox}>
-            <TouchableOpacity style={StoreMapStyles.BtnFeedback}>
+            <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.toggleModal} >
               <Text style={StoreMapStyles.WhiteText}>Feedback</Text>
             </TouchableOpacity>
             <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
@@ -196,7 +204,55 @@ class StoreMapView extends Component {
             <Text style={StoreMapStyles.WhiteText}>Start</Text>
           </TouchableOpacity>
         </View>
+
+        <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
+          <View style={StoreMapStyles.FeedbackModal}>
+            <View style={StoreMapStyles.ModalHeader}>
+              <Text style={StoreMapStyles.ModalHeaderText}>Give Your Feedback</Text>
+            </View>
+            <View>
+              <View style={StoreMapStyles.PickerBox}>
+                <Picker
+                  style={StoreMapStyles.PickeElementModal}
+                >
+                  <Picker.Item value="" label="Select Wines" />
+                  <Picker.Item value="" label="Select" />
+                </Picker>
+              </View>
+              <View style={StoreMapStyles.RatingBox}>
+                <Text style={StoreMapStyles.RatingBoxTitle}>Give Ratings</Text>
+                <Rating
+                  ratingCount={5}
+                  imageSize={25}
+                  ratingColor='#3498db'
+                  //showRating
+                  onFinishRating={this.ratingCompleted}
+                />
+              </View>
+              <View style={StoreMapStyles.RatingBox}>
+                <Text style={StoreMapStyles.RatingBoxTitle}>Note</Text>
+                <TextInput style={StoreMapStyles.RatingBoxNotedesc}>
+
+                </TextInput>
+              </View>
+              <View style={StoreMapStyles.ModalButtonArea}>
+                <TouchableOpacity style={StoreMapStyles.ModalButton}>
+                  <Text style={StoreMapStyles.ModalButtonText}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.toggleModal} style={[StoreMapStyles.ModalButton, StoreMapStyles.ModalButtonSubmit]}>
+                  <Text style={StoreMapStyles.ModalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* <Button title="Hide modal" onPress={this.toggleModal} /> */}
+          </View>
+        </Modal>
+
+
       </View>
+
+
     );
   }
 }

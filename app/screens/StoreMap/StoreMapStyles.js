@@ -349,7 +349,7 @@ const StoreListingStyles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor: 'red',
+        //backgroundColor: 'red',
         flexDirection: 'row'
     },
     CallOutBox: {
@@ -406,6 +406,97 @@ const StoreListingStyles = StyleSheet.create({
         paddingHorizontal: viewportWidth * 0.05,
         borderRadius: viewportWidth * 0.3
     },
+    FeedbackModal: {
+        backgroundColor: color.COLOR_WHITE,
+        height: viewportHeight,
+        width: viewportWidth,
+        marginHorizontal: 0,
+        paddingHorizontal: 0,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+
+    },
+    FeedbackModalMain: {
+
+        backgroundColor: color.COLOR_WHITE,
+        paddingVertical: 0,
+        marginHorizontal: 0,
+    },
+    ModalHeader: {
+        height: viewportWidth * 0.15,
+        width: viewportWidth,
+        borderBottomWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        fontSize: viewportWidth * 0.045,
+        backgroundColor: '#67024e',
+    },
+    ModalHeaderText: {
+        fontSize: viewportWidth * 0.045,
+        fontWeight: 'bold',
+        color: color.COLOR_WHITE
+    },
+    PickerBox: {
+        borderWidth: 1,
+        width: viewportWidth,
+        height: 55,
+        borderColor: '#cccccc'
+    },
+    PickeElementModal: {
+        height: 50,
+    },
+    RatingBox: {
+        borderWidth: 1,
+        width: viewportWidth,
+        minHeight: 55,
+        borderColor: '#cccccc',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        borderTopWidth: 0,
+        alignItems: 'flex-start',
+        paddingHorizontal: viewportWidth * 0.025,
+        paddingVertical: viewportWidth * 0.025,
+    },
+    RatingBoxNotedesc: {
+        height: viewportWidth * 0.2
+    },
+    RatingBoxTitle: {
+        marginBottom: viewportWidth * 0.02
+    },
+    ModalButtonArea: {
+        marginTop: viewportWidth * 0.03,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    ModalButton: {
+        backgroundColor: '#a52586',
+        paddingTop: viewportWidth * 0.02,
+        paddingBottom: viewportWidth * 0.03,
+        paddingHorizontal: viewportWidth * 0.15,
+        borderRadius: 100,
+        marginHorizontal: viewportWidth * 0.02
+    },
+    ModalButtonText: {
+        fontSize: viewportWidth * 0.04,
+        color: color.COLOR_WHITE
+    },
+    ModalButtonSubmit: {
+        backgroundColor: '#320025',
+        paddingTop: viewportWidth * 0.02,
+        paddingBottom: viewportWidth * 0.03,
+        paddingHorizontal: viewportWidth * 0.15,
+        borderRadius: 100,
+        marginHorizontal: viewportWidth * 0.02
+    }
+
 
 
 });
