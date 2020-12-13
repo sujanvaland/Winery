@@ -44,7 +44,3 @@ export function navigateToStoreMap(params) {
 export function navigateToVerifyotp(params) {
     NavigationService.navigate('Verifyotp', params);
 }
-
-export function navigateToStoreLocation(params) {
-    NavigationService.navigate('StoreLocation', params);
-}

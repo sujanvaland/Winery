@@ -23,7 +23,6 @@ import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 import StoreMap from 'app/screens/StoreMap';
-import StoreLocation from 'app/screens/StoreLocation';
 import Verifyotp from 'app/screens/Verifyotp';
 
 
@@ -154,18 +153,6 @@ const StoreMapApp = createStackNavigator({
     },
 });
 
-const StoreLocationApp = createStackNavigator({
-    StoreLocation: {
-        screen: StoreLocation,
-        navigationOptions: ({ navigation }) => {
-            return {
-                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Map" />,
-                gestureEnabled: false
-            }
-        }
-    },
-});
-
 const RNApp = createDrawerNavigator(
     {
         Login: {
@@ -198,15 +185,6 @@ const RNApp = createDrawerNavigator(
             screen: StoreMapApp,
             navigationOptions: {
                 drawerLabel: 'Store Map',
-                drawerIcon: () => (
-                    <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
-                ),
-            },
-        },
-        StoreLocation: {
-            screen: StoreLocationApp,
-            navigationOptions: {
-                drawerLabel: 'Store Location',
                 drawerIcon: () => (
                     <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
                 ),
