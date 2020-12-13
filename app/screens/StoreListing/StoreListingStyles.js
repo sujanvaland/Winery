@@ -6,25 +6,30 @@ const { color, Typography } = Styles;
 const StoreListingStyles = StyleSheet.create({
     InnerContainer: {
 
-        height: viewportHeight,
+        height: viewportHeight - viewportWidth * 0.15,
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 0,
+        position: 'relative'
     },
     container: {
         flex: 1,
-        height: viewportHeight,
         width: viewportWidth,
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'flex-start',
         paddingBottom: viewportHeight * 0.1,
         borderWidth: 0,
-
-        backgroundColor: color.COLOR_WHITE
+        backgroundColor: 'red',
+        //height: viewportHeight - viewportWidth * 0.5
+    },
+    Height100: {
+        height: 3000,
+        backgroundColor: 'red',
+        width: 300
     },
     textBoxInner: {
         position: "absolute",
@@ -147,7 +152,9 @@ const StoreListingStyles = StyleSheet.create({
     flexBox: {
         display: 'flex',
         justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: "center",
+        borderWidth: 0,
     },
     signText: {
         borderRadius: viewportWidth * 0.009,
@@ -231,9 +238,15 @@ const StoreListingStyles = StyleSheet.create({
         alignItems: 'flex-start',
         borderBottomWidth: 1,
         borderBottomColor: '#d8d8d8',
-        width: '100%',
+        //width: '100%',
         paddingHorizontal: viewportWidth * 0.03,
-        paddingVertical: viewportWidth * 0.03
+        paddingVertical: viewportWidth * 0.03,
+        // height: 1500
+
+    },
+    BottoleImage: {
+        width: viewportWidth * 0.2,
+        height: viewportWidth * 0.2
     },
     WineImage: {
         borderWidth: 0,
@@ -242,7 +255,8 @@ const StoreListingStyles = StyleSheet.create({
         borderWidth: 0,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         height: 90,
         paddingTop: viewportWidth * 0.01
     },
@@ -252,7 +266,7 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         borderWidth: 0,
-        minWidth: viewportWidth * 0.25,
+        minWidth: viewportWidth * 0.15,
         height: 80,
     },
     WinePrice: {
@@ -267,10 +281,8 @@ const StoreListingStyles = StyleSheet.create({
     WineStoreName: {
         fontSize: viewportWidth * 0.035,
         fontFamily: Typography.FONT_MEDIUM,
-
-
-
-
+        maxWidth: viewportWidth * 0.6,
+        borderWidth: 0
     },
 
     BtnGetRoute: {
@@ -327,10 +339,41 @@ const StoreListingStyles = StyleSheet.create({
     },
     PickeElement: {
         color: '#c670b1',
+    },
+    BototmButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: color.COLOR_PRIMARY,
+        paddingVertical: viewportWidth * 0.04,
+        paddingTop: viewportWidth * 0.033,
+        paddingHorizontal: viewportWidth * 0.05,
+        width: viewportWidth,
 
 
-    }
-
+    },
+    WineTexBottle: {
+        fontWeight: 'bold'
+    },
+    BtnFeedback: {
+        color: color.COLOR_WHITE,
+        paddingHorizontal: viewportWidth * 0.03,
+        fontWeight: 'bold',
+        // backgroundColor: '#a52586',
+        paddingVertical: viewportWidth * 0.020,
+        paddingTop: viewportWidth * 0.020,
+        paddingHorizontal: viewportWidth * 0.0,
+        borderRadius: viewportWidth * 0.3,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    WhiteText: {
+        color: color.COLOR_WHITE,
+        fontSize: viewportWidth * 0.04,
+    },
 });
 
 export default StoreListingStyles;

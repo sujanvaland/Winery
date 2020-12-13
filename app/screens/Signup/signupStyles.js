@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: color.COLOR_CHECKBOX,
         position: 'relative',
-        backgroundColor: 'red'
+        // backgroundColor: 'red'
     },
     errorMessage: {
         color: color.COLOR_RED,

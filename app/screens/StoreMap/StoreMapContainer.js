@@ -26,8 +26,12 @@ class StoreMapContainer extends Component {
     });
   }
 
+  navigateToStoreListing = () => {
+    navigationActions.navigateToStoreListing();
+  }
+
   render() {
-    return <StoreMapView {...this.props} />;
+    return <StoreMapView {...this.props} StoreListing={this.navigateToStoreListing} />;
   }
 }
 

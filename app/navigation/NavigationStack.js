@@ -31,7 +31,7 @@ const customDrawer = (props) => (
     <View style={NavStyles.LeftMenuarea}>
         <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }} style={NavStyles.SafeAeaMenu}>
             <View style={NavStyles.UserArea}>
-               <UserAreaComponent />
+                <UserAreaComponent />
             </View>
             <View>
                 <DrawerItems {...props} />
@@ -155,21 +155,29 @@ const StoreMapApp = createStackNavigator({
 
 const RNApp = createDrawerNavigator(
     {
+        Login: {
+            screen: LoginApp,
+            navigationOptions: {
+                drawerLabel: () => null
+            },
+        },
+
         Home: {
             screen: HomeApp,
             navigationOptions: {
-                drawerIcon: () => (
-                    <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
-                ),
+                navigationOptions: {
+                    drawerLabel: () => null
+                },
             },
         },
+
         StoreListing: {
             screen: StoreListingApp,
             navigationOptions: {
-                drawerLabel: 'Store Listing',
-                drawerIcon: () => (
-                    <Image source={require('../assets/img/icon_home_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
-                ),
+                //drawerLabel: 'Store Listing',
+                navigationOptions: {
+                    drawerLabel: () => null
+                },
             },
         },
 

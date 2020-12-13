@@ -10,8 +10,8 @@ const StoreListingStyles = StyleSheet.create({
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         borderWidth: 0,
     },
     container: {
@@ -291,9 +291,7 @@ const StoreListingStyles = StyleSheet.create({
         paddingHorizontal: viewportWidth * 0.020,
         paddingVertical: viewportWidth * 0.02,
         paddingBottom: viewportWidth * 0.04,
-        position: 'absolute',
-        top: 0,
-        zIndex: 999999,
+
     },
     CheckBoxText: {
         color: '#c670b1',
@@ -361,7 +359,54 @@ const StoreListingStyles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0
-    }
+    },
+    MapViewbox: {
+        width: viewportWidth,
+        height: viewportHeight - viewportWidth * 0.5,
+        borderWidth: 0,
+    },
+    BototmButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: color.COLOR_PRIMARY,
+        paddingVertical: viewportWidth * 0.06,
+        paddingTop: viewportWidth * 0.033,
+        paddingHorizontal: viewportWidth * 0.05,
+        width: viewportWidth
+
+    },
+    FlexBox: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    BtnFeedback: {
+        color: color.COLOR_WHITE,
+        paddingHorizontal: viewportWidth * 0.03,
+        fontWeight: 'bold',
+        backgroundColor: '#a52586',
+        paddingVertical: viewportWidth * 0.025,
+        paddingTop: viewportWidth * 0.020,
+        paddingHorizontal: viewportWidth * 0.05,
+        borderRadius: viewportWidth * 0.3
+    },
+    WhiteText: {
+        color: color.COLOR_WHITE
+    },
+    BtnStart: {
+        color: color.COLOR_WHITE,
+        paddingHorizontal: viewportWidth * 0.03,
+        fontWeight: 'bold',
+        backgroundColor: '#320025',
+        paddingVertical: viewportWidth * 0.025,
+        paddingTop: viewportWidth * 0.020,
+        paddingHorizontal: viewportWidth * 0.05,
+        borderRadius: viewportWidth * 0.3
+    },
+
 
 });
 

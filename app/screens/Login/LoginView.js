@@ -197,15 +197,16 @@ class LoginView extends Component {
                     autoCapitalize={'none'}
                     onChangeText={value => this.updateState("password", value)}
                   />
-                  {
-                    (!(this.props.loginresponse.ErrorMessage == "" || this.props.loginresponse.ErrorMessage == undefined)) &&
-                    <View style={loginStyles.alertMainBox}>
-                      <Image style={loginStyles.alertIcon} source={require('../../assets/images/icon_alert.png')} resizeMode="contain" />
-                      <Text style={loginStyles.errorMessage}>{this.props.loginresponse.ErrorMessage}</Text>
-                    </View>
-                  }
+
 
                 </View>
+                {
+                  (!(this.props.loginresponse.ErrorMessage == "" || this.props.loginresponse.ErrorMessage == undefined)) &&
+                  <View style={loginStyles.alertMainBox}>
+                    <Image style={loginStyles.alertIcon} source={require('../../assets/images/icon_alert.png')} resizeMode="contain" />
+                    <Text style={loginStyles.errorMessage}>{this.props.loginresponse.ErrorMessage}</Text>
+                  </View>
+                }
                 <LinkButton onPress={this.navigateToForgotPassword} title={"Forgot Password?"} />
                 <View>
                   <ButtonElement

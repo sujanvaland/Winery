@@ -93,13 +93,12 @@ const loginStyles = StyleSheet.create({
         backgroundColor: 'red'
     },
     errorMessage: {
-        color: color.COLOR_RED,
+        color: '#ccc',
         fontSize: viewportWidth * 0.035,
         fontWeight: Typography.FONT_WEIGHT_NORMAL,
         fontStyle: Typography.FONT_STYLE_NORMAL,
         lineHeight: viewportWidth * 0.05,
         letterSpacing: 0,
-        color: color.COLOR_RED,
         paddingLeft: 0,
         position: "relative",
         borderWidth: 0,
@@ -120,7 +119,7 @@ const loginStyles = StyleSheet.create({
         position: "relative",
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     logoImg: {
         width: viewportWidth - viewportWidth * 0.15,

@@ -15,34 +15,34 @@ import * as navigationActions from 'app/actions/navigationActions';
 
 // Our worker Saga that logins the user
 function* loginAsync(action) {
-    yield put(loginActions.enableLoader());
-    //how to call api
-    const response = yield call(loginUser, action.username, action.password);
-    //console.log("123");
-    //console.log(response);
-    if (response.status.toLower() ==="true") {
-        yield put(loginActions.onLoginResponse(response));
-        _storeData("login_token",response.jwt);
-        _storeData("customerguid",response.userId);
-        _storeData("customername",response.userName);
-        _storeData("loginuser",action.username);
-        _storeData("password",action.password);
-        yield call(navigationActions.navigateToStoreListing);
-        yield put(loginActions.disableLoader({}));   
-    } else {
-          yield put(loginActions.loginFailed(response));
-          yield put(loginActions.disableLoader({}));  
-    }
+  yield put(loginActions.enableLoader());
+  //how to call api
+  const response = yield call(loginUser, action.username, action.password);
+  console.log("123");
+  console.log(response);
+  if (response.status === "true") {
+    yield put(loginActions.onLoginResponse(response));
+    _storeData("login_token", response.jwt);
+    _storeData("customerguid", response.userId);
+    _storeData("customername", response.userName);
+    _storeData("loginuser", action.username);
+    _storeData("password", action.password);
+    yield call(navigationActions.navigateToStoreMap);
+    yield put(loginActions.disableLoader({}));
+  } else {
+    yield put(loginActions.loginFailed(response));
+    yield put(loginActions.disableLoader({}));
+  }
 }
 
-function* logoutAsync(){
-  _storeData("login_token","")
-  _storeData("loginuser","");
-  _storeData("password","");
+function* logoutAsync() {
+  _storeData("login_token", "")
+  _storeData("loginuser", "");
+  _storeData("password", "");
   navigationActions.navigateToLogin();
 }
 
-const _storeData = async (key,value) => {
+const _storeData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
     return value;
@@ -63,4 +63,4 @@ _retrieveData = async (key) => {
   }
 };
 
-export { loginAsync,logoutAsync }
+export { loginAsync, logoutAsync }
