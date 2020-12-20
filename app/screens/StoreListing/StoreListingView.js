@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, StatusBar, Picker, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
 import StoreListingStyles from './StoreListingStyles';
-import globalStyles from '../../assets/css/globalStyles';
+import CheckBox from '@react-native-community/checkbox';
 import PropTypes from 'prop-types';
 import { TextBoxElement, TextBoxElementLogin, TextBoxElementChangepass } from "../../components";
 import Resource_EN from '../../config/Resource_EN';

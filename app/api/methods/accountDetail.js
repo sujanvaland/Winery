@@ -14,7 +14,7 @@ export function getAllUserType(action){
   return Api(
     ApiConstants.GETALLUSERTYPE,
     null,
-    get,
+    'get',
     null
   );
 }
@@ -25,7 +25,7 @@ export function getWineTypeByUserType(action){
     {
       UserTypeId:action.UserTypeId
     },
-    post,
+    'post',
     null
   );
 }
@@ -36,7 +36,7 @@ export function getWineeriesByWineType(action){
     {
       WineTypeIds:action.WineTypeIds
     },
-    post,
+    'post',
     null
   );
 }
@@ -45,7 +45,7 @@ export function insertTour(action){
   return Api(
     ApiConstants.INSERTTOUR,
     action,
-    post,
+    'post',
     null
   );
 }
@@ -67,7 +67,7 @@ export function deleteTour(action){
     {
       Id:action.Id
     },
-    post,
+    'post',
     null
   );
 }

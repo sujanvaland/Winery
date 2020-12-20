@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StatusBar, Button, TextInput, Picker, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import StoreMapStyles from './StoreMapStyles';
-import globalStyles from '../../assets/css/globalStyles';
 import PropTypes from 'prop-types';
-import { TextBoxElement, TextBoxElementLogin, TextBoxElementChangepass } from "../../components";
-import Resource_EN from '../../config/Resource_EN';
-import { ScrollView } from 'react-native-gesture-handler';
-import SplashScreen from 'react-native-splash-screen';
+import {Picker} from '@react-native-picker/picker';
 import { Dimensions, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import Geolocation from 'react-native-geolocation-service';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -28,25 +25,29 @@ class StoreMapView extends Component {
 
     // AirBnB's Office, and Apple Park
     this.state = {
-      coordinates: [
-        {
-          latitude: 22.253214,
-          longitude: 73.214607,
-        },
-        {
-          latitude: 22.307838,
-          longitude: 73.181553,
-        },
-        {
-          latitude: 22.311713,
-          longitude: 73.138204,
-        },
-        {
-          latitude: 22.326322,
-          longitude: 73.226840
-        }
-      ],
-
+      // coordinates: [
+      //   {
+      //     latitude: 22.253214,
+      //     longitude: 73.214607,
+      //   },
+      //   {
+      //     latitude: 22.307838,
+      //     longitude: 73.181553,
+      //   },
+      //   {
+      //     latitude: 22.311713,
+      //     longitude: 73.138204,
+      //   },
+      //   {
+      //     latitude: 22.326322,
+      //     longitude: 73.226840
+      //   }
+      // ],
+      coordinates: [],
+      userType:"",
+      showSelectWinerybtn:false,
+      showFeedbackbtn:false,
+      showStartbtn:false,
       isSelected: false,
       isModalVisible: false,
     };
@@ -54,6 +55,39 @@ class StoreMapView extends Component {
     this.mapView = null;
   }
 
+  componentDidMount(){
+    this.getCurrentLocation();
+  }
+
+  async getCurrentLocation(){
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      {
+        title: 'Location Permission',
+        message: 'Winery Lovers needs access to your location',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      Geolocation.getCurrentPosition(
+        async (position) => {
+              let currentLoc = [];
+              currentLoc.push({
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+              })
+              await this.setState({coordinates:currentLoc});
+          },
+          (error) => {
+              console.warn(error.code, error.message);
+          },
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      )
+    }
+  }
 
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -77,7 +111,40 @@ class StoreMapView extends Component {
     this.props.StoreListing();
   }
 
+  getWineTypeByUserType = (UserTypeId) =>{
+    this.props.getWineTypeByUserType(UserTypeId);
+  }
+
+  getWineryFromWineType = (WineTypeId) =>{
+    this.setState({wineType: WineTypeId,showSelectWinerybtn:true})
+    this.props.getWineriesWineType([WineTypeId]);
+  }
+  
   render() {
+    const { getallusertype ,userwinetype, wineriesbywinetype } = this.props;
+    let usertypeArr = [];
+    let wineryType = [];
+    let wineries = [];
+    let waypoints = []
+    if(getallusertype){
+      usertypeArr = getallusertype;
+    }
+    if(userwinetype){
+      wineryType = userwinetype;
+    }
+    if(wineriesbywinetype){
+      wineries = wineriesbywinetype;
+      if(wineries.length > 0){
+        wineries.map((item, index) =>{
+          waypoints.push({
+            latitude: item.Latitude,
+            longitude: item.Longitude,
+          })
+        })
+        
+      }
+    }
+    
     return (
       <View style={StoreMapStyles.InnerContainer}>
         <View style={StoreMapStyles.SearchStore}>
@@ -85,18 +152,32 @@ class StoreMapView extends Component {
 
             <View style={StoreMapStyles.PickeBox}>
               <Picker
+                selectedValue={this.state.userType}
                 style={StoreMapStyles.PickeElement}
-              >
-                <Picker.Item value="" label="Select Category" />
-                <Picker.Item value="" label="Select" />
+                onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
+                  <Picker.Item label="Select UserType" value="0" /> 
+                {
+                    usertypeArr.map((type)=>{
+                       return(
+                        <Picker.Item key={type.Id} label={type.UserTypeName} value={type.Id} />         
+                       );
+                    })
+                }
               </Picker>
             </View>
             <View style={StoreMapStyles.PickeBox}>
               <Picker
+                selectedValue={this.state.userType}
                 style={StoreMapStyles.PickeElement}
-              >
-                <Picker.Item value="" label="Select Wines" />
-                <Picker.Item value="" label="Select" />
+                onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
+                  <Picker.Item label="Select WineType" value="0" /> 
+                {
+                    wineryType.map((type)=>{
+                       return(
+                        <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />         
+                       );
+                    })
+                }
               </Picker>
             </View>
           </View>
@@ -113,55 +194,30 @@ class StoreMapView extends Component {
             ref={c => this.mapView = c}
             onPress={this.onMapPress}
           >
-            {this.state.coordinates.map((coordinate, index) =>
+            {wineries.length > 0 && wineries.map((item, index) =>
               <MapView.Marker
-                key={`coordinate_${index}`} coordinate={coordinate}
-                title={"Winery 1"}
-                description={"Windery desc 1"}>
+                key={`coordinate_${index}`} coordinate={{
+                  latitude: item.Latitude,
+                  longitude: item.Longitude,
+                }}
+                title={item.name} 
+                description={item.AddressLine1}>
                 <MapView.Callout>
-                  {/* <TouchableHighlight onPress={() => this.markerClick()} underlayColor='#dddddd'> */}
                   <View style={StoreMapStyles.MapPopup}>
-
                     <Text style={StoreMapStyles.MapImageBox}>
-
                       <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
                     </Text>
-
                     <Text style={StoreMapStyles.StoreNameBox}>
-                      {"Store Name"}{"\n"}{"Address"}</Text>
+                    {item.name}{"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber}</Text>
                   </View>
-                  {/* </TouchableHighlight> */}
                 </MapView.Callout>
               </MapView.Marker>
             )}
             {(this.state.coordinates.length >= 2) && (
               <MapViewDirections
-                origin={{
-                  latitude: 22.253214,
-                  longitude: 73.214607,
-                }}
-                waypoints={[
-                  {
-                    latitude: 22.289414,
-                    longitude: 73.128661,
-                  },
-                  {
-                    latitude: 22.307838,
-                    longitude: 73.181553,
-                  },
-                  {
-                    latitude: 22.311713,
-                    longitude: 73.138204,
-                  },
-                  {
-                    latitude: 22.326322,
-                    longitude: 73.226840
-                  }
-                ]}
-                destination={{
-                  latitude: 22.253214,
-                  longitude: 73.214607,
-                }}
+                origin={this.state.coordinates[0]}
+                waypoints={waypoints}
+                destination={this.state.coordinates[0]}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
                 strokeColor="blue"
@@ -193,16 +249,25 @@ class StoreMapView extends Component {
         </View>
         <View style={StoreMapStyles.BototmButton}>
           <View style={StoreMapStyles.FlexBox}>
-            <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.toggleModal} >
-              <Text style={StoreMapStyles.WhiteText}>Feedback</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
-              <Text style={StoreMapStyles.WhiteText}>Select Winery</Text>
-            </TouchableOpacity>
+            {
+              this.state.showFeedbackbtn &&
+              <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.toggleModal} >
+                <Text style={StoreMapStyles.WhiteText}>Feedback</Text>
+              </TouchableOpacity>
+            }
+            {
+              this.state.showSelectWinerybtn &&
+              <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
+                <Text style={StoreMapStyles.WhiteText}>Select Winery</Text>
+              </TouchableOpacity>
+            }
           </View>
-          <TouchableOpacity style={StoreMapStyles.BtnStart}>
-            <Text style={StoreMapStyles.WhiteText}>Start</Text>
-          </TouchableOpacity>
+          {
+            this.state.showStartbtn &&
+            <TouchableOpacity style={StoreMapStyles.BtnStart}>
+              <Text style={StoreMapStyles.WhiteText}>Start</Text>
+            </TouchableOpacity>
+          }
         </View>
 
         <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>

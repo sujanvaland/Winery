@@ -24,6 +24,8 @@ class StoreMapContainer extends Component {
         return true;
       }
     });
+
+    this.props.getAllUserType();
   }
 
   navigateToStoreListing = () => {
@@ -39,11 +41,17 @@ function mapStateToProps(state) {
   return {
     loading: state.loadingReducer,
     login_token: state.loginReducer.login_token,
+    getallusertype: state.accountReducer.getallusertype,
+    userwinetype: state.accountReducer.userwinetype,
+    wineriesbywinetype:state.accountReducer.wineriesbywinetype
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    onStoreMap: (StoreMaptoadd) => dispatch(accountActions.StoreMapRequest(StoreMaptoadd))
+    onStoreMap: (StoreMaptoadd) => dispatch(accountActions.StoreMapRequest(StoreMaptoadd)),
+    getAllUserType:()=>dispatch(accountActions.getAllUserType()),
+    getWineTypeByUserType:(UserTypeId)=>dispatch(accountActions.getWineTypeByUserType(UserTypeId)),
+    getWineriesWineType:([WineTypeId])=>dispatch(accountActions.getWineriesWineType([WineTypeId]))
   };
 }
 export default connect(

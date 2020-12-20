@@ -37,9 +37,10 @@ export function ongetAllUserTypeFailResponse(response) {
     };
 }
 
-export function getWineTypeByUserType() {
+export function getWineTypeByUserType(UserTypeId) {
     return {
-        type: types.GETWINETYPEBYUSERTYPE_REQUEST
+        type: types.GETWINETYPEBYUSERTYPE_REQUEST,
+        UserTypeId
     };
 }
 
@@ -57,9 +58,10 @@ export function ongetWineTypeByUserTypeFailResponse(response) {
     };
 }
 
-export function getWineriesWineType() {
+export function getWineriesWineType(WineTypeIds) {
     return {
-        type: types.GETWINERIESBYWINETYPE_REQUEST
+        type: types.GETWINERIESBYWINETYPE_REQUEST,
+        WineTypeIds
     };
 }
 

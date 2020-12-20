@@ -24,7 +24,7 @@ function* getAccountDetailAsync(action) {
 function* getWineTypeByUserTypeAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(getWineTypeByUserType,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.ongetWineTypeByUserTypeResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {
@@ -36,7 +36,7 @@ function* getWineTypeByUserTypeAsync(action) {
 function* getAllUserTypeAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(getAllUserType,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.ongetAllUserTypeResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {
@@ -48,7 +48,7 @@ function* getAllUserTypeAsync(action) {
 function* getWineeriesByWineTypeAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(getWineeriesByWineType,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.ongetWineriesWineTypeResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {
@@ -60,7 +60,7 @@ function* getWineeriesByWineTypeAsync(action) {
 function* insertTourAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(insertTour,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.oninsertTourResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {
@@ -72,7 +72,7 @@ function* insertTourAsync(action) {
 function* getTourByIdAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(getTourById,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.ongetTourByIdResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {
@@ -84,7 +84,7 @@ function* getTourByIdAsync(action) {
 function* deleteTourAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(deleteTour,action);
-  if (response.status.toLower() ==="true") {
+  if (response.status ==="True") {
       yield put(accountActions.ondeleteTourResponse(response));
       yield put(loginActions.disableLoader({}));
   } else {

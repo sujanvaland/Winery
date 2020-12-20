@@ -24,7 +24,7 @@ export const accountReducer = createReducer(initialState, {
     [types.GETALLUSERTYPE_RESPONSE](state,action) {
         return {
             ...state,
-            getallusertype:action.response
+            getallusertype:action.response.Data
         };
     },
     [types.GETALLUSERTYPEFAIL_RESPONSE](state) {
@@ -36,7 +36,7 @@ export const accountReducer = createReducer(initialState, {
     [types.GETWINETYPEBYUSERTYPE_RESPONSE](state,action) {
         return {
             ...state,
-            userwinetype:action.response
+            userwinetype:action.response.Data
         };
     },
     [types.GETWINETYPEBYUSERTYPEFAIL_RESPONSE](state) {
@@ -84,7 +84,7 @@ export const accountReducer = createReducer(initialState, {
     [types.GETWINERIESBYWINETYPE_RESPONSE](state,action) {
         return {
             ...state,
-            wineriesbywinetype:action.response
+            wineriesbywinetype:action.response.Data
         };
     },
     [types.GETWINERIESBYWINETYPEFAIL_RESPONSE](state) {
