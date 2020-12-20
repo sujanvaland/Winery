@@ -3,6 +3,7 @@
  */
 import * as types from './types';
 
+
 export function getAccountDetail() {
     return {
         type: types.GETACCOUNT_REQUEST
@@ -12,126 +13,6 @@ export function getAccountDetail() {
 export function ongetAccountDetailResponse(response) {
     return {
         type: types.GETACCOUNT_RESPONSE,
-        response
-    };
-}
-
-export function getAllUserType() {
-    return {
-        type: types.GETALLUSERTYPE_REQUEST
-    };
-}
-
-export function ongetAllUserTypeResponse(response) {
-    return {
-        type: types.GETALLUSERTYPE_RESPONSE,
-        response
-    };
-}
-
-export function ongetAllUserTypeFailResponse(response) {
-    return {
-        type: types.GETALLUSERTYPEFAIL_RESPONSE,
-        response
-    };
-}
-
-export function getWineTypeByUserType() {
-    return {
-        type: types.GETWINETYPEBYUSERTYPE_REQUEST
-    };
-}
-
-export function ongetWineTypeByUserTypeResponse(response) {
-    return {
-        type: types.GETWINETYPEBYUSERTYPE_RESPONSE,
-        response
-    };
-}
-
-export function ongetWineTypeByUserTypeFailResponse(response) {
-    return {
-        type: types.GETWINETYPEBYUSERTYPEFAIL_RESPONSE,
-        response
-    };
-}
-
-export function getWineriesWineType() {
-    return {
-        type: types.GETWINERIESBYWINETYPE_REQUEST
-    };
-}
-
-export function ongetWineriesWineTypeResponse(response) {
-    return {
-        type: types.GETWINERIESBYWINETYPE_RESPONSE,
-        response
-    };
-}
-
-export function ongetWineriesWineTypeFailResponse(response) {
-    return {
-        type: types.GETWINERIESBYWINETYPEFAIL_RESPONSE,
-        response
-    };
-}
-
-export function insertTour() {
-    return {
-        type: types.INSERTTOUR_REQUEST
-    };
-}
-
-export function oninsertTourResponse(response) {
-    return {
-        type: types.INSERTTOUR_RESPONSE,
-        response
-    };
-}
-
-export function oninsertTourFailResponse(response) {
-    return {
-        type: types.INSERTTOURFAIL_RESPONSE,
-        response
-    };
-}
-
-export function getTourById() {
-    return {
-        type: types.GETTOURBYID_REQUEST
-    };
-}
-
-export function ongetTourByIdResponse(response) {
-    return {
-        type: types.GETTOURBYID_RESPONSE,
-        response
-    };
-}
-
-export function ongetTourByIdFailResponse(response) {
-    return {
-        type: types.GETTOURBYIDFAIL_RESPONSE,
-        response
-    };
-}
-
-export function deleteTour() {
-    return {
-        type: types.DELETETOUR_REQUEST
-    };
-}
-
-export function ondeleteTourResponse(response) {
-    return {
-        type: types.DELETETOUR_RESPONSE,
-        response
-    };
-}
-
-export function ondeleteTourFailResponse(response) {
-    return {
-        type: types.DELETETOURFAIL_RESPONSE,
         response
     };
 }

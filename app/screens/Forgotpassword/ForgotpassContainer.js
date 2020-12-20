@@ -44,7 +44,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        onForgotPassword: (email) => dispatch(forgotPasswordActions.requestForgotPassword(email))
+        onForgotPassword: (username) => dispatch(forgotPasswordActions.requestForgotPassword(username))
     };
 }
 export default connect(

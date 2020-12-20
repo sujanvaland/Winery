@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
-import SplashScreen from 'react-native-splash-screen';
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -31,38 +30,49 @@ class LoginContainer extends Component {
         navigationActions.navigateToForgotPassword();
     }
 
-    navigateToSignup = () => {
-        navigationActions.navigateToSignup();
-    }
+  navigateToForgotPassword = () => {
+    navigationActions.navigateToForgotPassword();
+  }
 
-    _retrieveData = async (key) => {
-        try {
-          const value = await AsyncStorage.getItem('TDMDeliveryApp:'+key);
-          if (value !== null) {
-            return value
-          }
-        } catch (error) {
-        }
-      };
+  navigateToSignup = () => {
+    navigationActions.navigateToSignup();
+  }
 
-    render() {
-        return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup}/>;
+  navigateToStoreMap = () => {
+    navigationActions.navigateToStoreMap();
+  }
+
+
+  _retrieveData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem('TDMDeliveryApp:' + key);
+      if (value !== null) {
+        return value
+      }
+    } catch (error) {
     }
+  };
+
+  render() {
+    return <LoginView {...this.props} forgotPassword={this.navigateToForgotPassword} Signup={this.navigateToSignup}
+      Signup={this.navigateToStoreMap}
+    />;
+  }
 }
 
 
 function mapStateToProps(state) {
-    return {
-        loginresponse: state.loginReducer,
-        loading: state.loadingReducer
-    };
+  return {
+    loginresponse: state.loginReducer,
+    loading: state.loadingReducer
+  };
 }
 function mapDispatchToProps(dispatch) {
-    return {
-        onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))      
-    };
+  return {
+    onLogin: (un, pwd) => dispatch(loginActions.requestLogin(un, pwd))
+  };
 }
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(LoginContainer);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StatusBar, Picker, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { View, Text, Image, StatusBar, CheckBox, TouchableOpacity, ImageBackground, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { Picker} from '@react-native-community/picker';
 import StoreListingStyles from './StoreListingStyles';
 import globalStyles from '../../assets/css/globalStyles';
 import PropTypes from 'prop-types';
