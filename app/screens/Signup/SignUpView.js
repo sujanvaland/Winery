@@ -273,10 +273,6 @@ class SignUpView extends Component {
 
               <View style={styles.loginArea}>
                 <Text style={styles.TitleText}>Create an Account</Text>
-                {
-                  this.state.ShowEnvMsg == true &&
-                  <Text style={globalStyles.headingText}>Current Environment : {this.state.CurrentEnv}</Text>
-                }
                 <View style={styles.textBoxContent}>
                   <TextBoxElement
                     placeholder={"First Name"}
