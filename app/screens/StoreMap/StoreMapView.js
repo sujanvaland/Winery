@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, ToastAndroid } from 'react-native';
 import StoreMapStyles from './StoreMapStyles';
 import PropTypes from 'prop-types';
 import {Picker} from '@react-native-picker/picker';
@@ -12,11 +12,9 @@ import Geolocation from 'react-native-geolocation-service';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.771707;
-const LONGITUDE = -122.4053769;
+
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
 
 class StoreMapView extends Component {
@@ -25,25 +23,25 @@ class StoreMapView extends Component {
 
     // AirBnB's Office, and Apple Park
     this.state = {
-      // coordinates: [
-      //   {
-      //     latitude: 22.253214,
-      //     longitude: 73.214607,
-      //   },
-      //   {
-      //     latitude: 22.307838,
-      //     longitude: 73.181553,
-      //   },
-      //   {
-      //     latitude: 22.311713,
-      //     longitude: 73.138204,
-      //   },
-      //   {
-      //     latitude: 22.326322,
-      //     longitude: 73.226840
-      //   }
-      // ],
-      coordinates: [],
+      coordinates: [
+        {
+          latitude: 22.253214,
+          longitude: 73.214607,
+        },
+        {
+          latitude: 22.307838,
+          longitude: 73.181553,
+        },
+        {
+          latitude: 22.311713,
+          longitude: 73.138204,
+        },
+        {
+          latitude: 22.326322,
+          longitude: 73.226840
+        }
+      ],
+      //coordinates: [],
       userType:"",
       showSelectWinerybtn:false,
       showFeedbackbtn:false,
@@ -70,7 +68,8 @@ class StoreMapView extends Component {
         buttonPositive: 'OK',
       },
     );
-
+    console.log("---------------Permission-------");
+    console.log(granted === PermissionsAndroid.RESULTS.GRANTED);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       Geolocation.getCurrentPosition(
         async (position) => {
@@ -84,7 +83,7 @@ class StoreMapView extends Component {
           (error) => {
               console.warn(error.code, error.message);
           },
-          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+          {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
       )
     }
   }
@@ -124,32 +123,71 @@ class StoreMapView extends Component {
     const { getallusertype ,userwinetype, wineriesbywinetype } = this.props;
     let usertypeArr = [];
     let wineryType = [];
-    let wineries = [];
-    let waypoints = []
+    let wineries = [
+        {
+          latitude: 22.253214,
+          longitude: 73.214607,
+        },
+        {
+          latitude: 22.307838,
+          longitude: 73.181553,
+        },
+        {
+          latitude: 22.311713,
+          longitude: 73.138204,
+        },
+        {
+          latitude: 22.326322,
+          longitude: 73.226840
+        }
+      ];
+    let waypoints = [{
+          latitude: 22.253214,
+          longitude: 73.214607,
+        },
+        {
+          latitude: 22.307838,
+          longitude: 73.181553,
+        },
+        {
+          latitude: 22.311713,
+          longitude: 73.138204,
+        },
+        {
+          latitude: 22.326322,
+          longitude: 73.226840
+        }]
     if(getallusertype){
       usertypeArr = getallusertype;
     }
     if(userwinetype){
       wineryType = userwinetype;
     }
-    if(wineriesbywinetype){
-      wineries = wineriesbywinetype;
-      if(wineries.length > 0){
-        wineries.map((item, index) =>{
-          waypoints.push({
-            latitude: item.Latitude,
-            longitude: item.Longitude,
-          })
-        })
-        
-      }
-    }
+    // if(wineriesbywinetype){
+    //   wineries = wineriesbywinetype;
+    //   if(wineries.length > 0){
+    //     wineries.map((item, index) =>{
+    //       waypoints.push({
+    //         latitude: parseFloat(item.Latitude),
+    //         longitude: parseFloat(item.Longitude),
+    //       })
+    //     })
+    //   }
+    // }
     
+    let LATITUDE = 22.253214;
+    let LONGITUDE = 73.214607;
+    if(this.state.coordinates.length > 0){
+      LATITUDE = this.state.coordinates[0].latitude;
+      LONGITUDE = this.state.coordinates[0].longitude;
+    }
+
+    // console.log("--------LATITUDE,LONGITUDE------");
+    // console.log(wineries);
     return (
       <View style={StoreMapStyles.InnerContainer}>
         <View style={StoreMapStyles.SearchStore}>
           <View style={StoreMapStyles.PickeBoxMain}>
-
             <View style={StoreMapStyles.PickeBox}>
               <Picker
                 selectedValue={this.state.userType}
@@ -172,6 +210,7 @@ class StoreMapView extends Component {
                 onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
                   <Picker.Item label="Select WineType" value="0" /> 
                 {
+                  wineryType && wineryType.length > 0 &&
                     wineryType.map((type)=>{
                        return(
                         <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />         
@@ -194,30 +233,49 @@ class StoreMapView extends Component {
             ref={c => this.mapView = c}
             onPress={this.onMapPress}
           >
-            {wineries.length > 0 && wineries.map((item, index) =>
-              <MapView.Marker
-                key={`coordinate_${index}`} coordinate={{
-                  latitude: item.Latitude,
-                  longitude: item.Longitude,
-                }}
-                title={item.name} 
-                description={item.AddressLine1}>
-                <MapView.Callout>
-                  <View style={StoreMapStyles.MapPopup}>
-                    <Text style={StoreMapStyles.MapImageBox}>
-                      <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
-                    </Text>
-                    <Text style={StoreMapStyles.StoreNameBox}>
-                    {item.name}{"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber}</Text>
-                  </View>
-                </MapView.Callout>
-              </MapView.Marker>
+            {wineries.map((item, index) =>{
+                  
+                  <MapView.Marker
+                    key={`coordinate_${index}`} coordinate={{
+                      latitude: item.latitude,
+                      longitude: item.latitude,
+                    }}
+                    title={"Test"} 
+                    description={"test"}>
+                    <MapView.Callout>
+                      <View style={StoreMapStyles.MapPopup}>
+                        <Text style={StoreMapStyles.MapImageBox}>
+                          <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
+                        </Text>
+                        <Text style={StoreMapStyles.StoreNameBox}>
+                        {"test"}
+                        {/* {"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber} */}
+                        </Text>
+                      </View>
+                    </MapView.Callout>
+                  </MapView.Marker>
+                }
             )}
             {(this.state.coordinates.length >= 2) && (
               <MapViewDirections
-                origin={this.state.coordinates[0]}
-                waypoints={waypoints}
-                destination={this.state.coordinates[0]}
+                origin={{
+                  latitude: 22.253214,
+                  longitude: 73.214607,
+                }}
+                waypoints={[
+                  {
+          latitude: 22.307838,
+          longitude: 73.181553,
+        },
+        {
+          latitude: 22.311713,
+          longitude: 73.138204,
+        }
+                ]}
+                destination={{
+                  latitude: 22.253214,
+                  longitude: 73.214607,
+                }}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
                 strokeColor="blue"
