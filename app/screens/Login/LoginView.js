@@ -229,7 +229,7 @@ class LoginView extends Component {
 
                 <View style={loginStyles.NewRegistration}>
                   <Text style={loginStyles.accountText}>New Registratoin?</Text>
-                  <TouchableOpacity style={loginStyles.BtnSignup} onPress={this.navigateToStoreMap}>
+                  <TouchableOpacity style={loginStyles.BtnSignup} onPress={this.navigateToSignup}>
                     <Text style={loginStyles.TextSignup}>Cilck here</Text>
                   </TouchableOpacity>
                 </View>

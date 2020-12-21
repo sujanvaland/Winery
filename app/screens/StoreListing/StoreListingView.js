@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native';
 import StoreListingStyles from './StoreListingStyles';
-import CheckBox from '@react-native-community/checkbox';
+import { CheckBox } from "native-base";
 import PropTypes from 'prop-types';
 import { TextBoxElement, TextBoxElementLogin, TextBoxElementChangepass } from "../../components";
 import Resource_EN from '../../config/Resource_EN';
-
 import SplashScreen from 'react-native-splash-screen';
+import Toast from 'react-native-simple-toast';
+import * as navigationActions from 'app/actions/navigationActions';
 
 class StoreListingView extends Component {
   async componentDidMount() {
@@ -14,22 +15,15 @@ class StoreListingView extends Component {
   }
   constructor(props) {
     super(props);
+    const { wineriesbywinetype } = this.props;
+    var result = wineriesbywinetype.map(function(el) {
+      var o = Object.assign({}, el);
+      o.checked = false;
+      return o;
+    })
     this.state = {
       enableScroll: false,
-      isValidoldpassword: true,
-      errorMessageoldpassword: false,
-      isValidnewpassword: true,
-      errorMessagenewpassword: false,
-      isValidconfirmpassword: true,
-      errorMessageconfirmpassword: false,
-      eyeOpen: false,
-      disable: true,
-      checked: false,
-      postStoreListing: {
-        oldpassword: '',
-        newpassword: '',
-        confirmpassword: ''
-      }
+      winerylist: result
     }
   }
 
@@ -56,61 +50,78 @@ class StoreListingView extends Component {
     this.setState({ enableScroll: false });
   }
 
-  onValueChange = (fieldName, value) => {
-    this.setState(prevState => ({
-      postStoreListing: {                   // object that we want to update
-        ...prevState.postStoreListing, // keep all other key-value pairs
-        [fieldName]: value
+  navigateToStoreMap = () => {
+    
+    let checked_winery_length = this.state.winerylist.filter(function(item){
+      return item.checked;
+    }).length;
+
+    if(checked_winery_length > 0)
+    {
+      let obj=this.state.winerylist;
+      let finalobj={
+        winerylist:obj,
+        isRouteVisible:true
       }
-    }), function () {
+      this.props.ongetRoute(finalobj);
+      navigationActions.navigateToStoreMap();
+    }
+    else
+    {
+      Toast.show("Please Select atleast one winery for get route.", Toast.LONG);
+    }
+    //
+  }
+
+  toggleCheckbox(id) {
+    const elementsIndex = this.state.winerylist.findIndex(element => element.Id === id )
+    let newArray = [...this.state.winerylist];
+    newArray[elementsIndex] = {...newArray[elementsIndex], checked: !newArray[elementsIndex].checked};
+    this.setState({
+      winerylist: newArray,
     });
   }
-  onChangeCheck = () => {
-    this.setState({ checked: !this.state.checked })
-  }
 
-  navigateToStoreMap = () => {
-    this.props.StoreMap();
-  }
   render() {
-
-    const { button } = Resource_EN
-
+    const { button } = Resource_EN;
     return (
-
       <View style={StoreListingStyles.InnerContainer}>
         <ScrollView>
           <View>
-            <View style={StoreListingStyles.WineListBox}>
-              <View style={StoreListingStyles.flexBox}>
-                <View style={StoreListingStyles.WineImage}>
-                  <Image source={require('../../assets/img/img_bottle.jpg')} resizeMode="contain" style={StoreListingStyles.BottoleImage} />
-                </View>
-                <View style={StoreListingStyles.WineTextDetail}>
-                  <Text style={StoreListingStyles.WineTexBottle}>Westwood Estate Wines</Text>
-                  <Text style={StoreListingStyles.WineStoreName}>The Carlton Winemakers Studio {"\n"}
-801 N Scott St, {"\n"}Carlton, OR - 97111</Text>
-                </View>
-              </View>
-              <View style={StoreListingStyles.WineButton}>
-                <CheckBox
-                  //style={styles.checkBox}
-                  value={this.state.checked}
-                  onChange={() => this.onChangeCheck()} />
-
-              </View>
-            </View>
-
+            { this.state.winerylist.length > 0 &&
+              this.state.winerylist.map((item, index) =>{
+                return (<View key={index} style={StoreListingStyles.WineListBox}>
+                  <View style={StoreListingStyles.flexBox}>
+                    <View style={StoreListingStyles.WineImage}>
+                      <Image source={require('../../assets/img/img_bottle.jpg')} resizeMode="contain" style={StoreListingStyles.BottoleImage} />
+                    </View>
+                    <View style={StoreListingStyles.WineTextDetail}>
+                      <Text style={StoreListingStyles.WineTexBottle}>{item.name}</Text>
+                      <Text style={StoreListingStyles.WineStoreName}>{item.AddressLine1} {"\n"}
+                        {item.AddressLine2 !='' &&
+                          <Text>{item.AddressLine2},{"\n"}</Text>
+                        }
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={StoreListingStyles.WineButton}>
+                    <CheckBox
+                      key={item.Id}
+                      title={item.name}
+                      checked={item.checked}
+                      onPress={() => this.toggleCheckbox(item.Id)} />
+                  </View>
+                </View>)
+              })
+            }
           </View>
         </ScrollView>
         <View style={StoreListingStyles.BototmButton}>
-          <TouchableOpacity style={StoreListingStyles.BtnFeedback} onPress={this.navigateToStoreMap}>
+          <TouchableOpacity style={StoreListingStyles.BtnFeedback} onPress={() => this.navigateToStoreMap()}>
             <Text style={StoreListingStyles.WhiteText}>Get Route</Text>
           </TouchableOpacity>
         </View>
       </View >
-
-
     );
   }
 }

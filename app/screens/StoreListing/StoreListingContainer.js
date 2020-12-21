@@ -26,11 +26,8 @@ class StoreListingContainer extends Component {
     });
   }
 
-  navigateToStoreMap = () => {
-    navigationActions.navigateToStoreMap();
-  }
   render() {
-    return <StoreListingView {...this.props} StoreMap={this.navigateToStoreMap} />;
+    return <StoreListingView {...this.props}/>;
   }
 }
 
@@ -38,11 +35,13 @@ function mapStateToProps(state) {
   return {
     loading: state.loadingReducer,
     login_token: state.loginReducer.login_token,
+    wineriesbywinetype:state.accountReducer.wineriesbywinetype
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    onStoreListing: (StoreListingtoadd) => dispatch(accountActions.StoreListingRequest(StoreListingtoadd))
+    onStoreListing: (StoreListingtoadd) => dispatch(accountActions.StoreListingRequest(StoreListingtoadd)),
+    ongetRoute: (obj) => dispatch(accountActions.ongetRoute(obj))
   };
 }
 export default connect(

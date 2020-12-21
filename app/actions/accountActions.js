@@ -223,3 +223,10 @@ export function onupdateDeviceTokenFailedResponse(response) {
         response
     };
 }
+
+export function ongetRoute(response) {
+    return {
+        type: types.GETROUTE_RESPONSE,
+        response
+    };
+}

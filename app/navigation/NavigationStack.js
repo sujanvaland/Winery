@@ -94,7 +94,7 @@ const HomeApp = createStackNavigator({
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => (
-                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Winary" pagetitle={true} />
+                    <HeaderComponent navigation={navigation} user={false} menu={true} title="Winary" pagetitle={true} />
                 ),
                 gestureEnabled: true,
             };
@@ -108,7 +108,7 @@ const MyProfileApp = createStackNavigator({
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => (
-                    <HeaderComponent navigation={navigation} user={true} menu={true} title="Winary" pagetitle={true} />
+                    <HeaderComponent navigation={navigation} user={false} menu={true} title="Winary" pagetitle={true} />
                 ),
                 gestureEnabled: true,
             };
@@ -122,7 +122,7 @@ const ChangePasswordApp = createStackNavigator({
         screen: ChangePassword,
         navigationOptions: ({ navigation }) => {
             return {
-                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Change Password" />,
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Change Password" />,
                 gestureEnabled: false
             }
         }
@@ -134,7 +134,16 @@ const StoreListingApp = createStackNavigator({
         screen: StoreListing,
         navigationOptions: ({ navigation }) => {
             return {
-                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Listing" />,
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Listing" />,
+                gestureEnabled: false
+            }
+        }
+    },
+    StoreMap: {
+        screen: StoreMap,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,
                 gestureEnabled: false
             }
         }
@@ -146,7 +155,16 @@ const StoreMapApp = createStackNavigator({
         screen: StoreMap,
         navigationOptions: ({ navigation }) => {
             return {
-                header: () => <HeaderComponent pagetitle={true} user={true} navigation={navigation} menu={true} title="Store Map" />,
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,
+                gestureEnabled: false
+            }
+        }
+    },
+    StoreListing: {
+        screen: StoreListing,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Listing" />,
                 gestureEnabled: false
             }
         }
@@ -165,19 +183,14 @@ const RNApp = createDrawerNavigator(
         Home: {
             screen: HomeApp,
             navigationOptions: {
-                navigationOptions: {
-                    drawerLabel: () => null
-                },
+                drawerLabel: () => null
             },
         },
 
         StoreListing: {
             screen: StoreListingApp,
             navigationOptions: {
-                //drawerLabel: 'Store Listing',
-                navigationOptions: {
-                    drawerLabel: () => null
-                },
+                drawerLabel: () => null
             },
         },
 
@@ -212,44 +225,8 @@ const RNApp = createDrawerNavigator(
     },
 
     {
-        contentComponent: (props) => (
-            <View style={NavStyles.LeftMenuarea}>
-
-                <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }} style={NavStyles.SafeAeaMenu}>
-                    <View style={NavStyles.UserArea}>
-                        <View style={NavStyles.ProfilePic}>
-                            <Image source={require('../assets/img/img_avtar.jpg')} resizeMode="contain" style={NavStyles.PrifileImage} />
-                        </View>
-                        <Text style={NavStyles.UserName}>John Smith</Text>
-                        <Text style={NavStyles.Location}>San Francisco, CA</Text>
-                    </View>
-
-                    <DrawerItems {...props} />
-                    <TouchableOpacity onPress={() =>
-                        Alert.alert(
-                            'Log out',
-                            'Do you want to logout?',
-                            [
-                                { text: 'Cancel', onPress: () => { return null } },
-                                {
-                                    text: 'Confirm', onPress: () => {
-                                        AsyncStorage.clear();
-                                        props.navigation.navigate('Login')
-                                    }
-                                },
-                            ],
-                            { cancelable: false }
-                        )
-                    } style={NavStyles.LogoutBtn}>
-
-                        <Image source={require('../assets/img/icon_logoutmenu.png')} resizeMode="contain" style={NavStyles.LogoutMenuIcon} />
-                        <Text style={NavStyles.LogoutBtnText}>Logout</Text>
-                    </TouchableOpacity>
-                </SafeAreaView>
-
-            </View>
-        ),
-        initialRouteName: 'Login',
+        initialRouteName: 'StoreMap',
+        contentComponent: customDrawer,
         draweOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',
         drawerToggleRoute: 'DrawerToggle',
@@ -271,16 +248,14 @@ const RNApp = createDrawerNavigator(
 
 export default createAppContainer(
     createSwitchNavigator(
-        {
-            //AuthLoading: AuthLoadingScreen,
-            App: RNApp,
-            initialRouteName: 'Login',
-            //  Auth: LoginApp,
-        },
-        //  {
-        // initialRouteName: 'AuthLoading',
-        //  initialRouteName: 'Contracts',
-        // }
+      {
+        AuthLoading: AuthLoadingScreen,
+        App: RNApp,
+        Auth: LoginApp,
+      },
+      {
+        initialRouteName: 'AuthLoading',
+      }
     )
 );
 

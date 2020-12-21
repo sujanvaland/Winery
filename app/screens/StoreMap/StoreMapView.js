@@ -20,7 +20,7 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
 class StoreMapView extends Component {
   constructor(props) {
     super(props);
-
+    
     // AirBnB's Office, and Apple Park
     this.state = {
       // coordinates: [
@@ -42,12 +42,15 @@ class StoreMapView extends Component {
       //   }
       // ],
       coordinates: [],
-      userType:"",
+      userType:0,
+      wineType:0,
       showSelectWinerybtn:false,
       showFeedbackbtn:false,
       showStartbtn:false,
       isSelected: false,
       isModalVisible: false,
+      // isRouteVisible:false,
+      // routewaypointslist:[]
     };
 
     this.mapView = null;
@@ -55,6 +58,15 @@ class StoreMapView extends Component {
 
   componentDidMount(){
     this.getCurrentLocation();
+    // const { routewaypointslist } = this.props;
+    // console.log(routewaypointslist);
+    // if(routewaypointslist){
+    //   let wineries = routewaypointslist.winerylist.filter(function(item){
+    //     return item.checked;
+    //   });
+    //   this.setState({isRouteVisible:true});
+    //   this.setState({routewaypointslist:wineries});
+    // }
   }
 
   async getCurrentLocation(){
@@ -110,28 +122,42 @@ class StoreMapView extends Component {
   }
 
   getWineTypeByUserType = (UserTypeId) =>{
+    // this.setState({isRouteVisible:false});
+    // this.setState({routewaypointslist:[]});
+    this.setState({ userType: UserTypeId });
     this.props.getWineTypeByUserType(UserTypeId);
+    let finalobj=null;
+    this.props.ongetRoute(finalobj);
   }
 
   getWineryFromWineType = (WineTypeId) =>{
-    this.setState({wineType: WineTypeId,showSelectWinerybtn:true})
+    // this.setState({isRouteVisible:false});
+    // this.setState({routewaypointslist:[]});
+    this.setState({wineType: WineTypeId,showSelectWinerybtn:true});
     this.props.getWineriesWineType([WineTypeId]);
+    let finalobj=null;
+    this.props.ongetRoute(finalobj);
   }
   
   render() {
-    const { getallusertype ,userwinetype, wineriesbywinetype } = this.props;
+    const { getallusertype ,userwinetype, wineriesbywinetype, routewaypointslist } = this.props;
     let usertypeArr = [];
     let wineryType = [];
     let wineries = [];
-    let waypoints = []
+    let waypoints = [];
     if(getallusertype){
       usertypeArr = getallusertype;
     }
     if(userwinetype){
       wineryType = userwinetype;
     }
-    if(wineriesbywinetype){
-      wineries = wineriesbywinetype;
+    
+    //console.log(routewaypointslist);
+    if(routewaypointslist){
+      //console.log("123");
+      wineries = routewaypointslist.winerylist.filter(function(item){
+        return item.checked;
+      });
       if(wineries.length > 0){
         wineries.map((item, index) =>{
           waypoints.push({
@@ -141,6 +167,15 @@ class StoreMapView extends Component {
         })
       }
     }
+    else
+    {
+      //console.log("456");
+      if(wineriesbywinetype){
+        wineries = wineriesbywinetype;
+      }
+    }
+
+    
     
     let LATITUDE = 40.740130;
     let LONGITUDE = -73.985440;
@@ -172,7 +207,7 @@ class StoreMapView extends Component {
             </View>
             <View style={StoreMapStyles.PickeBox}>
               <Picker
-                selectedValue={this.state.userType}
+                selectedValue={this.state.wineType}
                 style={StoreMapStyles.PickeElement}
                 onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
                   <Picker.Item label="Select WineType" value="0" /> 
@@ -200,31 +235,49 @@ class StoreMapView extends Component {
             ref={c => this.mapView = c}
             onPress={this.onMapPress}
           >
-         
-                {wineries.map((item, index) =>{
-                  console.log(item);
-                  return(<MapView.Marker
-                    key={`coordinate_${index}`} 
-                    coordinate={{
-                      latitude: parseFloat(item.Latitude),
-                      longitude: parseFloat(item.Longitude),
-                    }}
-                    title={item.name} 
-                    description={item.Description}>
-                    <MapView.Callout>
-                      <View style={StoreMapStyles.MapPopup}>
-                        <Text style={StoreMapStyles.MapImageBox}>
-                          <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
-                        </Text>
-                        <Text style={StoreMapStyles.StoreNameBox}>
-                        {item.name}{"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber} 
-                        </Text>
-                      </View>
-                    </MapView.Callout>
-                  </MapView.Marker>);
-                }
-            )}
-            {(waypoints.length >= 0) && (
+            {/* Marker for current Location */}
+            { (this.state.userType == 0 || this.state.wineType == 0) &&
+              <MapView.Marker
+                key={`coordinate_0`} 
+                coordinate={{
+                  latitude: parseFloat(LATITUDE),
+                  longitude: parseFloat(LONGITUDE),
+                }}
+                image={require('../../assets/img/icons8-scooter-80.png')}
+                title="" 
+                description="">
+              </MapView.Marker>
+            }
+
+            {/* Markers for Winery Store */}
+            { this.state.userType > 0 && this.state.wineType > 0 &&
+              wineries.map((item, index) =>{
+                //console.log(item);
+                return(<MapView.Marker
+                  key={`coordinate_${index}`} 
+                  coordinate={{
+                    latitude: parseFloat(item.Latitude),
+                    longitude: parseFloat(item.Longitude),
+                  }}
+                  title={item.name} 
+                  description={item.Description}>
+                  <MapView.Callout>
+                    <View style={StoreMapStyles.MapPopup}>
+                      <Text style={StoreMapStyles.MapImageBox}>
+                        <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
+                      </Text>
+                      <Text style={StoreMapStyles.StoreNameBox}>
+                      {item.name}{"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber} 
+                      </Text>
+                    </View>
+                  </MapView.Callout>
+                </MapView.Marker>);
+              }
+              )
+            }
+            
+            {/* Map Directions */}
+            {(this.state.userType > 0 && this.state.wineType > 0 && waypoints.length > 0) && (
               <MapViewDirections
                 origin={{
                   latitude:LATITUDE,

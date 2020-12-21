@@ -10,23 +10,36 @@ class StoreMapContainer extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    let currentRoute = this.props.navigation.state.routeName;
-    let navigation = this.props.navigation;
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      if (currentRoute == "Login") {
-        BackHandler.exitApp();
-        return true;
-      }
 
-      else {
-        navigation.goBack();
-        return true;
-      }
-    });
-
-    this.props.getAllUserType();
+  // define a separate function to get triggered on focus
+  async onFocusFunction () {
+    // do some stuff on every screen focus
+    const { getAllUserType } = this.props;
+    getAllUserType();
   }
+  // and don't forget to remove the listener
+  componentWillUnmount () {
+    this.focusListener.remove()
+  }
+
+  async componentDidMount(){
+      let currentRoute = this.props.navigation.state.routeName;
+      let navigation = this.props.navigation;
+      BackHandler.addEventListener('hardwareBackPress', function () {
+          if (currentRoute == "Login") {
+              BackHandler.exitApp();
+              return true;
+          }
+          else {
+              navigation.goBack();
+              return true;
+          }
+      });
+
+      this.focusListener = this.props.navigation.addListener('didFocus', () => {
+          this.onFocusFunction();
+        })
+  } 
 
   navigateToStoreListing = () => {
     navigationActions.navigateToStoreListing();
@@ -43,7 +56,8 @@ function mapStateToProps(state) {
     login_token: state.loginReducer.login_token,
     getallusertype: state.accountReducer.getallusertype,
     userwinetype: state.accountReducer.userwinetype,
-    wineriesbywinetype:state.accountReducer.wineriesbywinetype
+    wineriesbywinetype:state.accountReducer.wineriesbywinetype,
+    routewaypointslist:state.accountReducer.routewaypointslist,
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -51,7 +65,8 @@ function mapDispatchToProps(dispatch) {
     onStoreMap: (StoreMaptoadd) => dispatch(accountActions.StoreMapRequest(StoreMaptoadd)),
     getAllUserType:()=>dispatch(accountActions.getAllUserType()),
     getWineTypeByUserType:(UserTypeId)=>dispatch(accountActions.getWineTypeByUserType(UserTypeId)),
-    getWineriesWineType:([WineTypeId])=>dispatch(accountActions.getWineriesWineType([WineTypeId]))
+    getWineriesWineType:([WineTypeId])=>dispatch(accountActions.getWineriesWineType([WineTypeId])),
+    ongetRoute: (obj) => dispatch(accountActions.ongetRoute(obj))
   };
 }
 export default connect(

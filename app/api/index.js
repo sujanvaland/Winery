@@ -7,7 +7,7 @@ import NetInfo from "@react-native-community/netinfo";
 // import RNFetchBlob from 'react-native-fetch-blob'
 export default function api(path, params, method, token) {
     return CallApi(params,path,method).then((data) => {
-      console.log(data);
+      //console.log(data);
         try {
           let response = JSON.parse(data);
           return response;
@@ -23,6 +23,7 @@ export default function api(path, params, method, token) {
 async function CallApi(params,path,method){
   let env =  await retrieveData("environment");
   let login_token =  await retrieveData("login_token");
+  //console.log(login_token);
   if(env == null || env == "" || env == undefined){
     env = ApiConstants.BASE_URL;
   }

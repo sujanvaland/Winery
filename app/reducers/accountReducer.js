@@ -148,5 +148,12 @@ export const accountReducer = createReducer(initialState, {
             ...state
         };
     },
+
+    [types.GETROUTE_RESPONSE](state,action) {
+        return {
+            ...state,
+            routewaypointslist:action.response
+        };
+    },
     
 });
