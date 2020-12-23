@@ -33,12 +33,13 @@ export function navigateToStoreListing(params) {
 }
 
 
-
 export function navigateToStoreMap(params) {
     NavigationService.navigate('StoreMap', params);
 }
 
-
+export function navigateToStartTour(params) {
+    NavigationService.navigate('StartTour', params);
+}
 
 
 export function navigateToVerifyotp(params) {

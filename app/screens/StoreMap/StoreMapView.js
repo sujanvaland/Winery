@@ -117,6 +117,10 @@ class StoreMapView extends Component {
     console.log("clicked");
   }
 
+  navigateToStartTour = () => {
+    this.props.StartTour();
+  }
+
   navigateToStoreListing = () => {
     this.props.StoreListing();
   }
@@ -319,12 +323,12 @@ class StoreMapView extends Component {
         </View>
         <View style={StoreMapStyles.BototmButton}>
           <View style={StoreMapStyles.FlexBox}>
-            {
+            {/* {
               this.state.showFeedbackbtn &&
               <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.toggleModal} >
                 <Text style={StoreMapStyles.WhiteText}>Feedback</Text>
               </TouchableOpacity>
-            }
+            } */}
             {
               this.state.showSelectWinerybtn &&
               <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
@@ -333,14 +337,14 @@ class StoreMapView extends Component {
             }
           </View>
           {
-            this.state.showStartbtn &&
-            <TouchableOpacity style={StoreMapStyles.BtnStart}>
+            this.state.userType > 0 && this.state.wineType > 0 && waypoints.length > 0 &&
+            <TouchableOpacity style={StoreMapStyles.BtnStart} onPress={this.navigateToStartTour}>
               <Text style={StoreMapStyles.WhiteText}>Start</Text>
             </TouchableOpacity>
           }
         </View>
 
-        <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
+        {/* <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
           <View style={StoreMapStyles.FeedbackModal}>
             <View style={StoreMapStyles.ModalHeader}>
               <Text style={StoreMapStyles.ModalHeaderText}>Give Your Feedback</Text>
@@ -379,10 +383,8 @@ class StoreMapView extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-
-            {/* <Button title="Hide modal" onPress={this.toggleModal} /> */}
           </View>
-        </Modal>
+        </Modal> */}
 
 
       </View>

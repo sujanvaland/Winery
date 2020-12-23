@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import StoreMapView from './StoreMapView';
+import StartTourView from './StartTourView';
 import { connect } from 'react-redux';
 import { BackHandler } from 'react-native';
 import * as accountActions from 'app/actions/accountActions';
 import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
-class StoreMapContainer extends Component {
+class StartTourContainer extends Component {
   constructor(props) {
     super(props);
   }
@@ -14,8 +14,6 @@ class StoreMapContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction () {
     // do some stuff on every screen focus
-    const { getAllUserType } = this.props;
-    getAllUserType();
   }
   // and don't forget to remove the listener
   componentWillUnmount () {
@@ -39,18 +37,9 @@ class StoreMapContainer extends Component {
       this.focusListener = this.props.navigation.addListener('didFocus', () => {
           this.onFocusFunction();
         })
-  } 
-
-  navigateToStartTour = () => {
-    navigationActions.navigateToStartTour();
   }
-
-  navigateToStoreListing = () => {
-    navigationActions.navigateToStoreListing();
-  }
-
   render() {
-    return <StoreMapView {...this.props} StoreListing={this.navigateToStoreListing} StartTour={this.navigateToStartTour} />;
+    return <StartTourView {...this.props} />;
   }
 }
 
@@ -58,22 +47,15 @@ function mapStateToProps(state) {
   return {
     loading: state.loadingReducer,
     login_token: state.loginReducer.login_token,
-    getallusertype: state.accountReducer.getallusertype,
-    userwinetype: state.accountReducer.userwinetype,
-    wineriesbywinetype:state.accountReducer.wineriesbywinetype,
     routewaypointslist:state.accountReducer.routewaypointslist,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    onStoreMap: (StoreMaptoadd) => dispatch(accountActions.StoreMapRequest(StoreMaptoadd)),
-    getAllUserType:()=>dispatch(accountActions.getAllUserType()),
-    getWineTypeByUserType:(UserTypeId)=>dispatch(accountActions.getWineTypeByUserType(UserTypeId)),
-    getWineriesWineType:([WineTypeId])=>dispatch(accountActions.getWineriesWineType([WineTypeId])),
     ongetRoute: (obj) => dispatch(accountActions.ongetRoute(obj))
   };
 }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(StoreMapContainer);
+)(StartTourContainer);
