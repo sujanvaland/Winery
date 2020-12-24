@@ -117,7 +117,7 @@ const HeaderStyles = StyleSheet.create({
         //   fontFamily: Typography.FONT_SEMIBOLD,
         fontSize: viewportWidth * 0.04,
         color: color.COLOR_WHITE,
-        width: viewportWidth * 0.7,
+        width: viewportWidth * 0.85,
         height: viewportWidth * 0.1,
         textAlign: "center",
         // paddingLeft: viewportWidth * 0.05,
@@ -127,7 +127,7 @@ const HeaderStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 0,
+        borderWidth:0,
         borderColor: 'white',
 
     },
@@ -220,7 +220,7 @@ const HeaderStyles = StyleSheet.create({
     LeftHeader: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         width: '100%'
     },

@@ -3,7 +3,7 @@ import Styles from '../../config/styles';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const { color, Typography } = Styles;
 
-const StoreListingStyles = StyleSheet.create({
+const StoreMapStartStyles = StyleSheet.create({
     InnerContainer: {
 
         height: viewportHeight-viewportWidth*0.21,
@@ -512,4 +512,4 @@ const StoreListingStyles = StyleSheet.create({
 
 });
 
-export default StoreListingStyles;
+export default StoreMapStartStyles;

@@ -10,7 +10,7 @@ import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
 
 class StoreListingView extends Component {
-  async componentDidMount() {
+  async componentDidMount() { 
     SplashScreen.hide();
   }
   constructor(props) {

@@ -23,6 +23,7 @@ import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 import StoreMap from 'app/screens/StoreMap';
+import StoreMapStart from 'app/screens/StoreMapStart';
 import Verifyotp from 'app/screens/Verifyotp';
 
 
@@ -35,7 +36,10 @@ const customDrawer = (props) => (
             </View>
             <View>
                 <DrawerItems {...props} />
-                <CustomDrawerComponent />
+               
+            </View>
+            <View style={NavStyles.AccountLinks}>
+            <CustomDrawerComponent />
             </View>
         </SafeAreaView>
     </View>
@@ -153,6 +157,15 @@ const StoreListingApp = createStackNavigator({
 const StoreMapApp = createStackNavigator({
     StoreMap: {
         screen: StoreMap,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,
+                gestureEnabled: false
+            }
+        }
+    },
+    StoreMapStart: {
+        screen: StoreMapStart,
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,

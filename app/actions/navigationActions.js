@@ -38,6 +38,10 @@ export function navigateToStoreMap(params) {
     NavigationService.navigate('StoreMap', params);
 }
 
+export function navigateToStoreMapStart(params) {
+    NavigationService.navigate('StoreMapStart', params);
+}
+
 
 
 

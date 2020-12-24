@@ -6,7 +6,7 @@ const { color, Typography } = Styles;
 const StoreListingStyles = StyleSheet.create({
     InnerContainer: {
 
-        height: viewportHeight - viewportWidth * 0.15,
+        height: viewportHeight - viewportWidth * 0.21,
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
@@ -252,7 +252,7 @@ const StoreListingStyles = StyleSheet.create({
         borderWidth: 0,
     },
     WineTextDetail: {
-        borderWidth: 0,
+        borderWidth:0,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -266,7 +266,7 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         borderWidth: 0,
-        minWidth: viewportWidth * 0.15,
+        minWidth: viewportWidth * 0.09,
         height: 80,
     },
     WinePrice: {

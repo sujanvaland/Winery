@@ -80,9 +80,8 @@ const NavStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         borderWidth: 0,
-        paddingLeft: viewportWidth * 0.035,
-        position: 'absolute',
-        bottom: viewportWidth * 0.2
+        paddingLeft: viewportWidth * 0.035,      
+       
     },
     SafeAeaMenu: {
         borderWidth: 0,
@@ -97,6 +96,11 @@ const NavStyles = StyleSheet.create({
         margin: 0, opacity: 0.6,
 
     },
+    AccountLinks:{
+        borderWidth:0,
+        paddingLeft:viewportWidth*0.01,
+        marginTop:viewportWidth*0.03
+    }
 
 
 });

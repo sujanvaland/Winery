@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import StoreMapView from './StoreMapView';
+import StoreMapStartView from './StoreMapStartView';
 import { connect } from 'react-redux';
 import { BackHandler } from 'react-native';
 import * as accountActions from 'app/actions/accountActions';
 import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
-class StoreMapContainer extends Component {
+class StoreMapStartContainer extends Component {
   constructor(props) {
     super(props);
   }
@@ -44,12 +44,9 @@ class StoreMapContainer extends Component {
   navigateToStoreListing = () => {
     navigationActions.navigateToStoreListing();
   }
-  navigateToStoreMapStart = () => {
-    navigationActions.navigateToStoreMapStart();
-  }
 
   render() {
-    return <StoreMapView {...this.props} StoreListing={this.navigateToStoreListing} StoreMapStart={this.navigateToStoreMapStart} />;
+    return <StoreMapStartView {...this.props} StoreListing={this.navigateToStoreListing} />;
   }
 }
 
@@ -75,4 +72,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(StoreMapContainer);
+)(StoreMapStartContainer);

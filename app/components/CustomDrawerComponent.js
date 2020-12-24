@@ -5,7 +5,7 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 import * as navigationActions from '../actions/navigationActions';
 import Styles from '../config/styles';
 const { color, Typography } = Styles;
-
+ 
 import { DrawerItems } from 'react-navigation-drawer';
 import NavStyles from '../navigation/NavigationStyle';
 import AsyncStorage from '@react-native-community/async-storage';

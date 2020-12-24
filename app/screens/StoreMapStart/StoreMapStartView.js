@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, ToastAndroid } from 'react-native';
-import StoreMapStyles from './StoreMapStyles';
+import StoreMapStartStyles from './StoreMapStartStyles';
 import PropTypes from 'prop-types';
 import {Picker} from '@react-native-picker/picker';
 import { Dimensions, StyleSheet } from 'react-native';
@@ -17,7 +17,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
 
-class StoreMapView extends Component {
+class StoreMapStartView extends Component {
   constructor(props) {
     super(props);
     
@@ -120,9 +120,6 @@ class StoreMapView extends Component {
   navigateToStoreListing = () => {
     this.props.StoreListing();
   }
-  navigateToStoreMapStart = () => {
-    this.props.StoreMapStart();
-  }
 
   getWineTypeByUserType = (UserTypeId) =>{
     // this.setState({isRouteVisible:false});
@@ -190,13 +187,13 @@ class StoreMapView extends Component {
     // console.log("--------LATITUDE,LONGITUDE------");
     
     return (
-      <View style={StoreMapStyles.InnerContainer}>
-        <View style={StoreMapStyles.SearchStore}>
-          <View style={StoreMapStyles.PickeBoxMain}>
-            <View style={StoreMapStyles.PickeBox}>
-              <Picker
+      <View style={StoreMapStartStyles.InnerContainer}>
+        <View style={StoreMapStartStyles.SearchStore}>
+          <View style={StoreMapStartStyles.PickeBoxMain}>
+            <View style={StoreMapStartStyles.PickeBox}>
+              {/* <Picker
                 selectedValue={this.state.userType}
-                style={StoreMapStyles.PickeElement}
+                style={StoreMapStartStyles.PickeElement}
                 textStyle={{fontSize:20}}
                 onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
                   <Picker.Item label="Select UserType" value="0" /> 
@@ -207,12 +204,12 @@ class StoreMapView extends Component {
                        );
                     })
                 }
-              </Picker>
+              </Picker> */}
             </View>
-            <View style={StoreMapStyles.PickeBox}>
+            <View style={StoreMapStartStyles.PickeBox}>
               <Picker
                 selectedValue={this.state.wineType}
-                style={StoreMapStyles.PickeElement}
+                style={StoreMapStartStyles.PickeElement}
                 onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
                   <Picker.Item label="Select WineType" value="0" /> 
                 {
@@ -227,7 +224,7 @@ class StoreMapView extends Component {
             </View>
           </View>
         </View>
-        <View style={StoreMapStyles.MapViewbox}>
+        <View style={StoreMapStartStyles.MapViewbox}>
           <MapView
             initialRegion={{
               latitude: LATITUDE,
@@ -266,11 +263,11 @@ class StoreMapView extends Component {
                   title={item.name} 
                   description={item.Description}>
                   <MapView.Callout>
-                    <View style={StoreMapStyles.MapPopup}>
-                      <Text style={StoreMapStyles.MapImageBox}>
-                        <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStyles.StoreImage} />
+                    <View style={StoreMapStartStyles.MapPopup}>
+                      <Text style={StoreMapStartStyles.MapImageBox}>
+                        <Image source={require('../../assets/img/imagebar.jpg')} resizeMode="cover" style={StoreMapStartStyles.StoreImage} />
                       </Text>
-                      <Text style={StoreMapStyles.StoreNameBox}>
+                      <Text style={StoreMapStartStyles.StoreNameBox}>
                       {item.name}{"\n"}{item.AddressLine1}{"\n"}{item.Email}{"\n"}{item.Mobile}{"/"}{item.PhoneNumber} 
                       </Text>
                     </View>
@@ -321,44 +318,44 @@ class StoreMapView extends Component {
             )} 
           </MapView>
         </View>
-        <View style={StoreMapStyles.BototmButton}>
-          <View style={StoreMapStyles.FlexBox}>
+        <View style={StoreMapStartStyles.BototmButton}>
+          <View style={StoreMapStartStyles.FlexBox}>
             {
-              <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.toggleModal} >
-                <Text style={StoreMapStyles.WhiteText}>Feedback</Text>
+              <TouchableOpacity style={StoreMapStartStyles.BtnFeedback} onPress={this.toggleModal} >
+                <Text style={StoreMapStartStyles.WhiteText}>Feedback</Text>
               </TouchableOpacity>
             }
             {
               this.state.showSelectWinerybtn &&
-              <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
-                <Text style={StoreMapStyles.WhiteText}>Select Winery</Text>
+              <TouchableOpacity style={StoreMapStartStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
+                <Text style={StoreMapStartStyles.WhiteText}>Select Winery</Text>
               </TouchableOpacity>
             }
           </View>
           {/* {
             this.state.showStartbtn && */}
-            <TouchableOpacity style={StoreMapStyles.BtnStart} onPress={() => this.navigateToStoreMapStart()}>
-              <Text style={StoreMapStyles.WhiteText}>Start</Text>
+            <TouchableOpacity style={StoreMapStartStyles.BtnStart} >
+              <Text style={StoreMapStartStyles.WhiteText}>Start</Text>
             </TouchableOpacity>
           {/* } */}
         </View>
 
-        <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
-          <View style={StoreMapStyles.FeedbackModal}>
-            <View style={StoreMapStyles.ModalHeader}>
-              <Text style={StoreMapStyles.ModalHeaderText}>Give Your Feedback</Text>
+        <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStartStyles.FeedbackModalMain}>
+          <View style={StoreMapStartStyles.FeedbackModal}>
+            <View style={StoreMapStartStyles.ModalHeader}>
+              <Text style={StoreMapStartStyles.ModalHeaderText}>Give Your Feedback</Text>
             </View>
             <View>
-              <View style={StoreMapStyles.PickerBox}>
+              <View style={StoreMapStartStyles.PickerBox}>
                 <Picker
-                  style={StoreMapStyles.PickeElementModal}
+                  style={StoreMapStartStyles.PickeElementModal}
                 >
                   <Picker.Item value="" label="Select Wines" />
                   <Picker.Item value="" label="Select" />
                 </Picker>
               </View>
-              <View style={StoreMapStyles.RatingBox}>
-                <Text style={StoreMapStyles.RatingBoxTitle}>Give Ratings</Text>
+              <View style={StoreMapStartStyles.RatingBox}>
+                <Text style={StoreMapStartStyles.RatingBoxTitle}>Give Ratings</Text>
                 <Rating
                   ratingCount={5}
                   imageSize={25}
@@ -367,18 +364,18 @@ class StoreMapView extends Component {
                   onFinishRating={this.ratingCompleted}
                 />
               </View>
-              <View style={StoreMapStyles.RatingBox}>
-                <Text style={StoreMapStyles.RatingBoxTitle}>Note</Text>
-                <TextInput style={StoreMapStyles.RatingBoxNotedesc}>
+              <View style={StoreMapStartStyles.RatingBox}>
+                <Text style={StoreMapStartStyles.RatingBoxTitle}>Note</Text>
+                <TextInput style={StoreMapStartStyles.RatingBoxNotedesc}>
 
                 </TextInput>
               </View>
-              <View style={StoreMapStyles.ModalButtonArea}>
-                <TouchableOpacity style={StoreMapStyles.ModalButton}>
-                  <Text style={StoreMapStyles.ModalButtonText}>Submit</Text>
+              <View style={StoreMapStartStyles.ModalButtonArea}>
+                <TouchableOpacity style={StoreMapStartStyles.ModalButton}>
+                  <Text style={StoreMapStartStyles.ModalButtonText}>Submit</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.toggleModal} style={[StoreMapStyles.ModalButton, StoreMapStyles.ModalButtonSubmit]}>
-                  <Text style={StoreMapStyles.ModalButtonText}>Cancel</Text>
+                <TouchableOpacity onPress={this.toggleModal} style={[StoreMapStartStyles.ModalButton, StoreMapStartStyles.ModalButtonSubmit]}>
+                  <Text style={StoreMapStartStyles.ModalButtonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -395,8 +392,8 @@ class StoreMapView extends Component {
   }
 }
 
-StoreMapView.propTypes = {
+StoreMapStartView.propTypes = {
   onLogin: PropTypes.func
 };
 
-export default StoreMapView;
+export default StoreMapStartView;
