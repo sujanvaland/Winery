@@ -79,9 +79,10 @@ export function ongetWineriesWineTypeFailResponse(response) {
     };
 }
 
-export function insertTour() {
+export function insertTour(TourDetails) {
     return {
-        type: types.INSERTTOUR_REQUEST
+        type: types.INSERTTOUR_REQUEST,
+        TourDetails
     };
 }
 

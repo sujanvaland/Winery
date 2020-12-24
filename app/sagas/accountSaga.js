@@ -5,7 +5,7 @@ import {getAccountDetail,getAllUserType,getWineTypeByUserType,getWineeriesByWine
   getTourById,deleteTour,
   updatePersonalDetail,updateDeviceToken,changePassword,loadProfileImage} from 'app/api/methods/accountDetail';
 import * as navigationActions from 'app/actions/navigationActions';
-
+import AsyncStorage from '@react-native-community/async-storage';
 // Our worker Saga that loads filter
 
 function* getAccountDetailAsync(action) {
@@ -63,6 +63,8 @@ function* insertTourAsync(action) {
   if (response.status ==="True") {
       yield put(accountActions.oninsertTourResponse(response));
       yield put(loginActions.disableLoader({}));
+      _storeData("FeedbackData", "");
+      navigationActions.navigateToStoreMap();
   } else {
       yield put(accountActions.oninsertTourFailResponse(response));
       yield put(loginActions.disableLoader({}));
@@ -177,6 +179,27 @@ function* loadprofileimageAsync(action) {
       yield put(loginActions.disableLoader({}));
   }
 }
+
+const _storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+    return value;
+  } catch (error) {
+    // Error saving data
+    return null;
+  }
+};
+
+_retrieveData = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      return value
+    }
+  } catch (error) {
+    // Error retrieving data
+  }
+};
 
 export { 
   getAccountDetailAsync,

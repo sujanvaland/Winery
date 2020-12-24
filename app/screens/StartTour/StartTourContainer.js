@@ -52,7 +52,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    ongetRoute: (obj) => dispatch(accountActions.ongetRoute(obj))
+    ongetRoute: (obj) => dispatch(accountActions.ongetRoute(obj)),
+    insertTour: (FeedbackData) => dispatch(accountActions.insertTour(FeedbackData)),
   };
 }
 export default connect(
