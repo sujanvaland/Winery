@@ -1,5 +1,18 @@
 import Api from 'app/api';
 import ApiConstants from '../ApiConstants';
+import AsyncStorage from '@react-native-community/async-storage';
+
+retrieveData = async (key) => {
+  try {
+    //environment
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      return value
+    }
+  } catch (error) {
+    // Error retrieving data
+  }
+};
 
 export  function getAccountDetail(action) {
   return Api(
@@ -41,10 +54,26 @@ export function getWineeriesByWineType(action){
   );
 }
 
-export function insertTour(action){
+export async function insertTour(action){
+  let userId =  await retrieveData("customerguid");
+  var dateobj = new Date(); 
+  var isodate = dateobj.toISOString(); 
+  var strSplitDate = String(isodate).split('T');
+  var dateArray = strSplitDate[0].split('-');
+  var TimeArray = strSplitDate[1];
+  var newstrSplitTime = String(TimeArray).split('Z');
+  var newtimeArray = newstrSplitTime[0].split('.');
+  var newtimeArray = newtimeArray[0];
+  let TourDate = dateArray[0] + "-" + dateArray[1] + "-" + dateArray[2] + " " + newtimeArray;
+
   return Api(
     ApiConstants.INSERTTOUR,
-    action,
+    {
+      TourDate:TourDate,
+      UserId:userId,
+      CreatedById:userId,
+      TourDetails:action.TourDetails
+    },
     'post',
     null
   );

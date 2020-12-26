@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, ToastAndroid } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, ToastAndroid, Alert } from 'react-native';
 import StartTourStyles from './StartTourStyles';
 import PropTypes from 'prop-types';
 import {Picker} from '@react-native-picker/picker';
@@ -13,6 +13,7 @@ import { TextBoxElement, OverlayActivityIndicatorElement } from "../../component
 import { Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
+import * as navigationActions from 'app/actions/navigationActions';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -24,9 +25,16 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
 class StartTourView extends Component {
   constructor(props) {
     super(props);
+    let activedatetime = new Date();
+    let isodate = activedatetime.toISOString();
+    let startDatetimeFormat = this.getParsedDate(isodate);
     const { routewaypointslist } = this.props;
     // AirBnB's Office, and Apple Park
     this.state = {
+      sourceLatitude:40.740130,
+      sourceLongitude:-73.985440,
+      destinationLatitude:40.740130,
+      destinationLongitude:-73.985440,
       nextwineries: routewaypointslist,
       coordinates: [],
       destinationname:"",
@@ -37,11 +45,13 @@ class StartTourView extends Component {
       showsendfeedbackForm: false,
       isValidRating: true,
       isValidSendFeedback: true,
+      Max_Rating: 5,
       postSendFeedback: {
         WineryId: 0,
         Rating: 0,
-        Max_Rating: 5,
-        Feedback: ''
+        Feedback: '',
+        StartTime:startDatetimeFormat,
+        EndTime:''
       }
     };
 
@@ -52,6 +62,20 @@ class StartTourView extends Component {
     //Empty Star. You can also give the path from local
     this.Star_With_Border = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
   }
+
+  getParsedDate(strDate) {//get date formate
+    if (strDate != "") {
+        var strSplitDate = String(strDate).split('T');
+        var dateArray = strSplitDate[0].split('-');
+        var TimeArray = strSplitDate[1];
+        var newstrSplitTime = String(TimeArray).split('Z');
+        var newtimeArray = newstrSplitTime[0].split('.');
+        var newtimeArray = newtimeArray[0];
+        let date = dateArray[0] + "-" + dateArray[1] + "-" + dateArray[2] + " " + newtimeArray;
+        return date;
+    }
+    return "";
+}
 
   componentDidMount(){
     this.getCurrentLocation();
@@ -87,6 +111,11 @@ class StartTourView extends Component {
                   longitude: position.coords.longitude
               })
               await this.setState({coordinates:currentLoc});
+              //await this.setState({sourceLatitude:position.coords.latitude});
+              //await this.setState({sourceLongitude:position.coords.longitude});
+              //await this.setState({destinationLatitude:position.coords.latitude});
+              //await this.setState({destinationLongitude:position.coords.longitude});
+              
           },
           (error) => {
               console.warn(error.code, error.message);
@@ -101,11 +130,16 @@ class StartTourView extends Component {
   };
 
   _onCancelSendFeedbackForm = () => {
+    let activedatetime = new Date();
+    let isodate = activedatetime.toISOString();
+    let startDatetimeFormat = this.getParsedDate(isodate);
     this.setState({
       postSendFeedback: {
+        WineryId: 0,
         Rating: 0,
-        Max_Rating: 5,
-        Feedback: ''
+        Feedback: '',
+        StartTime:startDatetimeFormat,
+        EndTime:''
       }
     });
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -129,7 +163,7 @@ class StartTourView extends Component {
     if(destinationId > 0)
     {
       const { routewaypointslist } = this.props;
-      nextwineries = routewaypointslist.winerylist.filter(function(item){
+      let nextwineries = routewaypointslist.winerylist.filter(function(item){
         return (item.checked && item.Id==destinationId);
       });
 
@@ -138,13 +172,20 @@ class StartTourView extends Component {
         winerylist:obj,
         isRouteVisible:true
       }
-      console.log(nextwineries);
+      //console.log(nextwineries);
       this.setState({nextwineries: finalobj});
       this.setState({destination: destinationId,destinationname:nextwineries[0].Name,showNextbtn:true,showFinishbtn:true});
+      this.setState({destinationLatitude: parseFloat(nextwineries[0].Latitude)});
+      this.setState({destinationLongitude: parseFloat(nextwineries[0].Longitude)});
+
+      let activedatetime = new Date();
+      let isodate = activedatetime.toISOString();
+      let startDatetimeFormat = this.getParsedDate(isodate);
       this.setState(prevState => ({
         postSendFeedback: {                   // object that we want to update
           ...prevState.postSendFeedback, // keep all other key-value pairs
-          'WineryId': destinationId
+          'WineryId': destinationId,
+          'StartTime':startDatetimeFormat
         }
       }), function () {
       });
@@ -163,14 +204,19 @@ class StartTourView extends Component {
       }
 
       this.setState({nextwineries: finalobj});
-      this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:false});
+      this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:true});
+
+      let activedatetime = new Date();
+      let isodate = activedatetime.toISOString();
+      let startDatetimeFormat = this.getParsedDate(isodate);
       this.setState(prevState => ({
           postSendFeedback: {                   // object that we want to update
             ...prevState.postSendFeedback, // keep all other key-value pairs
             'WineryId': 0,
             'Rating': 0,
-            'Max_Rating': 5,
-            'Feedback': ''
+            'Feedback': '',
+            'StartTime':startDatetimeFormat,
+            'EndTime':''
           }
         }), function () {
       });
@@ -191,7 +237,7 @@ class StartTourView extends Component {
   validateSendFeedbackInputs = (fieldName) => {
     if (fieldName == "Feedback") {
       if (this.state.postSendFeedback.Feedback == "") {
-        this.setState({ isValidSendFeedback: false });
+        this.setState({ isValidSendFeedback: true });
       }
       else {
         this.setState({ isValidSendFeedback: true });
@@ -223,7 +269,7 @@ class StartTourView extends Component {
     }
 
     if (this.state.postSendFeedback.Feedback == '') {
-      isValidSendFeedback = false;
+      isValidSendFeedback = true;
     }
     else {
       isValidSendFeedback = true;
@@ -250,12 +296,14 @@ class StartTourView extends Component {
         if(FeedbackData)
         {
           FeedbackData=JSON.parse(FeedbackData);
+          let activedatetime = new Date();
+          let isodate = activedatetime.toISOString();
+          let endDatetimeFormat = this.getParsedDate(isodate);
           this.setState(prevState => ({
             postSendFeedback: {                   // object that we want to update
               ...prevState.postSendFeedback, // keep all other key-value pairs
               'SequenceOrder':parseInt(FeedbackData.length)+1,
-              'StartTime': "2012-12-05 14:00:00",
-              'EndTime': "2012-12-05 15:00:00"
+              'EndTime': endDatetimeFormat
             }
           }), function () {
             
@@ -264,7 +312,7 @@ class StartTourView extends Component {
             
             let destinationId=this.state.destination;
             const { routewaypointslist } = this.props;
-            nextwineries = routewaypointslist.winerylist.filter(function(item){
+            let nextwineries = routewaypointslist.winerylist.filter(function(item){
               return (item.checked && item.Id!=destinationId);
             });
 
@@ -275,30 +323,42 @@ class StartTourView extends Component {
             }
 
             this.setState({nextwineries: finalobj});
-            this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:false});
-
+            this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:true});
+            
+            let startDatetimeFormat = this.getParsedDate(isodate);
             this.setState({
               postSendFeedback: {
                 WineryId: 0,
                 Rating: 0,
-                Max_Rating: 5,
-                Feedback: ''
+                Feedback: '',
+                StartTime:startDatetimeFormat,
+                EndTime:''
               }
             });
 
             this.props.ongetRoute(finalobj);
+
+            let selectedwineryDetail = routewaypointslist.winerylist.filter(function(item){
+              return (item.checked && item.Id==destinationId);
+            });
+            this.setState({sourceLatitude: parseFloat(selectedwineryDetail[0].Latitude)});
+            this.setState({sourceLongitude: parseFloat(selectedwineryDetail[0].Longitude)});
+
             this.setState({ isModalVisible: false });
           });
           
         }
         else
         {
+          let activedatetime = new Date();
+          let isodate = activedatetime.toISOString();
+          let endDatetimeFormat = this.getParsedDate(isodate);
+
           this.setState(prevState => ({
             postSendFeedback: {                   // object that we want to update
               ...prevState.postSendFeedback, // keep all other key-value pairs
               'SequenceOrder':1,
-              'StartTime': "2012-12-05 14:00:00",
-              'EndTime': "2012-12-05 15:00:00"
+              'EndTime': endDatetimeFormat
             }
           }), function () {
 
@@ -307,7 +367,7 @@ class StartTourView extends Component {
 
             let destinationId=this.state.destination;
             const { routewaypointslist } = this.props;
-            nextwineries = routewaypointslist.winerylist.filter(function(item){
+            let nextwineries = routewaypointslist.winerylist.filter(function(item){
               return (item.checked && item.Id!=destinationId);
             });
 
@@ -318,23 +378,33 @@ class StartTourView extends Component {
             }
 
             this.setState({nextwineries: finalobj});
-            this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:false});
+            this.setState({destination: 0,destinationname:'',showNextbtn:false,showFinishbtn:true});
+            
+            let startDatetimeFormat = this.getParsedDate(isodate);
             this.setState({
               postSendFeedback: {
                 WineryId: 0,
                 Rating: 0,
-                Max_Rating: 5,
-                Feedback: ''
+                Feedback: '',
+                StartTime:startDatetimeFormat,
+                EndTime:''
               }
             });
 
             this.props.ongetRoute(finalobj);
+
+            let selectedwineryDetail = routewaypointslist.winerylist.filter(function(item){
+              return (item.checked && item.Id==destinationId);
+            });
+            this.setState({sourceLatitude: parseFloat(selectedwineryDetail[0].Latitude)});
+            this.setState({sourceLongitude: parseFloat(selectedwineryDetail[0].Longitude)});
+
             this.setState({ isModalVisible: false });
           });
           
         }
         
-        
+        console.log(FeedbackData);
       }
   };
 
@@ -359,31 +429,46 @@ class StartTourView extends Component {
   };
 
   _onFinishTour = async () => {
-      this._storeData("FeedbackData", "");
-      // let FeedbackData = await this._retrieveData("FeedbackData");
-      // if(FeedbackData)
-      // {
-      // }
+        Alert.alert(
+          "Finish Tour",
+          "Are you sure to finish this tour?",
+          [
+            { text: "Cancel", style: 'cancel' },
+            {
+              text: "Ok", onPress: () => {
+                this.setAsFinishTour();
+              }, style: 'destructive'
+            }
+          ],
+          { cancelable: false }
+        );
   };
+
+  setAsFinishTour = async () => {
+    let FeedbackData = await this._retrieveData("FeedbackData");
+    let AllFeedbackData=[];
+    if(FeedbackData)
+      {
+        AllFeedbackData=FeedbackData;
+      }
+    this.props.insertTour(AllFeedbackData);
+  }
   
   render() {
 
-    let LATITUDE = 40.740130;
-    let LONGITUDE = -73.985440;
-    // if(this.state.coordinates.length > 0){
-    //   LATITUDE = this.state.coordinates[0].latitude;
-    //   LONGITUDE = this.state.coordinates[0].longitude;
-    // }
-
-    // console.log("--------LATITUDE,LONGITUDE------");
+    let sourceLatitude = this.state.sourceLatitude;
+    let sourceLongitude = this.state.sourceLongitude;
+    let destinationLatitude = this.state.destinationLatitude;
+    let destinationLongitude = this.state.destinationLongitude;
+    
 
     const { routewaypointslist } = this.props;
     let destinationDropdown = [];
     let wineries = this.state.nextwineries;
     let waypoints = [
       {
-        latitude: parseFloat(LATITUDE),
-        longitude: parseFloat(LONGITUDE),
+        latitude: parseFloat(sourceLatitude),
+        longitude: parseFloat(sourceLongitude),
       }
     ];
 
@@ -411,7 +496,7 @@ class StartTourView extends Component {
 
     let React_Native_Rating_Bar = [];
     //Array to hold the filled or empty Stars
-    for (var i = 1; i <= this.state.postSendFeedback.Max_Rating; i++) {
+    for (var i = 1; i <= this.state.Max_Rating; i++) {
       React_Native_Rating_Bar.push(
         <TouchableOpacity
           activeOpacity={0.7}
@@ -436,7 +521,7 @@ class StartTourView extends Component {
             <View style={StartTourStyles.PickeBox}>
               <TextBoxElement
                 placeholder={"Source"}
-                value={LATITUDE.toString()}
+                value={sourceLatitude.toString()}
                 autoCapitalize={'none'}
                 style={StartTourStyles.TextBox}
               />
@@ -462,8 +547,8 @@ class StartTourView extends Component {
         <View style={StartTourStyles.MapViewbox}>
           <MapView
             initialRegion={{
-              latitude: LATITUDE,
-              longitude: LONGITUDE,
+              latitude: sourceLatitude,
+              longitude: sourceLongitude,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             }}
@@ -475,8 +560,8 @@ class StartTourView extends Component {
             <MapView.Marker
                 key={`coordinate_0`} 
                 coordinate={{
-                  latitude: parseFloat(LATITUDE),
-                  longitude: parseFloat(LONGITUDE),
+                  latitude: parseFloat(sourceLatitude),
+                  longitude: parseFloat(sourceLongitude),
                 }}
                 image={require('../../assets/img/icons8-scooter-80.png')}
                 title="" 
@@ -513,13 +598,13 @@ class StartTourView extends Component {
             {(waypoints.length > 0) && (
               <MapViewDirections
                 origin={{
-                  latitude:LATITUDE,
-                  longitude:LONGITUDE
+                  latitude:sourceLatitude,
+                  longitude:sourceLongitude
                 }}
                 waypoints={waypoints}
                 destination={{
-                  latitude:LATITUDE,
-                  longitude:LONGITUDE
+                  latitude:destinationLatitude,
+                  longitude:destinationLongitude
                 }}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
