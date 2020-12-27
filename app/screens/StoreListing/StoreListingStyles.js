@@ -258,6 +258,7 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         height: 90,
+        paddingLeft:viewportWidth * 0.01,
         paddingTop: viewportWidth * 0.01
     },
     WineButton: {

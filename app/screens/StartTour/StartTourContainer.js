@@ -3,8 +3,6 @@ import StartTourView from './StartTourView';
 import { connect } from 'react-redux';
 import { BackHandler } from 'react-native';
 import * as accountActions from 'app/actions/accountActions';
-import * as loginActions from 'app/actions/loginActions';
-import * as navigationActions from 'app/actions/navigationActions';
 
 class StartTourContainer extends Component {
   constructor(props) {

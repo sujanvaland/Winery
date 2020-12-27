@@ -151,7 +151,7 @@ const StoreListingApp = createStackNavigator({
         screen: StoreListing,
         navigationOptions: ({ navigation }) => {
             return {
-                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Listing" />,
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Select Wineries" />,
                 gestureEnabled: false
             }
         }
