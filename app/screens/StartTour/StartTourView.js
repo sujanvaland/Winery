@@ -4,24 +4,23 @@ import StartTourStyles from './StartTourStyles';
 import PropTypes from 'prop-types';
 import {Picker} from '@react-native-picker/picker';
 import { Dimensions, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView,{ Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import Geolocation from 'react-native-geolocation-service';
 import { TextBoxElement, OverlayActivityIndicatorElement } from "../../components";
 import { Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
-import * as navigationActions from 'app/actions/navigationActions';
-
+import PubNubReact from 'pubnub-react';
 const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
 
+const ASPECT_RATIO = width / height;
+const LATITUDE = 40.740130;
+const LONGITUDE = -73.985440;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
-
 class StartTourView extends Component {
   constructor(props) {
     super(props);
@@ -31,10 +30,14 @@ class StartTourView extends Component {
     const { routewaypointslist } = this.props;
     // AirBnB's Office, and Apple Park
     this.state = {
-      sourceLatitude:40.740130,
-      sourceLongitude:-73.985440,
-      destinationLatitude:40.740130,
-      destinationLongitude:-73.985440,
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      coordinate: new AnimatedRegion({
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+      }),
       nextwineries: routewaypointslist,
       coordinates: [],
       destinationname:"",
@@ -52,8 +55,14 @@ class StartTourView extends Component {
         Feedback: '',
         StartTime:startDatetimeFormat,
         EndTime:''
-      }
+      },
     };
+
+    this.pubnub = new PubNubReact({
+      publishKey: 'pub-c-a11ae9c3-f832-4bff-b6e8-f4e12a48d85d',
+      subscribeKey: 'sub-c-340365d8-3c93-11eb-a73a-1eec528e8f1f',
+    });
+    this.pubnub.init(this);
 
     this.mapView = null;
      
@@ -79,6 +88,7 @@ class StartTourView extends Component {
 
   componentDidMount(){
     this.getCurrentLocation();
+    this.watchLocation();
     // const { routewaypointslist } = this.props;
     // console.log(routewaypointslist);
     // if(routewaypointslist){
@@ -88,6 +98,23 @@ class StartTourView extends Component {
     //   this.setState({isRouteVisible:true});
     //   this.setState({routewaypointslist:wineries});
     // }
+     
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.latitude !== prevState.latitude) {
+      this.pubnub.publish({
+        message: {
+          latitude: this.state.latitude,
+          longitude: this.state.longitude,
+        },
+        channel: 'location',
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    Geolocation.clearWatch(this.watchID);
   }
 
   async getCurrentLocation(){
@@ -111,8 +138,8 @@ class StartTourView extends Component {
                   longitude: position.coords.longitude
               })
               await this.setState({coordinates:currentLoc});
-              //await this.setState({sourceLatitude:position.coords.latitude});
-              //await this.setState({sourceLongitude:position.coords.longitude});
+              await this.setState({latitude:position.coords.latitude});
+              await this.setState({longitude:position.coords.longitude});
               //await this.setState({destinationLatitude:position.coords.latitude});
               //await this.setState({destinationLongitude:position.coords.longitude});
               
@@ -124,6 +151,40 @@ class StartTourView extends Component {
       )
     }
   }
+
+  
+  watchLocation = () => {
+    const { coordinate } = this.state;
+    this.watchID = Geolocation.watchPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        const newCoordinate = {
+          latitude,
+          longitude,
+        };
+        console.log(newCoordinate);
+        if (Platform.OS === 'android') {
+          if (this.marker) {
+            this.marker._component.animateMarkerToCoordinate(newCoordinate, 500); // 500 is the duration to animate the marker
+          }
+        } else {
+          coordinate.timing(newCoordinate).start();
+        }
+
+        this.setState({
+          latitude,
+          longitude,
+        });
+      },
+      error => console.log(error),
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+        distanceFilter: 30,
+      }
+    );
+  };
 
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -341,8 +402,8 @@ class StartTourView extends Component {
             let selectedwineryDetail = routewaypointslist.winerylist.filter(function(item){
               return (item.checked && item.Id==destinationId);
             });
-            this.setState({sourceLatitude: parseFloat(selectedwineryDetail[0].Latitude)});
-            this.setState({sourceLongitude: parseFloat(selectedwineryDetail[0].Longitude)});
+            this.setState({latitude: parseFloat(selectedwineryDetail[0].Latitude)});
+            this.setState({longitude: parseFloat(selectedwineryDetail[0].Longitude)});
 
             this.setState({ isModalVisible: false });
           });
@@ -396,8 +457,8 @@ class StartTourView extends Component {
             let selectedwineryDetail = routewaypointslist.winerylist.filter(function(item){
               return (item.checked && item.Id==destinationId);
             });
-            this.setState({sourceLatitude: parseFloat(selectedwineryDetail[0].Latitude)});
-            this.setState({sourceLongitude: parseFloat(selectedwineryDetail[0].Longitude)});
+            this.setState({latitude: parseFloat(selectedwineryDetail[0].Latitude)});
+            this.setState({longitude: parseFloat(selectedwineryDetail[0].Longitude)});
 
             this.setState({ isModalVisible: false });
           });
@@ -456,8 +517,8 @@ class StartTourView extends Component {
   
   render() {
 
-    let sourceLatitude = this.state.sourceLatitude;
-    let sourceLongitude = this.state.sourceLongitude;
+    let sourceLatitude = this.state.latitude;
+    let sourceLongitude = this.state.longitude;
     let destinationLatitude = this.state.destinationLatitude;
     let destinationLongitude = this.state.destinationLongitude;
     
@@ -552,12 +613,13 @@ class StartTourView extends Component {
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             }}
+            showUserLocation followUserLocation loadingEnabled
             style={StyleSheet.absoluteFill}
             ref={c => this.mapView = c}
             onPress={this.onMapPress}
           >
             {/* Marker for current Location */}
-            <MapView.Marker
+            <Marker.Animated
                 key={`coordinate_0`} 
                 coordinate={{
                   latitude: parseFloat(sourceLatitude),
@@ -565,13 +627,11 @@ class StartTourView extends Component {
                 }}
                 image={require('../../assets/img/icons8-scooter-80.png')}
                 title="" 
-                description="">
-            </MapView.Marker>
-
-            {/* Markers for Winery Store */}
+                description=""/>
             { wineries.map((item, index) =>{
                 //console.log(item);
-                return(<MapView.Marker
+                return(
+                  <Marker.Animated
                   key={`coordinate_${index}`} 
                   coordinate={{
                     latitude: parseFloat(item.Latitude),
@@ -589,7 +649,7 @@ class StartTourView extends Component {
                       </Text>
                     </View>
                   </MapView.Callout>
-                </MapView.Marker>);
+                </Marker.Animated>);
               }
               )
             }

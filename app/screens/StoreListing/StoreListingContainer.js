@@ -35,7 +35,8 @@ function mapStateToProps(state) {
   return {
     loading: state.loadingReducer,
     login_token: state.loginReducer.login_token,
-    wineriesbywinetype:state.accountReducer.wineriesbywinetype
+    wineriesbywinetype:state.accountReducer.wineriesbywinetype,
+    routewaypointslist:state.accountReducer.routewaypointslist
   };
 }
 function mapDispatchToProps(dispatch) {

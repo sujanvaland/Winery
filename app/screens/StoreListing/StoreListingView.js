@@ -79,21 +79,42 @@ class StoreListingView extends Component {
     newArray[elementsIndex] = {...newArray[elementsIndex], checked: !newArray[elementsIndex].checked};
     this.setState({
       winerylist: newArray,
-    });
+    }
+    // ,()=>{
+    //   let checked_winery_length = this.state.winerylist.filter(function(item){
+    //     return item.checked;
+    //   }).length;
+  
+    //   if(checked_winery_length > 0)
+    //   {
+    //     let obj=this.state.winerylist;
+    //     let finalobj={
+    //       winerylist:obj,
+    //       isRouteVisible:true
+    //     }
+    //     this.props.ongetRoute(finalobj);
+    //   }
+    // }
+    );
   }
-
+ 
   render() {
     const { button } = Resource_EN;
+    const { routewaypointslist } = this.props;
+
     return (
       <View style={StoreListingStyles.InnerContainer}>
         <ScrollView>
           <View>
             { this.state.winerylist.length > 0 &&
               this.state.winerylist.map((item, index) =>{
+                // let CheckedItem = [];
+                // CheckedItem = routewaypointslist?.winerylist?.filter(x=>x.Id == item.Id && x.checked);
+                //console.log(CheckedItem);
                 return (<View key={index} style={StoreListingStyles.WineListBox}>
                   <View style={StoreListingStyles.flexBox}>
                     <View style={StoreListingStyles.WineImage}>
-                      <Image source={require('../../assets/img/img_bottle.jpg')} resizeMode="contain" style={StoreListingStyles.BottoleImage} />
+                      <Image source={require('../../assets/img/wine-ecommerce-hero.jpg')} resizeMode="contain" style={StoreListingStyles.BottoleImage} />
                     </View>
                     <View style={StoreListingStyles.WineTextDetail}>
                       <Text style={StoreListingStyles.WineTexBottle}>{item.name}</Text>
@@ -105,11 +126,30 @@ class StoreListingView extends Component {
                     </View>
                   </View>
                   <View style={StoreListingStyles.WineButton}>
-                    <CheckBox
+                    {/* {
+                      CheckedItem && CheckedItem.length > 0 &&
+                      <CheckBox
+                      key={item.Id}
+                      title={item.name}
+                      checked={CheckedItem[0].checked}
+                      onPress={() => this.toggleCheckbox(item.Id)} />
+                    }
+                    {
+                      CheckedItem == null &&
+                      <CheckBox
                       key={item.Id}
                       title={item.name}
                       checked={item.checked}
                       onPress={() => this.toggleCheckbox(item.Id)} />
+                    }
+                    {
+                      CheckedItem && CheckedItem.length == 0 && */}
+                      <CheckBox
+                      key={item.Id}
+                      title={item.name}
+                      checked={item.checked}
+                      onPress={() => this.toggleCheckbox(item.Id)} />
+                    {/* } */}
                   </View>
                 </View>)
               })

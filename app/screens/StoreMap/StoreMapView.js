@@ -20,27 +20,7 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
 class StoreMapView extends Component {
   constructor(props) {
     super(props);
-    
-    // AirBnB's Office, and Apple Park
     this.state = {
-      // coordinates: [
-      //   {
-      //     latitude: 22.253214,
-      //     longitude: 73.214607,
-      //   },
-      //   {
-      //     latitude: 22.307838,
-      //     longitude: 73.181553,
-      //   },
-      //   {
-      //     latitude: 22.311713,
-      //     longitude: 73.138204,
-      //   },
-      //   {
-      //     latitude: 22.326322,
-      //     longitude: 73.226840
-      //   }
-      // ],
       coordinates: [],
       userType:0,
       wineType:0,
@@ -49,8 +29,6 @@ class StoreMapView extends Component {
       showStartbtn:false,
       isSelected: false,
       isModalVisible: false,
-      // isRouteVisible:false,
-      // routewaypointslist:[]
     };
 
     this.mapView = null;
@@ -58,15 +36,6 @@ class StoreMapView extends Component {
 
   componentDidMount(){
     this.getCurrentLocation();
-    // const { routewaypointslist } = this.props;
-    // console.log(routewaypointslist);
-    // if(routewaypointslist){
-    //   let wineries = routewaypointslist.winerylist.filter(function(item){
-    //     return item.checked;
-    //   });
-    //   this.setState({isRouteVisible:true});
-    //   this.setState({routewaypointslist:wineries});
-    // }
   }
 
   async getCurrentLocation(){
@@ -94,7 +63,7 @@ class StoreMapView extends Component {
           (error) => {
               console.warn(error.code, error.message);
           },
-          {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+          {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
       )
     }
   }
@@ -244,7 +213,7 @@ class StoreMapView extends Component {
             onPress={this.onMapPress}
           >
             {/* Marker for current Location */}
-            { (this.state.userType == 0 || this.state.wineType == 0) &&
+            {/* { (this.state.userType == 0 || this.state.wineType == 0) && */}
               <MapView.Marker
                 key={`coordinate_0`} 
                 coordinate={{
@@ -255,7 +224,7 @@ class StoreMapView extends Component {
                 title="" 
                 description="">
               </MapView.Marker>
-            }
+            {/* } */}
 
             {/* Markers for Winery Store */}
             { this.state.userType > 0 && this.state.wineType > 0 &&
@@ -308,7 +277,7 @@ class StoreMapView extends Component {
                 onReady={result => {
                   console.log(`Distance: ${result.distance} km`)
                   console.log(`Duration: ${result.duration} min.`)
-
+                  console.log(result);
                   this.mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
                       right: (width / 20),

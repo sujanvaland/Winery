@@ -65,7 +65,7 @@ export async function insertTour(action){
   var newtimeArray = newstrSplitTime[0].split('.');
   var newtimeArray = newtimeArray[0];
   let TourDate = dateArray[0] + "-" + dateArray[1] + "-" + dateArray[2] + " " + newtimeArray;
-
+ 
   return Api(
     ApiConstants.INSERTTOUR,
     {
