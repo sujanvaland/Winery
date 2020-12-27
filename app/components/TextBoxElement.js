@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
       },
       android: {
         // marginBottom: viewportWidth * 0.042,
-        paddingLeft: viewportWidth * 0.035,
+        paddingLeft: 0,
         paddingRight: viewportWidth * 0.05,
         paddingTop: viewportWidth * 0.014,
         paddingBottom: viewportWidth * 0.01,

@@ -68,7 +68,8 @@ const NavStyles = StyleSheet.create({
     LogoutBtnText: {
         marginLeft: viewportWidth * 0.08,
         color: '#ffffff',
-        fontFamily: Typography.FONT_BOLD
+        fontFamily: Typography.FONT_BOLD,
+        fontWeight: 'bold'
     },
     LeftMenuarea: {
         height: viewportHeight,
@@ -80,8 +81,8 @@ const NavStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         borderWidth: 0,
-        paddingLeft: viewportWidth * 0.035,      
-       
+        paddingLeft: viewportWidth * 0.035,
+
     },
     SafeAeaMenu: {
         borderWidth: 0,
@@ -96,10 +97,11 @@ const NavStyles = StyleSheet.create({
         margin: 0, opacity: 0.6,
 
     },
-    AccountLinks:{
-        borderWidth:0,
-        paddingLeft:viewportWidth*0.01,
-        marginTop:viewportWidth*0.03
+    AccountLinks: {
+        borderWidth: 0,
+        paddingLeft: viewportWidth * 0.01,
+        marginTop: viewportWidth * 0.03,
+        fontWeight: 'bold'
     }
 
 

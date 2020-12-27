@@ -6,6 +6,7 @@ import { Dimensions, ColorPropType } from 'react-native';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const AppStyles = {
     color: {
+
         COLOR_PRIMARY: '#67024e',
         COLOR_SECONDARY: '#111',
         COLOR_WHITE: '#FFFFFF',
@@ -31,7 +32,7 @@ const AppStyles = {
         COLOR_INNERTITLE: '#353535',
         COLOR_LEVELCOLOR: '#dedede',
         COLOR_MENUTOP: '#f5f5f5',
-        COLOR_TEXTCOLOR: '#af79a2'
+        COLOR_TEXTCOLOR: '#ffffff'
 
 
 

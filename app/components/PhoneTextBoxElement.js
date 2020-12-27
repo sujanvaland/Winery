@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
       },
       android: {
         marginBottom: viewportWidth * 0,
-        paddingLeft: viewportWidth * 0.035,
-        paddingRight: viewportWidth * 0.0,
+        paddingLeft: viewportWidth * 0.0,
+        paddingRight: 0,
         paddingTop: viewportWidth * 0.014,
         paddingBottom: viewportWidth * 0.01,
         fontSize: Typography.FONT_SIZE14,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
       },
       android: {
         marginBottom: viewportWidth * 0,
-        paddingLeft: viewportWidth * 0.035,
+        paddingLeft: 0,
         paddingRight: viewportWidth * 0.0,
         paddingTop: viewportWidth * 0.014,
         paddingBottom: viewportWidth * 0.01,

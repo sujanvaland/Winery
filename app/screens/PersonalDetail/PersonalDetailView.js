@@ -35,6 +35,10 @@ class PersonalDetailView extends Component {
     navigationActions.navigateToAboutus();
   }
 
+  navigateToEditProfile = () => {
+    navigationActions.navigateToEditProfile();
+  }
+
 
   render() {
 
@@ -64,7 +68,7 @@ class PersonalDetailView extends Component {
             </View>
             <View style={[PersonalDetailstyles.ContainerMargin]}>
               <View style={PersonalDetailstyles.WhiteBox}>
-                <TouchableOpacity style={PersonalDetailstyles.btnEditProfile}>
+                <TouchableOpacity style={PersonalDetailstyles.btnEditProfile} onPress={() => this.navigateToEditProfile()}>
                   <Image source={require('../../assets/img/icon_contactedit.png')} resizeMode="contain" style={[PersonalDetailstyles.ProfileEdit, PersonalDetailstyles.ProfileEditSmall]} />
                 </TouchableOpacity>
                 <View style={PersonalDetailstyles.ProfileContactdetal}>
@@ -79,50 +83,6 @@ class PersonalDetailView extends Component {
                   <Image source={require('../../assets/img/icon_address.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
                   <Text style={[PersonalDetailstyles.EmailTex, globalStyles.FontRegular]}>Av. Angamos 8142</Text>
                 </View>
-
-                <View style={PersonalDetailstyles.CarBbox}>
-                  <Text style={PersonalDetailstyles.CardTitle, globalStyles.FontBold}>Plan Gold</Text>
-                  <Text style={PersonalDetailstyles.CardNumber}>01-03-2020 to 01-04-2020</Text>
-                </View>
-              </View>
-            </View>
-            <View style={[PersonalDetailstyles.FullWidthTitleBack]}>
-              <View style={[PersonalDetailstyles.InnerTitle, PersonalDetailstyles.MarTopzero]}>
-                <View style={PersonalDetailstyles.CustomerFeedLeft}>
-                  <Image source={require('../../assets/images/icon_calendar.png')} resizeMode="contain" style={PersonalDetailstyles.InnerTitleIcon} />
-                  <Text style={PersonalDetailstyles.InnerTitleText}>Health Profile</Text>
-                </View>
-                <TouchableOpacity style={PersonalDetailstyles.AddBtn}>
-                  <Text style={PersonalDetailstyles.AddBtnText}>+ Add</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={PersonalDetailstyles.Spacer}></View>
-            <View style={[PersonalDetailstyles.FullWidthTitleBack, PersonalDetailstyles.PadTop5]}>
-              <View style={[PersonalDetailstyles.InnerTitle, PersonalDetailstyles.MarTopzero]}>
-                <View style={PersonalDetailstyles.CustomerFeedLeft}>
-
-                  <Image source={require('../../assets/images/icon_calendar.png')} resizeMode="contain" style={PersonalDetailstyles.InnerTitleIcon} />
-                  <View>
-                    <Text style={[PersonalDetailstyles.InnerTitleText, PersonalDetailstyles.FullwidthBox]}>Commnets</Text>
-                    <Text style={[PersonalDetailstyles.ResultText, PersonalDetailstyles.Fnt12]}>211 Result</Text>
-                  </View>
-                </View>
-                <TouchableOpacity style={PersonalDetailstyles.AddBtn}>
-                  <Text style={PersonalDetailstyles.AddBtnText}>+ Add</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={[PersonalDetailstyles.ContainerMargin]}>
-
-              <View style={PersonalDetailstyles.WhiteBox}>
-                <Text style={PersonalDetailstyles.EventTitle}>Coordinator name: Frank Doe
-</Text>
-                <Text style={PersonalDetailstyles.EventLocation}>Exercise and physical activity can be classified into
-                four categories: endurance, strength, flexibility,
-and balance.</Text>
-                <Text style={PersonalDetailstyles.DateText}>Morning 09/11/2020</Text>
               </View>
             </View>
           </View>

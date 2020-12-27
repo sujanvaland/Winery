@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { Image, View, Text, StyleSheet, Dimensions, ImageBackground, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
+import { Image, View, Text, StyleSheet, Dimensions, ImageEditProfileground, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { createDrawerNavigator, DrawerItems, DrawerActions } from 'react-navigation-drawer';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,6 +26,7 @@ import StoreMap from 'app/screens/StoreMap';
 import StoreMapStart from 'app/screens/StoreMapStart';
 import StartTour from 'app/screens/StartTour';
 import Verifyotp from 'app/screens/Verifyotp';
+import EditProfile from 'app/screens/EditProfile';
 
 
 const customDrawer = (props) => (
@@ -37,10 +38,10 @@ const customDrawer = (props) => (
             </View>
             <View>
                 <DrawerItems {...props} />
-               
+
             </View>
             <View style={NavStyles.AccountLinks}>
-            <CustomDrawerComponent />
+                <CustomDrawerComponent />
             </View>
         </SafeAreaView>
     </View>
@@ -61,9 +62,9 @@ const LoginApp = createStackNavigator({
         screen: Signup,
         navigationOptions: ({ navigation }) => {
             return {
-                // header: () => <HeaderComponent iname={"ios-arrow-back"}
+                // header: () => <HeaderComponent iname={"ios-arrow-EditProfile"}
                 headerShown: false,
-                //  back={true} navigation={navigation} />,
+                //  EditProfile={true} navigation={navigation} />,
                 gestureEnabled: false
             }
         }
@@ -72,7 +73,7 @@ const LoginApp = createStackNavigator({
         screen: Forgotpassword,
         navigationOptions: ({ navigation }) => {
             return {
-                //  header: () => <HeaderComponent iname={"ios-arrow-back"}
+                //  header: () => <HeaderComponent iname={"ios-arrow-EditProfile"}
                 //   title={"Forgot Password"}
                 // back={true} navigation={navigation} />,
                 headerShown: false,
@@ -114,6 +115,17 @@ const MyProfileApp = createStackNavigator({
             return {
                 header: () => (
                     <HeaderComponent navigation={navigation} user={false} menu={true} title="Winary" pagetitle={true} />
+                ),
+                gestureEnabled: true,
+            };
+        },
+    },
+    EditProfile: {
+        screen: EditProfile,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => (
+                    <HeaderComponent navigation={navigation} user={false} backbutton={true} menu={false} title="Edit Profile" pagetitle={true} />
                 ),
                 gestureEnabled: true,
             };
@@ -271,14 +283,14 @@ const RNApp = createDrawerNavigator(
 
 export default createAppContainer(
     createSwitchNavigator(
-      {
-        AuthLoading: AuthLoadingScreen,
-        App: RNApp,
-        Auth: LoginApp,
-      },
-      {
-        initialRouteName: 'AuthLoading',
-      }
+        {
+            AuthLoading: AuthLoadingScreen,
+            App: RNApp,
+            Auth: LoginApp,
+        },
+        {
+            initialRouteName: 'AuthLoading',
+        }
     )
 );
 

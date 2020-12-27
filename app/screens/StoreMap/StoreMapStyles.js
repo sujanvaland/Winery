@@ -6,15 +6,15 @@ const { color, Typography } = Styles;
 const StoreListingStyles = StyleSheet.create({
     InnerContainer: {
 
-        height: viewportHeight-viewportWidth*0.21,
+        height: viewportHeight - viewportWidth * 0.21,
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        borderWidth:0,
-        position:'relative',
-        borderColor:'red'
+        borderWidth: 0,
+        position: 'relative',
+        borderColor: 'red'
     },
     container: {
         flex: 1,
@@ -285,7 +285,7 @@ const StoreListingStyles = StyleSheet.create({
         fontSize: viewportWidth * 0.03
     },
     SearchStore: {
-        backgroundColor: color.COLOR_PRIMARY,
+        //backgroundColor: color.COLOR_PRIMARY,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -293,6 +293,8 @@ const StoreListingStyles = StyleSheet.create({
         paddingHorizontal: viewportWidth * 0.020,
         paddingVertical: viewportWidth * 0.02,
         paddingBottom: viewportWidth * 0.04,
+        position: 'absolute',
+        zIndex: 9999
 
     },
     CheckBoxText: {
@@ -316,11 +318,16 @@ const StoreListingStyles = StyleSheet.create({
     PickeBox: {
         width: '48%',
         borderBottomWidth: 1,
-        borderBottomColor: '#c670b1'
+        borderBottomColor: '#c670b1',
+        backgroundColor: color.COLOR_WHITE,
+        borderRadius: 50,
+        paddingLeft: viewportWidth * 0.02,
+        paddingRight: 0,
     },
     PickeElement: {
-        color: '#ffffff',
-        fontSize:viewportWidth*0.03
+        color: '#000',
+        fontSize: viewportWidth * 0.03,
+        paddingRight: 0,
     },
     MapPopup: {
         backgroundColor: '#ffffff',
@@ -365,10 +372,10 @@ const StoreListingStyles = StyleSheet.create({
     },
     MapViewbox: {
         width: viewportWidth,
-        height: viewportHeight - viewportWidth * 0.4,
+        height: viewportHeight - viewportWidth * 0.2,
         borderWidth: 0,
-        position:'relative',
-        zIndex:1,
+        position: 'relative',
+        zIndex: 1,
 
     },
     BototmButton: {
@@ -381,10 +388,10 @@ const StoreListingStyles = StyleSheet.create({
         paddingTop: 0,
         paddingHorizontal: viewportWidth * 0.05,
         width: viewportWidth,
-        position:'absolute',
-        bottom:0,
-        zIndex:9999
-       
+        position: 'absolute',
+        bottom: 0,
+        zIndex: 9999
+
 
     },
     FlexBox: {
@@ -402,7 +409,7 @@ const StoreListingStyles = StyleSheet.create({
         paddingTop: viewportWidth * 0.020,
         paddingHorizontal: viewportWidth * 0.05,
         borderRadius: viewportWidth * 0.3,
-        marginRight:viewportWidth*0.02
+        marginRight: viewportWidth * 0.02
     },
     WhiteText: {
         color: color.COLOR_WHITE

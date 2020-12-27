@@ -50,3 +50,7 @@ export function navigateToStartTour(params) {
 export function navigateToVerifyotp(params) {
     NavigationService.navigate('Verifyotp', params);
 }
+
+export function navigateToEditProfile(params) {
+    NavigationService.navigate('EditProfile', params);
+}

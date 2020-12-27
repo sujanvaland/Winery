@@ -175,7 +175,7 @@ class LoginView extends Component {
                     <Image style={loginStyles.lineImg} source={require('../../assets/img/line.png')} resizeMode="cover" />
                   </View>
                   <TextBoxElementLogin
-                    placeholder={"Username"}
+                    placeholder={"Email"}
                     value={username}
                     isvalidInput={this.props.loginresponse.ErrorMessage == "" || this.props.loginresponse.ErrorMessage == null}
                     autoCapitalize={'none'}

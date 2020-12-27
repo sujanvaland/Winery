@@ -252,7 +252,7 @@ const StoreListingStyles = StyleSheet.create({
         borderWidth: 0,
     },
     WineTextDetail: {
-        borderWidth:0,
+        borderWidth: 0,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -267,7 +267,8 @@ const StoreListingStyles = StyleSheet.create({
         alignItems: 'flex-end',
         borderWidth: 0,
         minWidth: viewportWidth * 0.09,
-        height: 80,
+        height: 40,
+        marginTop: viewportWidth * 0.05,
     },
     WinePrice: {
         fontSize: viewportWidth * 0.04,

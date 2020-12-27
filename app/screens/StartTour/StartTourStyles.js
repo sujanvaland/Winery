@@ -6,13 +6,16 @@ const { color, Typography } = Styles;
 const StoreListingStyles = StyleSheet.create({
     InnerContainer: {
 
-        height: viewportHeight,
+
+        height: viewportHeight - viewportWidth * 0.21,
         backgroundColor: color.COLOR_WHITE,
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderWidth: 0,
+        position: 'relative',
+        borderColor: 'red'
     },
     container: {
         flex: 1,
@@ -72,6 +75,7 @@ const StoreListingStyles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
     },
+
     loginBottom: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -85,6 +89,11 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: color.COLOR_WHITE
+    },
+    FeedbackFormBox: {
+        width: '100%',
+        borderWidth: 0,
+
     },
     loginBg: {
         position: "absolute",
@@ -122,6 +131,9 @@ const StoreListingStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
 
+    },
+    TextBox: {
+        color: '#000000'
     },
     lineImg: {
         height: viewportWidth * 0.07,
@@ -283,7 +295,7 @@ const StoreListingStyles = StyleSheet.create({
         fontSize: viewportWidth * 0.03
     },
     SearchStore: {
-        backgroundColor: color.COLOR_PRIMARY,
+        // backgroundColor: color.COLOR_PRIMARY,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -291,6 +303,8 @@ const StoreListingStyles = StyleSheet.create({
         paddingHorizontal: viewportWidth * 0.020,
         paddingVertical: viewportWidth * 0.02,
         paddingBottom: viewportWidth * 0.04,
+        position: 'absolute',
+        zIndex: 9999
 
     },
     CheckBoxText: {
@@ -313,11 +327,16 @@ const StoreListingStyles = StyleSheet.create({
     },
     PickeBox: {
         width: '48%',
-        borderBottomWidth: 1,
-        borderBottomColor: '#c670b1'
+        borderWidth: 0,
+        borderBottomColor: '#f2f2f2',
+        backgroundColor: color.COLOR_WHITE,
+        borderRadius: 50,
+        overflow: 'hidden',
+        paddingLeft: viewportWidth * 0.02,
+        paddingRight: 0,
     },
     PickeElement: {
-        color: '#c670b1',
+        color: '#000000',
     },
     MapPopup: {
         backgroundColor: '#ffffff',
@@ -362,7 +381,7 @@ const StoreListingStyles = StyleSheet.create({
     },
     MapViewbox: {
         width: viewportWidth,
-        height: viewportHeight - viewportWidth * 0.5,
+        height: viewportHeight - viewportWidth * 0.2,
         borderWidth: 0,
     },
     BototmButton: {
@@ -370,11 +389,14 @@ const StoreListingStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: color.COLOR_PRIMARY,
+        // backgroundColor: color.COLOR_PRIMARY,
         paddingVertical: viewportWidth * 0.06,
-        paddingTop: viewportWidth * 0.033,
+        paddingTop: 0,
         paddingHorizontal: viewportWidth * 0.05,
-        width: viewportWidth
+        width: viewportWidth,
+        position: 'absolute',
+        bottom: 0,
+        zIndex: 9999
 
     },
     FlexBox: {
@@ -391,7 +413,8 @@ const StoreListingStyles = StyleSheet.create({
         paddingVertical: viewportWidth * 0.025,
         paddingTop: viewportWidth * 0.020,
         paddingHorizontal: viewportWidth * 0.05,
-        borderRadius: viewportWidth * 0.3
+        borderRadius: viewportWidth * 0.3,
+        marginRight: viewportWidth * 0.02
     },
     WhiteText: {
         color: color.COLOR_WHITE
@@ -411,19 +434,33 @@ const StoreListingStyles = StyleSheet.create({
         height: viewportHeight,
         width: viewportWidth,
         marginHorizontal: 0,
-        paddingHorizontal: 0,
-        flex: 1,
+        paddingHorizontal: viewportWidth * 0.05,
+
+        borderWidth: 0,
+        // flex: 1,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
 
     },
+    FeedbackFormBoxMain: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: viewportWidth * 0.05,
+    },
     FeedbackModalMain: {
 
-        backgroundColor: color.COLOR_WHITE,
+        // backgroundColor: color.COLOR_WHITE,
         paddingVertical: 0,
         marginHorizontal: 0,
+    },
+    TextBoxcontainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#cccccc',
+
     },
     ModalHeader: {
         height: viewportWidth * 0.15,
@@ -449,11 +486,11 @@ const StoreListingStyles = StyleSheet.create({
         borderColor: '#cccccc'
     },
     PickeElementModal: {
-        height: 50,
+        height: 55,
     },
     RatingBox: {
-        borderWidth: 1,
-        width: viewportWidth,
+        borderBottomWidth: 1,
+        width: '100%',
         minHeight: 55,
         borderColor: '#cccccc',
         display: 'flex',
@@ -461,14 +498,28 @@ const StoreListingStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         borderTopWidth: 0,
         alignItems: 'flex-start',
-        paddingHorizontal: viewportWidth * 0.025,
+        paddingHorizontal: 0,
         paddingVertical: viewportWidth * 0.025,
+        paddingBottom: viewportWidth * 0.035,
+        marginBottom: 5,
     },
     RatingBoxNotedesc: {
-        height: viewportWidth * 0.2
+        height: viewportWidth * 0.2,
+        paddingLeft: 0,
+    },
+    RatingsBoxforRating: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start'
     },
     RatingBoxTitle: {
-        marginBottom: viewportWidth * 0.02
+        marginBottom: viewportWidth * 0.02,
+        fontWeight: 'bold'
+    },
+    RatingBoxTitleValue: {
+        fontWeight: 'normal',
+        marginBottom: 10,
     },
     ModalButtonArea: {
         marginTop: viewportWidth * 0.03,
@@ -497,9 +548,10 @@ const StoreListingStyles = StyleSheet.create({
         marginHorizontal: viewportWidth * 0.02
     },
     StarImageforRate: {
-        width: 40,
-        height: 40,
+        width: 25,
+        height: 25,
         resizeMode: 'cover',
+        marginHorizontal: viewportWidth * 0.002
     },
 
 
