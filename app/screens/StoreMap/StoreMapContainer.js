@@ -14,6 +14,8 @@ class StoreMapContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction () {
     // do some stuff on every screen focus
+    console.log('123');
+    _storeData("PreviousScreen", "StoreMap");
     const { getAllUserType } = this.props;
     getAllUserType();
   }
@@ -51,6 +53,16 @@ class StoreMapContainer extends Component {
   navigateToStoreMapStart = () => {
     navigationActions.navigateToStoreMapStart();
   }
+
+  _storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+      return value;
+    } catch (error) {
+      // Error saving data
+      return null;
+    }
+  };
 
   render() {
     return <StoreMapView {...this.props} StoreListing={this.navigateToStoreListing} StartTour={this.navigateToStartTour} />;

@@ -19,7 +19,6 @@ class CustomDrawerComponent extends Component {
         this.state = {
             hideMenu: true,
             login_token: ''
-
         };
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
@@ -47,8 +46,21 @@ class CustomDrawerComponent extends Component {
         navigationActions.navigateToLogin();
     }
 
+    navigateToLogout = () => {
+        this._storeData("login_token", "")
+        this._storeData("loginuser", "");
+        this._storeData("password", "");
+        this._storeData("customerguid", "");
+        this._storeData("customername", "");
+        navigationActions.navigateToStoreMap();
+    }
+
     navigateToMyProfile = () => {
-        navigationActions.navigateToMyProfile();
+        navigationActions.navigateToPersonalDetail();
+    }
+
+    navigateToChangePassword = () => {
+        navigationActions.navigateToChangePassword();
     }
 
     _storeData = async (key, value) => {
@@ -99,26 +111,54 @@ class CustomDrawerComponent extends Component {
         // const { navigate } = this.props.navigation;
         return (
             <View>
-                <TouchableOpacity onPress={() =>
-                                Alert.alert(
-                                    'Log out',
-                                    'Do you want to logout?',
-                                    [
-                                        { text: 'Cancel', onPress: () => { return null } },
-                                        {
-                                            text: 'Confirm', onPress: () => {
-                                                AsyncStorage.clear();
-                                                this.navigateToLogin();
-                                            }
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                )
-                            } style={NavStyles.LogoutBtn} >
+                {
+                    (this.state.login_token == '' || this.state.login_token == undefined) &&
+                    <View style={NavStyles.MyaccountBox}>
+                        <TouchableOpacity onPress={() => this.navigateToLogin()} style={NavStyles.LogoutBtn}>
+                            <Image source={require('../assets/img/icon_logoutmenu.png')} style={NavigationStyles.MenuIcon} />
+                            <Text style={NavStyles.LogoutBtnText}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
+                {
+                    this.state.login_token != '' && this.state.login_token != undefined &&
+                    <View>
+                        <View style={NavStyles.MyaccountBox}>
+                            <TouchableOpacity onPress={() => this.navigateToMyProfile()} style={NavStyles.LogoutBtn}>
+                                <Image source={require('../assets/img/icon_myprofile_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                                <Text style={NavStyles.LogoutBtnText}>My Profile</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={NavStyles.MyaccountBox}>
+                            <TouchableOpacity onPress={() => this.navigateToChangePassword()} style={NavStyles.LogoutBtn}>
+                                <Image source={require('../assets/img/icon_changepass.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                                <Text style={NavStyles.LogoutBtnText}>Change Password</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TouchableOpacity onPress={() =>
+                                            Alert.alert(
+                                                'Log out',
+                                                'Do you want to logout?',
+                                                [
+                                                    { text: 'Cancel', onPress: () => { return null } },
+                                                    {
+                                                        text: 'Confirm', onPress: () => {
+                                                            AsyncStorage.clear();
+                                                            this.navigateToLogout();
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        } style={NavStyles.LogoutBtn} >
 
-                    <Image source={require('../assets/img/icon_logoutmenu.png')} resizeMode="contain" style={NavStyles.LogoutMenuIcon} />
-                    <Text style={NavStyles.LogoutBtnText}>Logout</Text>
-                </TouchableOpacity>
+                                <Image source={require('../assets/img/icon_logoutmenu.png')} resizeMode="contain" style={NavStyles.LogoutMenuIcon} />
+                                <Text style={NavStyles.LogoutBtnText}>Logout</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                }
             </View>
         );
     }

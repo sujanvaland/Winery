@@ -54,3 +54,7 @@ export function navigateToVerifyotp(params) {
 export function navigateToEditProfile(params) {
     NavigationService.navigate('EditProfile', params);
 }
+
+export function navigateToPreviousScreen(screen,params) {
+    NavigationService.navigate(screen, params);
+}

@@ -12,6 +12,7 @@ class StartTourContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction () {
     // do some stuff on every screen focus
+    _storeData("PreviousScreen", "StartTour");
   }
   // and don't forget to remove the listener
   componentWillUnmount () {
@@ -36,6 +37,17 @@ class StartTourContainer extends Component {
           this.onFocusFunction();
         })
   }
+
+  _storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+      return value;
+    } catch (error) {
+      // Error saving data
+      return null;
+    }
+  };
+  
   render() {
     return <StartTourView {...this.props} />;
   }

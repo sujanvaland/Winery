@@ -13,6 +13,7 @@ import { Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
 import PubNubReact from 'pubnub-react';
+import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -32,6 +33,8 @@ class StartTourView extends Component {
     this.state = {
       latitude: LATITUDE,
       longitude: LONGITUDE,
+      destinationLatitude: LATITUDE,
+      destinationLongitude: LONGITUDE,
       coordinate: new AnimatedRegion({
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -140,8 +143,8 @@ class StartTourView extends Component {
           await this.setState({ coordinates: currentLoc });
           await this.setState({ latitude: position.coords.latitude });
           await this.setState({ longitude: position.coords.longitude });
-          //await this.setState({destinationLatitude:position.coords.latitude});
-          //await this.setState({destinationLongitude:position.coords.longitude});
+          await this.setState({destinationLatitude:position.coords.latitude});
+          await this.setState({destinationLongitude:position.coords.longitude});
 
         },
         (error) => {
@@ -502,6 +505,11 @@ class StartTourView extends Component {
   };
 
   setAsFinishTour = async () => {
+    const token = await AsyncStorage.getItem('login_token');
+    if (token == null || token == undefined || token == "") {
+        navigationActions.navigateToLogin();
+        return;
+    }
     let FeedbackData = await this._retrieveData("FeedbackData");
     let AllFeedbackData = [];
     if (FeedbackData) {

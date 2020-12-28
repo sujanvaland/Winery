@@ -16,6 +16,8 @@ import * as navigationActions from 'app/actions/navigationActions';
 // Our worker Saga that logins the user
 function* loginAsync(action) {
   yield put(loginActions.enableLoader());
+  let PreviousScreen =  yield _retrieveData("PreviousScreen");
+  //console.log(PreviousScreen);
   //how to call api
   const response = yield call(loginUser, action.username, action.password);
   //console.log("123");
@@ -27,7 +29,14 @@ function* loginAsync(action) {
     _storeData("customername", response.userName);
     _storeData("loginuser", action.username);
     _storeData("password", action.password);
-    yield call(navigationActions.navigateToStoreMap);
+    if(PreviousScreen)
+    {
+      navigationActions.navigateToPreviousScreen(PreviousScreen);
+    }
+    else
+    {
+      yield call(navigationActions.navigateToStoreMap);
+    }
     yield put(loginActions.disableLoader({}));
   } else {
     yield put(loginActions.loginFailed(response));
@@ -52,7 +61,7 @@ const _storeData = async (key, value) => {
   }
 };
 
-_retrieveData = async (key) => {
+const _retrieveData = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {

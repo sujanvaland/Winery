@@ -9,6 +9,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import Geolocation from 'react-native-geolocation-service';
+import SplashScreen from 'react-native-splash-screen';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -35,6 +36,7 @@ class StoreMapView extends Component {
   }
 
   componentDidMount(){
+    SplashScreen.hide();
     this.getCurrentLocation();
   }
 

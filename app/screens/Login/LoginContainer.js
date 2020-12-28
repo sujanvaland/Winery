@@ -11,21 +11,45 @@ class LoginContainer extends Component {
     constructor(props) {
         super(props);
     }
-    async componentDidMount() {
-        SplashScreen.hide();
-        let currentRoute = this.props.navigation.state.routeName;
-        let navigation = this.props.navigation;
-        BackHandler.addEventListener ('hardwareBackPress', function(){
-          if (currentRoute == "Login") {
-            BackHandler.exitApp();
-            return true;
+
+    // define a separate function to get triggered on focus
+    async onFocusFunction () {
+      // do some stuff on every screen focus
+      let PreviousScreen = await this._retrieveData("PreviousScreen");
+      //console.log(PreviousScreen);
+      let currentRoute = this.props.navigation.state.routeName;
+      let navigation = this.props.navigation;
+      BackHandler.addEventListener ('hardwareBackPress', function(){
+        if (currentRoute == "Login") {
+          //console.log(PreviousScreen);
+          if(PreviousScreen)
+          {
+            navigationActions.navigateToPreviousScreen(PreviousScreen);
           }
-          else{
-            navigation.goBack();
-            return true;
+          else
+          {
+            navigationActions.navigateToStoreMap();
           }
-        });
+          //BackHandler.exitApp();
+          return true;
+        }
+        else{
+          navigation.goBack();
+          return true;
+        }
+      });
     }
+    // and don't forget to remove the listener
+    componentWillUnmount () {
+      this.focusListener.remove()
+    }
+  
+  async componentDidMount(){
+      this.focusListener = this.props.navigation.addListener('didFocus', () => {
+          this.onFocusFunction();
+        })
+  }
+
   
     navigateToForgotPassword = () => {
         navigationActions.navigateToForgotPassword();
@@ -45,11 +69,13 @@ class LoginContainer extends Component {
 
   _retrieveData = async (key) => {
     try {
-      const value = await AsyncStorage.getItem('TDMDeliveryApp:' + key);
+      const value = await AsyncStorage.getItem(key);
       if (value !== null) {
         return value
       }
     } catch (error) {
+     
+      // Error retrieving data
     }
   };
 

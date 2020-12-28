@@ -165,6 +165,15 @@ const StoreListingApp = createStackNavigator({
             }
         }
     },
+    StartTour: {
+        screen: StartTour,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Start Tour" />,
+                gestureEnabled: false
+            }
+        }
+    },
 });
 
 const StoreMapApp = createStackNavigator({
@@ -195,11 +204,32 @@ const StoreMapApp = createStackNavigator({
             }
         }
     },
+});
+
+const StartTourApp = createStackNavigator({
     StartTour: {
         screen: StartTour,
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Start Tour" />,
+                gestureEnabled: false
+            }
+        }
+    },
+    StoreMap: {
+        screen: StoreMap,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,
+                gestureEnabled: false
+            }
+        }
+    },
+    StoreListing: {
+        screen: StoreListing,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Listing" />,
                 gestureEnabled: false
             }
         }
@@ -238,23 +268,25 @@ const RNApp = createDrawerNavigator(
                 ),
             },
         },
+
+        StartTour: {
+            screen: StartTourApp,
+            navigationOptions: {
+                drawerLabel: () => null
+            },
+        },
+
         MyProfile: {
             screen: MyProfileApp,
             navigationOptions: {
-                drawerLabel: 'My Profile',
-                drawerIcon: () => (
-                    <Image source={require('../assets/img/icon_myprofile_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
-                ),
+                drawerLabel: () => null
             },
         },
 
         ChangePassword: {
             screen: ChangePasswordApp,
             navigationOptions: {
-                drawerLabel: 'Change Password',
-                drawerIcon: () => (
-                    <Image source={require('../assets/img/icon_changepass.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
-                ),
+                drawerLabel: () => null
             },
         }
     },
@@ -279,20 +311,20 @@ const RNApp = createDrawerNavigator(
     });
 
 
-//export default createAppContainer(RNApp);
+export default createAppContainer(RNApp);
 
-export default createAppContainer(
-    createSwitchNavigator(
-        {
-            AuthLoading: AuthLoadingScreen,
-            App: RNApp,
-            Auth: LoginApp,
-        },
-        {
-            initialRouteName: 'AuthLoading',
-        }
-    )
-);
+// export default createAppContainer(
+//     createSwitchNavigator(
+//         {
+//             AuthLoading: AuthLoadingScreen,
+//             App: RNApp,
+//             Auth: LoginApp,
+//         },
+//         {
+//             initialRouteName: 'AuthLoading',
+//         }
+//     )
+// );
 
 
 const NavigationStyles = StyleSheet.create({

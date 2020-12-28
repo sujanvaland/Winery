@@ -10,21 +10,45 @@ class StoreListingContainer extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    let currentRoute = this.props.navigation.state.routeName;
-    let navigation = this.props.navigation;
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      if (currentRoute == "Login") {
-        BackHandler.exitApp();
-        return true;
-      }
 
-      else {
-        navigation.goBack();
-        return true;
-      }
-    });
+  // define a separate function to get triggered on focus
+  async onFocusFunction () {
+    // do some stuff on every screen focus
+    //_storeData("PreviousScreen", "StoreListing");
   }
+  // and don't forget to remove the listener
+  componentWillUnmount () {
+    this.focusListener.remove()
+  }
+
+  async componentDidMount(){
+      let currentRoute = this.props.navigation.state.routeName;
+      let navigation = this.props.navigation;
+      BackHandler.addEventListener('hardwareBackPress', function () {
+          if (currentRoute == "Login") {
+              BackHandler.exitApp();
+              return true;
+          }
+          else {
+              navigation.goBack();
+              return true;
+          }
+      });
+
+      this.focusListener = this.props.navigation.addListener('didFocus', () => {
+          this.onFocusFunction();
+        })
+  }
+
+  _storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+      return value;
+    } catch (error) {
+      // Error saving data
+      return null;
+    }
+  };
 
   render() {
     return <StoreListingView {...this.props}/>;
