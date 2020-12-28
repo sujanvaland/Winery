@@ -12,7 +12,6 @@ import { TextBoxElement, OverlayActivityIndicatorElement } from "../../component
 import { Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
-import PubNubReact from 'pubnub-react';
 import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
@@ -59,13 +58,9 @@ class StartTourView extends Component {
         StartTime: startDatetimeFormat,
         EndTime: ''
       },
+      distance:"",
+      duration:""
     };
-
-    this.pubnub = new PubNubReact({
-      publishKey: 'pub-c-a11ae9c3-f832-4bff-b6e8-f4e12a48d85d',
-      subscribeKey: 'sub-c-340365d8-3c93-11eb-a73a-1eec528e8f1f',
-    });
-    this.pubnub.init(this);
 
     this.mapView = null;
 
@@ -91,33 +86,20 @@ class StartTourView extends Component {
 
   componentDidMount() {
     this.getCurrentLocation();
-    this.watchLocation();
-    // const { routewaypointslist } = this.props;
-    // console.log(routewaypointslist);
-    // if(routewaypointslist){
-    //   let wineries = routewaypointslist.winerylist.filter(function(item){
-    //     return item.checked;
-    //   });
-    //   this.setState({isRouteVisible:true});
-    //   this.setState({routewaypointslist:wineries});
-    // }
 
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.latitude !== prevState.latitude) {
-      this.pubnub.publish({
-        message: {
-          latitude: this.state.latitude,
-          longitude: this.state.longitude,
-        },
-        channel: 'location',
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    Geolocation.clearWatch(this.watchID);
+    // setInterval(
+    //   function() {
+    //       // let lat = this.state.latitude;
+    //       // let long = this.state.longitude;
+    //       // lat = lat + 0.001;
+    //       // long = long + 0.001;
+    //       // //console.log(lat,long);
+    //       // this.setState({latitude:lat,longitude:long});
+    //       //this.getCurrentLocation();
+    //   }
+    //   .bind(this),
+    //   5000
+    // );
   }
 
   async getCurrentLocation() {
@@ -141,10 +123,10 @@ class StartTourView extends Component {
             longitude: position.coords.longitude
           })
           await this.setState({ coordinates: currentLoc });
-          await this.setState({ latitude: position.coords.latitude });
+          /*await this.setState({ latitude: position.coords.latitude });
           await this.setState({ longitude: position.coords.longitude });
           await this.setState({destinationLatitude:position.coords.latitude});
-          await this.setState({destinationLongitude:position.coords.longitude});
+          await this.setState({destinationLongitude:position.coords.longitude});*/
 
         },
         (error) => {
@@ -154,40 +136,7 @@ class StartTourView extends Component {
       )
     }
   }
-
-
-  watchLocation = () => {
-    const { coordinate } = this.state;
-    this.watchID = Geolocation.watchPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        const newCoordinate = {
-          latitude,
-          longitude,
-        };
-        console.log(newCoordinate);
-        if (Platform.OS === 'android') {
-          if (this.marker) {
-            this.marker._component.animateMarkerToCoordinate(newCoordinate, 500); // 500 is the duration to animate the marker
-          }
-        } else {
-          coordinate.timing(newCoordinate).start();
-        }
-
-        this.setState({
-          latitude,
-          longitude,
-        });
-      },
-      error => console.log(error),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 30,
-      }
-    );
-  };
+  
 
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -679,8 +628,11 @@ class StartTourView extends Component {
                 }}
 
                 onReady={result => {
-                  console.log(`Distance: ${result.distance} km`)
-                  console.log(`Duration: ${result.duration} min.`)
+                  //console.log(`Distance: ${result.distance} km`)
+                  //console.log(`Duration: ${result.duration} min.`)
+                  let Distance=`Distance: ${result.distance.toFixed(2)} km`;
+                  let Duration=`Duration: ${result.duration.toFixed(2)} min.`;
+                  this.setState({distance:Distance,duration:Duration});
 
                   this.mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
@@ -712,6 +664,18 @@ class StartTourView extends Component {
             {this.state.showFinishbtn &&
               <TouchableOpacity style={StartTourStyles.BtnStart} onPress={() => this._onFinishTour()}>
                 <Text style={StartTourStyles.WhiteText}>Finish</Text>
+              </TouchableOpacity>
+            }
+            
+            {(this.state.distance!='' || this.state.duration!='') &&
+              <TouchableOpacity style={StartTourStyles.BtnStart}>
+                {this.state.distance!='' &&
+                    <Text style={StartTourStyles.WhiteText}>{this.state.distance}</Text>
+                }
+
+                {this.state.duration!='' &&
+                    <Text style={StartTourStyles.WhiteText}>{this.state.duration}</Text>
+                }
               </TouchableOpacity>
             }
           </View>

@@ -14,7 +14,7 @@ class StoreMapContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction () {
     // do some stuff on every screen focus
-    console.log('123');
+    //console.log('123');
     _storeData("PreviousScreen", "StoreMap");
     const { getAllUserType } = this.props;
     getAllUserType();
