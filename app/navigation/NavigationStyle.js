@@ -45,7 +45,8 @@ const NavStyles = StyleSheet.create({
     },
     MyaccountBox: {
         borderWidth: 0,
-        borderColor: "#cccccc"
+        borderColor: "#cccccc",
+        marginBottom: viewportWidth * 0.06,
     },
     MyAccountlinks: {
         display: 'flex',

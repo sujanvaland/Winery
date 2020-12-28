@@ -5,7 +5,7 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 import * as navigationActions from '../actions/navigationActions';
 import Styles from '../config/styles';
 const { color, Typography } = Styles;
- 
+
 import { DrawerItems } from 'react-navigation-drawer';
 import NavStyles from '../navigation/NavigationStyle';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -30,7 +30,7 @@ class CustomDrawerComponent extends Component {
         });
     }
 
-    async componentDidUpdate(){
+    async componentDidUpdate() {
         let login_token = await this._retrieveData("login_token");
         this.setState({
             login_token: login_token
@@ -115,7 +115,7 @@ class CustomDrawerComponent extends Component {
                     (this.state.login_token == '' || this.state.login_token == undefined) &&
                     <View style={NavStyles.MyaccountBox}>
                         <TouchableOpacity onPress={() => this.navigateToLogin()} style={NavStyles.LogoutBtn}>
-                            <Image source={require('../assets/img/icon_logoutmenu.png')} style={NavigationStyles.MenuIcon} />
+                            <Image source={require('../assets/img/icon_myprofile_menu.png')} style={NavigationStyles.MenuIcon} />
                             <Text style={NavStyles.LogoutBtnText}>Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -137,21 +137,21 @@ class CustomDrawerComponent extends Component {
                         </View>
                         <View>
                             <TouchableOpacity onPress={() =>
-                                            Alert.alert(
-                                                'Log out',
-                                                'Do you want to logout?',
-                                                [
-                                                    { text: 'Cancel', onPress: () => { return null } },
-                                                    {
-                                                        text: 'Confirm', onPress: () => {
-                                                            AsyncStorage.clear();
-                                                            this.navigateToLogout();
-                                                        }
-                                                    },
-                                                ],
-                                                { cancelable: false }
-                                            )
-                                        } style={NavStyles.LogoutBtn} >
+                                Alert.alert(
+                                    'Log out',
+                                    'Do you want to logout?',
+                                    [
+                                        { text: 'Cancel', onPress: () => { return null } },
+                                        {
+                                            text: 'Confirm', onPress: () => {
+                                                AsyncStorage.clear();
+                                                this.navigateToLogout();
+                                            }
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            } style={NavStyles.LogoutBtn} >
 
                                 <Image source={require('../assets/img/icon_logoutmenu.png')} resizeMode="contain" style={NavStyles.LogoutMenuIcon} />
                                 <Text style={NavStyles.LogoutBtnText}>Logout</Text>

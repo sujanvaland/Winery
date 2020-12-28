@@ -10,13 +10,13 @@ import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
 
 class StoreListingView extends Component {
-  async componentDidMount() { 
+  async componentDidMount() {
     SplashScreen.hide();
   }
   constructor(props) {
     super(props);
     const { wineriesbywinetype } = this.props;
-    var result = wineriesbywinetype.map(function(el) {
+    var result = wineriesbywinetype.map(function (el) {
       var o = Object.assign({}, el);
       o.checked = false;
       return o;
@@ -51,53 +51,51 @@ class StoreListingView extends Component {
   }
 
   navigateToStoreMap = () => {
-    
-    let checked_winery_length = this.state.winerylist.filter(function(item){
+
+    let checked_winery_length = this.state.winerylist.filter(function (item) {
       return item.checked;
     }).length;
 
-    if(checked_winery_length > 0)
-    {
-      let obj=this.state.winerylist;
-      let finalobj={
-        winerylist:obj,
-        isRouteVisible:true
+    if (checked_winery_length > 0) {
+      let obj = this.state.winerylist;
+      let finalobj = {
+        winerylist: obj,
+        isRouteVisible: true
       }
       this.props.ongetRoute(finalobj);
       navigationActions.navigateToStoreMap();
     }
-    else
-    {
+    else {
       Toast.show("Please Select atleast one winery for get route.", Toast.LONG);
     }
     //
   }
 
   toggleCheckbox(id) {
-    const elementsIndex = this.state.winerylist.findIndex(element => element.Id === id )
+    const elementsIndex = this.state.winerylist.findIndex(element => element.Id === id)
     let newArray = [...this.state.winerylist];
-    newArray[elementsIndex] = {...newArray[elementsIndex], checked: !newArray[elementsIndex].checked};
+    newArray[elementsIndex] = { ...newArray[elementsIndex], checked: !newArray[elementsIndex].checked };
     this.setState({
       winerylist: newArray,
     }
-    // ,()=>{
-    //   let checked_winery_length = this.state.winerylist.filter(function(item){
-    //     return item.checked;
-    //   }).length;
-  
-    //   if(checked_winery_length > 0)
-    //   {
-    //     let obj=this.state.winerylist;
-    //     let finalobj={
-    //       winerylist:obj,
-    //       isRouteVisible:true
-    //     }
-    //     this.props.ongetRoute(finalobj);
-    //   }
-    // }
+      // ,()=>{
+      //   let checked_winery_length = this.state.winerylist.filter(function(item){
+      //     return item.checked;
+      //   }).length;
+
+      //   if(checked_winery_length > 0)
+      //   {
+      //     let obj=this.state.winerylist;
+      //     let finalobj={
+      //       winerylist:obj,
+      //       isRouteVisible:true
+      //     }
+      //     this.props.ongetRoute(finalobj);
+      //   }
+      // }
     );
   }
- 
+
   render() {
     const { button } = Resource_EN;
     const { routewaypointslist } = this.props;
@@ -106,8 +104,8 @@ class StoreListingView extends Component {
       <View style={StoreListingStyles.InnerContainer}>
         <ScrollView>
           <View>
-            { this.state.winerylist.length > 0 &&
-              this.state.winerylist.map((item, index) =>{
+            {this.state.winerylist.length > 0 &&
+              this.state.winerylist.map((item, index) => {
                 // let CheckedItem = [];
                 // CheckedItem = routewaypointslist?.winerylist?.filter(x=>x.Id == item.Id && x.checked);
                 //console.log(CheckedItem);
@@ -119,7 +117,7 @@ class StoreListingView extends Component {
                     <View style={StoreListingStyles.WineTextDetail}>
                       <Text style={StoreListingStyles.WineTexBottle}>{item.name}</Text>
                       <Text style={StoreListingStyles.WineStoreName}>{item.AddressLine1} {"\n"}
-                        {item.AddressLine2 !='' &&
+                        {item.AddressLine2 != '' &&
                           <Text>{item.AddressLine2},{"\n"}</Text>
                         }
                       </Text>
@@ -144,9 +142,11 @@ class StoreListingView extends Component {
                     }
                     {
                       CheckedItem && CheckedItem.length == 0 && */}
-                      <CheckBox
+                    <CheckBox
                       key={item.Id}
                       title={item.name}
+                      style={{ borderColor: '#67024e' }}
+
                       checked={item.checked}
                       onPress={() => this.toggleCheckbox(item.Id)} />
                     {/* } */}
