@@ -14,11 +14,6 @@ class PersonalDetailView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [
-        // require('../../assets/images/img_slide1.jpg'),
-        // require('../../assets/images/img_slide2.jpg'),
-        // require('../../assets/images/img_slide3.jpg'),
-      ]
     }
   }
 
@@ -27,13 +22,6 @@ class PersonalDetailView extends Component {
     SplashScreen.hide();
   }
 
-  navigateToAirVelocity = (id) => {
-    navigationActions.navigateToAirVelocity(id);
-  };
-
-  navigateToAboutus = () => {
-    navigationActions.navigateToAboutus();
-  }
 
   navigateToEditProfile = () => {
     navigationActions.navigateToEditProfile();
@@ -41,12 +29,7 @@ class PersonalDetailView extends Component {
 
 
   render() {
-
-    let PersonalDetailSer = [];
-    if (this.props.Services) {
-      // PersonalDetailstyles = this.props.Services;
-    }
-
+    
     return (
       <View style={PersonalDetailstyles.container}>
 
