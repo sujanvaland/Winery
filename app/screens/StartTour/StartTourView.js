@@ -7,6 +7,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
+import Geocoder from 'react-native-geocoding';
 import Geolocation from 'react-native-geolocation-service';
 import { TextBoxElement, OverlayActivityIndicatorElement } from "../../components";
 import { Textarea } from 'native-base';
@@ -21,6 +22,7 @@ const LONGITUDE = -73.985440;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
+Geocoder.init(GOOGLE_MAPS_APIKEY);
 class StartTourView extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,7 @@ class StartTourView extends Component {
     this.state = {
       latitude: LATITUDE,
       longitude: LONGITUDE,
+      sourceAddress: null,
       destinationLatitude: LATITUDE,
       destinationLongitude: LONGITUDE,
       coordinate: new AnimatedRegion({
@@ -86,7 +89,17 @@ class StartTourView extends Component {
 
   componentDidMount() {
     this.getCurrentLocation();
-
+    Geocoder.from(this.state.latitude, this.state.longitude)
+      .then(json => {
+          //console.log(json);
+          var addressComponent = json.results[0].address_components;
+          var formatted_address = json.results[0].formatted_address;
+          this.setState({
+            sourceAddress: formatted_address
+          })
+          //console.log(addressComponent);
+        })
+      .catch(error => console.warn(error));
     // setInterval(
     //   function() {
     //       // let lat = this.state.latitude;
@@ -115,6 +128,7 @@ class StartTourView extends Component {
     );
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      //console.log('123');
       Geolocation.getCurrentPosition(
         async (position) => {
           let currentLoc = [];
@@ -127,7 +141,18 @@ class StartTourView extends Component {
           await this.setState({ longitude: position.coords.longitude });
           await this.setState({destinationLatitude:position.coords.latitude});
           await this.setState({destinationLongitude:position.coords.longitude});*/
-
+          //console.log('456');
+          // Geocoder.from(position.coords.latitude, position.coords.longitude)
+          //   .then(json => {
+          //      //console.log(json);
+          //      var addressComponent = json.results[0].address_components;
+          //      var formatted_address = json.results[0].formatted_address;
+          //      this.setState({
+          //         sourceAddress: formatted_address
+          //       })
+          //       //console.log(addressComponent);
+          //     })
+          //   .catch(error => console.warn(error));
         },
         (error) => {
           console.warn(error.code, error.message);
@@ -353,6 +378,17 @@ class StartTourView extends Component {
           });
           this.setState({ latitude: parseFloat(selectedwineryDetail[0].Latitude) });
           this.setState({ longitude: parseFloat(selectedwineryDetail[0].Longitude) });
+          Geocoder.from(parseFloat(selectedwineryDetail[0].Latitude), parseFloat(selectedwineryDetail[0].Longitude))
+          .then(json => {
+              //console.log(json);
+              var addressComponent = json.results[0].address_components;
+              var formatted_address = json.results[0].formatted_address;
+              this.setState({
+                sourceAddress: formatted_address
+              })
+              //console.log(addressComponent);
+            })
+          .catch(error => console.warn(error));
 
           this.setState({ isModalVisible: false });
         });
@@ -407,6 +443,17 @@ class StartTourView extends Component {
           });
           this.setState({ latitude: parseFloat(selectedwineryDetail[0].Latitude) });
           this.setState({ longitude: parseFloat(selectedwineryDetail[0].Longitude) });
+          Geocoder.from(parseFloat(selectedwineryDetail[0].Latitude), parseFloat(selectedwineryDetail[0].Longitude))
+          .then(json => {
+              //console.log(json);
+              var addressComponent = json.results[0].address_components;
+              var formatted_address = json.results[0].formatted_address;
+              this.setState({
+                sourceAddress: formatted_address
+              })
+              //console.log(addressComponent);
+            })
+          .catch(error => console.warn(error));
 
           this.setState({ isModalVisible: false });
         });
@@ -534,7 +581,7 @@ class StartTourView extends Component {
             <View style={StartTourStyles.PickeBox}>
               <TextInput
                 placeholder={"Source"}
-                value={sourceLatitude.toString()}
+                value={this.state.sourceAddress}
                 autoCapitalize={'none'}
                 style={StartTourStyles.TextBox}
               />

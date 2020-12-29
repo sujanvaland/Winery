@@ -23,7 +23,6 @@ import ChangePassword from 'app/screens/ChangePassword';
 import PersonalDetail from 'app/screens/PersonalDetail';
 import StoreListing from 'app/screens/StoreListing';
 import StoreMap from 'app/screens/StoreMap';
-import StoreMapStart from 'app/screens/StoreMapStart';
 import StartTour from 'app/screens/StartTour';
 import Verifyotp from 'app/screens/Verifyotp';
 import EditProfile from 'app/screens/EditProfile';
@@ -165,29 +164,11 @@ const StoreListingApp = createStackNavigator({
             }
         }
     },
-    StartTour: {
-        screen: StartTour,
-        navigationOptions: ({ navigation }) => {
-            return {
-                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Start Tour" />,
-                gestureEnabled: false
-            }
-        }
-    },
 });
 
 const StoreMapApp = createStackNavigator({
     StoreMap: {
         screen: StoreMap,
-        navigationOptions: ({ navigation }) => {
-            return {
-                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,
-                gestureEnabled: false
-            }
-        }
-    },
-    StoreMapStart: {
-        screen: StoreMapStart,
         navigationOptions: ({ navigation }) => {
             return {
                 header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="Store Map" />,

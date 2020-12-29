@@ -44,7 +44,8 @@ class StoreMapContainer extends Component {
   } 
 
   navigateToStartTour = () => {
-    navigationActions.navigateToStartTour();
+    this.props.navigation.push('StartTour')
+    //navigationActions.navigateToStartTour();
   }
 
   navigateToStoreListing = () => {
