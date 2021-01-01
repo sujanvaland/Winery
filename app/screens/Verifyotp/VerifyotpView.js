@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { ToastAndroid,View, Text, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
 import VerifyOtpstyles from './VerifyOtpstyles';
 import globalStyles from '../../assets/css/globalStyles';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { TextBoxElement, LinkButton, ButtonElement, OverlayActivityIndicatorElement } from '../../components';
 import * as navigationActions from '../../actions/navigationActions';
+import Toast from 'react-native-simple-toast';
 
 class VerifyotpView extends Component {
     
@@ -99,7 +100,7 @@ class VerifyotpView extends Component {
                 isValidemail = true;
             }
             else {
-              ToastAndroid.show("Invalid Email", ToastAndroid.SHORT);
+              Toast.show("Invalid Email", Toast.SHORT);
               isValidemail = false;
             }
         }
@@ -112,7 +113,7 @@ class VerifyotpView extends Component {
                 isValidpassword = true;
             }
             else {
-                ToastAndroid.show("New Password should have min 3 chars and max 20", ToastAndroid.SHORT);
+                Toast.show("New Password should have min 3 chars and max 20", Toast.SHORT);
                 isValidpassword = false;
             }
         }
@@ -127,12 +128,12 @@ class VerifyotpView extends Component {
                     isValidconfirmpassword = true;
                 }
                 else {
-                  ToastAndroid.show("New Password and Confirm Password are diffrent.", ToastAndroid.SHORT);
+                  Toast.show("New Password and Confirm Password are diffrent.", Toast.SHORT);
                   isValidconfirmpassword = false;
                 }
               }
               else {
-                ToastAndroid.show("Confirm Password should have min 3 chars and max 20", ToastAndroid.SHORT);
+                Toast.show("Confirm Password should have min 3 chars and max 20", Toast.SHORT);
                 isValidconfirmpassword = false;
               }
         }
@@ -148,7 +149,7 @@ class VerifyotpView extends Component {
                 
             }
             else {
-                ToastAndroid.show("OTP Number is not valid", ToastAndroid.SHORT);
+                Toast.show("OTP Number is not valid", Toast.SHORT);
                 isValidotp = false;
             }
         }
@@ -159,7 +160,7 @@ class VerifyotpView extends Component {
        }
       else
        {
-          ToastAndroid.show("Please check all fields", ToastAndroid.SHORT);
+          Toast.show("Please check all fields", Toast.SHORT);
        }
        
        this.setState({ 
@@ -197,7 +198,7 @@ class VerifyotpView extends Component {
                 this.setState({ isValidemail: true });
               }
               else {
-                ToastAndroid.show("Invalid Email", ToastAndroid.SHORT);
+                Toast.show("Invalid Email", Toast.SHORT);
                 this.updateState("isValidemail", false);
                 this.setState({ isValidemail: false });
               }
@@ -215,7 +216,7 @@ class VerifyotpView extends Component {
                 this.setState({ isValidpassword: true });
               }
               else {
-                ToastAndroid.show("New Password should have min 3 chars and max 20", ToastAndroid.SHORT);
+                Toast.show("New Password should have min 3 chars and max 20", Toast.SHORT);
                 this.updateState("isValidpassword", false);
                 this.setState({ isValidpassword: false });
               }
@@ -236,13 +237,13 @@ class VerifyotpView extends Component {
                     this.setState({ isValidconfirmpassword: true });
                   }
                   else {
-                    ToastAndroid.show("New Password and Confirm Password are diffrent.", ToastAndroid.SHORT);
+                    Toast.show("New Password and Confirm Password are diffrent.", Toast.SHORT);
                     this.updateState("isValidconfirmpassword", false);
                     this.setState({ isValidconfirmpassword: false });
                   }
                 }
                 else {
-                  ToastAndroid.show("Confirm Password should have min 3 chars and max 20", ToastAndroid.SHORT);
+                  Toast.show("Confirm Password should have min 3 chars and max 20", Toast.SHORT);
                   this.updateState("isValidconfirmpassword", false);
                   this.setState({ isValidconfirmpassword: false });
                 }
@@ -263,7 +264,7 @@ class VerifyotpView extends Component {
                
               }
               else {
-                ToastAndroid.show("OTP Number is not valid", ToastAndroid.SHORT);
+                Toast.show("OTP Number is not valid", Toast.SHORT);
                 this.onValueChange("isValidotp", false);
                 this.setState({ isValidotp: false });
               }

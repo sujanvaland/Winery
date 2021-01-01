@@ -3,3 +3,5 @@
 [1225/005553.346:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Kunal\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\b2c9ee5f-cf0b-491f-a797-6ae3fa499d0f: The system cannot find the path specified. (0x3)
 [1225/005915.310:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1225/014536.399:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0102/000526.454:ERROR:process_info.cc(375)] NtQuerySystemInformation SystemExtendedHandleInformation: The specified information record length does not match the length required for the specified information class. (0xc0000004)
+[0102/000642.457:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

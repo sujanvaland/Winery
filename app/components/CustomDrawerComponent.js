@@ -55,6 +55,10 @@ class CustomDrawerComponent extends Component {
         navigationActions.navigateToStoreMap();
     }
 
+    navigateToTourListing = () => {
+        navigationActions.navigateToTourListing();
+    }
+
     navigateToMyProfile = () => {
         navigationActions.navigateToPersonalDetail();
     }
@@ -123,6 +127,12 @@ class CustomDrawerComponent extends Component {
                 {
                     this.state.login_token != '' && this.state.login_token != undefined &&
                     <View>
+                        <View style={NavStyles.MyaccountBox}>
+                            <TouchableOpacity onPress={() => this.navigateToTourListing()} style={NavStyles.LogoutBtn}>
+                                <Image source={require('../assets/img/icon_myprofile_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                                <Text style={NavStyles.LogoutBtnText}>My Tours</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View style={NavStyles.MyaccountBox}>
                             <TouchableOpacity onPress={() => this.navigateToMyProfile()} style={NavStyles.LogoutBtn}>
                                 <Image source={require('../assets/img/icon_myprofile_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />

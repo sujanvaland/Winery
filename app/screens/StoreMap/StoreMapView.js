@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, ToastAndroid } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid } from 'react-native';
 import StoreMapStyles from './StoreMapStyles';
 import PropTypes from 'prop-types';
 import {Picker} from '@react-native-picker/picker';

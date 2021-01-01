@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, Keyboard, KeyboardAvoidingView } from 'react-native';
-import StoreListingStyles from './StoreListingStyles';
+import TourListingStyles from './TourListingStyles';
 import { CheckBox } from "native-base";
 import PropTypes from 'prop-types';
-import { TextBoxElement, TextBoxElementLogin, TextBoxElementChangepass } from "../../components";
 import Resource_EN from '../../config/Resource_EN';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
 
-class StoreListingView extends Component {
+class TourListingView extends Component {
   async componentDidMount() {
     SplashScreen.hide();
   }
@@ -50,7 +49,7 @@ class StoreListingView extends Component {
     this.setState({ enableScroll: false });
   }
 
-  navigateToStoreMap = () => {
+  navigateToTourMap = () => {
 
     let checked_winery_length = this.state.winerylist.filter(function (item) {
       return item.checked;
@@ -63,7 +62,7 @@ class StoreListingView extends Component {
         isRouteVisible: true
       }
       this.props.ongetRoute(finalobj);
-      navigationActions.navigateToStoreMap();
+      navigationActions.navigateToTourMap();
     }
     else {
       Toast.show("Please Select atleast one winery for get route.", Toast.LONG);
@@ -78,21 +77,6 @@ class StoreListingView extends Component {
     this.setState({
       winerylist: newArray,
     }
-      // ,()=>{
-      //   let checked_winery_length = this.state.winerylist.filter(function(item){
-      //     return item.checked;
-      //   }).length;
-
-      //   if(checked_winery_length > 0)
-      //   {
-      //     let obj=this.state.winerylist;
-      //     let finalobj={
-      //       winerylist:obj,
-      //       isRouteVisible:true
-      //     }
-      //     this.props.ongetRoute(finalobj);
-      //   }
-      // }
     );
   }
 
@@ -101,7 +85,7 @@ class StoreListingView extends Component {
     const { routewaypointslist } = this.props;
 
     return (
-      <View style={StoreListingStyles.InnerContainer}>
+      <View style={TourListingStyles.InnerContainer}>
         <ScrollView>
           <View>
             {this.state.winerylist.length > 0 &&
@@ -109,65 +93,32 @@ class StoreListingView extends Component {
                 // let CheckedItem = [];
                 // CheckedItem = routewaypointslist?.winerylist?.filter(x=>x.Id == item.Id && x.checked);
                 //console.log(CheckedItem);
-                return (<View key={index} style={StoreListingStyles.WineListBox}>
-                  <View style={StoreListingStyles.flexBox}>
-                    <View style={StoreListingStyles.WineImage}>
-                      <Image source={require('../../assets/img/wine-ecommerce-hero.jpg')} resizeMode="contain" style={StoreListingStyles.BottoleImage} />
+                return (<View key={index} style={TourListingStyles.WineListBox}>
+                  <View style={TourListingStyles.flexBox}>
+                    <View style={TourListingStyles.WineImage}>
+                      <Image source={require('../../assets/img/wine-ecommerce-hero.jpg')} resizeMode="contain" style={TourListingStyles.BottoleImage} />
                     </View>
-                    <View style={StoreListingStyles.WineTextDetail}>
-                      <Text style={StoreListingStyles.WineTexBottle}>{item.name}</Text>
-                      <Text style={StoreListingStyles.WineStoreName}>{item.AddressLine1} {"\n"}
+                    <View style={TourListingStyles.WineTextDetail}>
+                      <Text style={TourListingStyles.WineTexBottle}>{item.name}</Text>
+                      <Text style={TourListingStyles.WineTourName}>{item.AddressLine1} {"\n"}
                         {item.AddressLine2 != '' &&
                           <Text>{item.AddressLine2},{"\n"}</Text>
                         }
                       </Text>
                     </View>
                   </View>
-                  <View style={StoreListingStyles.WineButton}>
-                    {/* {
-                      CheckedItem && CheckedItem.length > 0 &&
-                      <CheckBox
-                      key={item.Id}
-                      title={item.name}
-                      checked={CheckedItem[0].checked}
-                      onPress={() => this.toggleCheckbox(item.Id)} />
-                    }
-                    {
-                      CheckedItem == null &&
-                      <CheckBox
-                      key={item.Id}
-                      title={item.name}
-                      checked={item.checked}
-                      onPress={() => this.toggleCheckbox(item.Id)} />
-                    }
-                    {
-                      CheckedItem && CheckedItem.length == 0 && */}
-                    <CheckBox
-                      key={item.Id}
-                      title={item.name}
-                      style={{ borderColor: '#67024e' }}
-
-                      checked={item.checked}
-                      onPress={() => this.toggleCheckbox(item.Id)} />
-                    {/* } */}
-                  </View>
                 </View>)
               })
             }
           </View>
         </ScrollView>
-        <View style={StoreListingStyles.BototmButton}>
-          <TouchableOpacity style={StoreListingStyles.BtnFeedback} onPress={() => this.navigateToStoreMap()}>
-            <Text style={StoreListingStyles.WhiteText}>Get Route</Text>
-          </TouchableOpacity>
-        </View>
       </View >
     );
   }
 }
 
-StoreListingView.propTypes = {
+TourListingView.propTypes = {
   onLogin: PropTypes.func
 };
 
-export default StoreListingView;
+export default TourListingView;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid, ToastAndroid, Alert } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid, Alert } from 'react-native';
 import StartTourStyles from './StartTourStyles';
 import PropTypes from 'prop-types';
 import { Picker } from '@react-native-picker/picker';
@@ -509,7 +509,7 @@ class StartTourView extends Component {
     let FeedbackData = await this._retrieveData("FeedbackData");
     let AllFeedbackData = [];
     if (FeedbackData) {
-      AllFeedbackData = FeedbackData;
+      AllFeedbackData = JSON.parse(FeedbackData);
     }
     this.props.insertTour(AllFeedbackData);
   }

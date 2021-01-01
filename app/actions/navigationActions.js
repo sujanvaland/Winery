@@ -58,3 +58,7 @@ export function navigateToEditProfile(params) {
 export function navigateToPreviousScreen(screen,params) {
     NavigationService.navigate(screen, params);
 }
+
+export function navigateToTourListing(params) {
+    NavigationService.navigate('TourListing', params);
+}

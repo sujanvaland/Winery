@@ -26,6 +26,7 @@ import StoreMap from 'app/screens/StoreMap';
 import StartTour from 'app/screens/StartTour';
 import Verifyotp from 'app/screens/Verifyotp';
 import EditProfile from 'app/screens/EditProfile';
+import TourListing from 'app/screens/TourListing';
 
 
 const customDrawer = (props) => (
@@ -129,6 +130,18 @@ const MyProfileApp = createStackNavigator({
                 gestureEnabled: true,
             };
         },
+    },
+});
+
+const TourListingApp = createStackNavigator({
+    TourListing: {
+        screen: TourListing,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => <HeaderComponent pagetitle={true} user={false} navigation={navigation} menu={true} title="My Tours" />,
+                gestureEnabled: false
+            }
+        }
     },
 });
 
@@ -266,6 +279,13 @@ const RNApp = createDrawerNavigator(
 
         ChangePassword: {
             screen: ChangePasswordApp,
+            navigationOptions: {
+                drawerLabel: () => null
+            },
+        },
+
+        TourListing: {
+            screen: TourListingApp,
             navigationOptions: {
                 drawerLabel: () => null
             },
