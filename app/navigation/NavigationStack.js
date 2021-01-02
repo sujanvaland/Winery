@@ -27,6 +27,7 @@ import StartTour from 'app/screens/StartTour';
 import Verifyotp from 'app/screens/Verifyotp';
 import EditProfile from 'app/screens/EditProfile';
 import TourListing from 'app/screens/TourListing';
+import TourDetail from 'app/screens/TourDetail';
 
 
 const customDrawer = (props) => (
@@ -143,6 +144,17 @@ const TourListingApp = createStackNavigator({
             }
         }
     },
+    TourDetail: {
+        screen: TourDetail,
+        navigationOptions: ({ navigation }) => {
+            return {
+                header: () => (
+                    <HeaderComponent navigation={navigation} backbutton={true} menu={false} pagetitle={true} title="Tour Detail" user={false} />
+                ),
+                gestureEnabled: true,
+            };
+        },
+    }
 });
 
 

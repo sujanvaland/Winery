@@ -17,8 +17,6 @@ class EditProfileContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction() {
     // do some stuff on every screen focus
-    /*const { onAccount } = this.props;
-    onAccount();*/
   }
 
   // and don't forget to remove the listener
@@ -62,8 +60,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    onAccount: () => dispatch(accountActions.getAccountDetail()),
-    onUpdateEditProfile: (EditProfile) => dispatch(accountActions.updateEditProfile(EditProfile))
+    onUpdatePersonalDetail: (EditProfile) => dispatch(accountActions.updatePersonalDetail(EditProfile))
   };
 }
 export default connect(

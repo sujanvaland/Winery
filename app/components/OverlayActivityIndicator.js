@@ -14,15 +14,16 @@ const OverlayActivityIndicatorElement = props => {
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    //backgroundColor: color.COLOR_BLACK,
+    backgroundColor: color.COLOR_BLACK,
     height: "100%",
     width: "100%",
-    opacity: 0.6,
+    opacity: 0.8,
     zIndex: 9999999999,
+
   }
   return (
     <View pointerEvents="none" style={loadingStyle}>
-      <ActivityIndicator size='large' color="#fff" />
+      <ActivityIndicator size='large' color="#67024e" />
     </View>
   )
 };

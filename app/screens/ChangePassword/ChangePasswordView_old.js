@@ -8,15 +8,17 @@ import Resource_EN from '../../config/Resource_EN';
 import { ScrollView } from 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-simple-toast';
-import { OverlayActivityIndicatorElement} from '../../components';
-import { get } from 'lodash';
 
 class ChangePasswordView extends Component {
-
+  async componentDidMount() {
+    SplashScreen.hide();
+  }
   constructor(props) {
     super(props);
     this.state = {
       enableScroll: false,
+      isValidoldpassword: true,
+      errorMessageoldpassword: false,
       isValidnewpassword: true,
       errorMessagenewpassword: false,
       isValidconfirmpassword: true,
@@ -24,6 +26,7 @@ class ChangePasswordView extends Component {
       eyeOpen: false,
       disable: true,
       postChangePassword: {
+        oldpassword: '',
         newpassword: '',
         confirmpassword: ''
       }
@@ -31,7 +34,6 @@ class ChangePasswordView extends Component {
   }
 
   componentDidMount() {
-    SplashScreen.hide();
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this._keyboardDidShow,
@@ -66,13 +68,42 @@ class ChangePasswordView extends Component {
 
   validateInputs = (fieldName) => {
 
+    if (fieldName == "oldpassword") {
+      if (this.state.postChangePassword.oldpassword == "") {
+        this.setState({ isvalidoldpassword: false });
+      }
+      else {
+        if (this.state.postChangePassword.oldpassword.length >= 3 && this.state.postChangePassword.oldpassword.length <= 20) {
+
+          if (this.state.postChangePassword.oldpassword === this.state.postChangePassword.newpassword) {
+            Toast.show("Old Password and New Password are same. Please change it.", Toast.SHORT);
+            this.setState({ isvalidoldpassword: false });
+          }
+          else {
+            this.setState({ isvalidoldpassword: true });
+          }
+
+        }
+        else {
+          Toast.show("Current Password should have min 3 chars and max 20", Toast.SHORT);
+          this.setState({ isvalidoldpassword: false });
+        }
+      }
+    }
+
     if (fieldName == "newpassword") {
       if (this.state.postChangePassword.newpassword == "") {
         this.setState({ isvalidnewpassword: false });
       }
       else {
         if (this.state.postChangePassword.newpassword.length >= 3 && this.state.postChangePassword.newpassword.length <= 20) {
-          this.setState({ isvalidnewpassword: true });
+          if (this.state.postChangePassword.oldpassword === this.state.postChangePassword.newpassword) {
+            Toast.show("Old Password and New Password are same. Please change it.", Toast.SHORT);
+            this.setState({ isvalidnewpassword: false });
+          }
+          else {
+            this.setState({ isvalidnewpassword: true });
+          }
         }
         else {
           Toast.show("New Password should have min 3 chars and max 20", Toast.SHORT);
@@ -113,16 +144,44 @@ class ChangePasswordView extends Component {
 
   validatePassword = () => {
     //====== title ======//
+    let isvalidoldpassword;
     let isvalidnewpassword;
     let isvalidconfirmpassword;
 
     let allInputsValidated;
+
+    if (this.state.postChangePassword.oldpassword == "") {
+      isvalidoldpassword = false;
+    }
+    else {
+      if (this.state.postChangePassword.oldpassword.length >= 3 && this.state.postChangePassword.oldpassword.length <= 20) {
+        if (this.state.postChangePassword.oldpassword === this.state.postChangePassword.newpassword) {
+          Toast.show("Old Password and New Password are same. Please change it.", Toast.SHORT);
+          isvalidoldpassword = false;
+        }
+        else {
+          isvalidoldpassword = true;
+        }
+      }
+      else {
+        Toast.show("Current Password should have min 3 chars and max 20", Toast.SHORT);
+        isvalidoldpassword = false;
+      }
+    }
+
+
     if (this.state.postChangePassword.newpassword == "") {
       isvalidnewpassword = false;
     }
     else {
       if (this.state.postChangePassword.newpassword.length >= 3 && this.state.postChangePassword.newpassword.length <= 20) {
-        isvalidnewpassword = true;
+        if (this.state.postChangePassword.oldpassword === this.state.postChangePassword.newpassword) {
+          Toast.show("Old Password and New Password are same. Please change it.", Toast.SHORT);
+          isvalidnewpassword = false;
+        }
+        else {
+          isvalidnewpassword = true;
+        }
       }
       else {
         Toast.show("New Password should have min 3 chars and max 20", Toast.SHORT);
@@ -151,7 +210,7 @@ class ChangePasswordView extends Component {
       }
     }
 
-    if (isvalidnewpassword && isvalidconfirmpassword) {
+    if (isvalidoldpassword && isvalidnewpassword && isvalidconfirmpassword) {
       allInputsValidated = true;
     }
     else {
@@ -159,6 +218,8 @@ class ChangePasswordView extends Component {
     }
 
     this.setState({
+      isvalidoldpassword: isvalidoldpassword,
+      errorMessageoldpassword: !isvalidoldpassword,
       isvalidnewpassword: isvalidnewpassword,
       errorMessagenewpassword: !isvalidnewpassword,
       isvalidconfirmpassword: isvalidconfirmpassword,
@@ -170,11 +231,11 @@ class ChangePasswordView extends Component {
 
   render() {
     const { button } = Resource_EN
-    const { loading } = this.props;
+
     return (
 
       <View style={ChangePasswordStyles.loginView}>
-        {get(loading, 'isLoading') && <OverlayActivityIndicatorElement />}
+
         <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={this.state.enableScroll}>
           <KeyboardAvoidingView style={ChangePasswordStyles.container} enabled>
             <StatusBar
@@ -191,18 +252,36 @@ class ChangePasswordView extends Component {
             <View style={ChangePasswordStyles.loginContainer}>
               <View style={ChangePasswordStyles.textBoxContent}>
                 <View style={ChangePasswordStyles.textBoxInner}>
+
                   <Image style={ChangePasswordStyles.passwordImg} source={require('../../assets/img/password.png')} resizeMode="cover" />
                   <Image style={ChangePasswordStyles.lineImg} source={require('../../assets/img/line.png')} resizeMode="cover" />
                 </View>
+                <TextBoxElementChangepass placeholder="Current Password&nbsp;&nbsp;"
+                  style={[this.state.isValidoldpassword ? ChangePasswordStyles.BorderGrey : ChangePasswordStyles.BorderRed, ChangePasswordStyles.textInput]}
+                  value={this.state.postChangePassword.oldpassword}
+                  onChangeText={value => this.onValueChange("oldpassword", value)}
+                  placeholderTextColor='#4A4A4A'
+                  maxLength={20}
+                  isvalidInput={this.state.isValidoldpassword}
+                  onEndEditing={() => this.validateInputs("oldpassword")}
+                  secureTextEntry={true}
+                  autoCapitalize={'none'} />
+
+              </View>
+              <View style={ChangePasswordStyles.textBoxContent}>
+                <View style={ChangePasswordStyles.textBoxInner}>
+                  <Image style={ChangePasswordStyles.passwordImg} source={require('../../assets/img/password.png')} resizeMode="cover" />
+                  <Image style={ChangePasswordStyles.lineImg} source={require('../../assets/img/line.png')} resizeMode="cover" />
+                </View>
+
+
                 <TextBoxElementChangepass
                   placeholder={"Password"}
-                  style={[this.state.isValidnewpassword ? ChangePasswordStyles.BorderGrey : ChangePasswordStyles.BorderRed, ChangePasswordStyles.textInput]}
-                  value={this.state.postChangePassword.newpassword}
-                  onChangeText={value => this.onValueChange("newpassword", value)}
-                  isvalidInput={this.state.isValidnewpassword}autoCapitalize={'none'}
-                  onEndEditing={() => this.validateInputs("newpassword")}
                   secureTextEntry={true}
+                  value={this.state.postChangePassword.newpassword}
+                  //  isvalidInput={this.props.loginresponse.ErrorMessage == "" || this.props.loginresponse.ErrorMessage == null}
                   autoCapitalize={'none'}
+                // onChangeText={value => this.updateState("password", value)}
                 />
 
               </View>
@@ -211,11 +290,13 @@ class ChangePasswordView extends Component {
                   <Image style={ChangePasswordStyles.passwordImg} source={require('../../assets/img/password.png')} resizeMode="cover" />
                   <Image style={ChangePasswordStyles.lineImg} source={require('../../assets/img/line.png')} resizeMode="cover" />
                 </View>
-                <TextBoxElementChangepass 
-                  placeholder="Confirm Password"
+
+                <TextBoxElementChangepass placeholder="Confirm Password&nbsp;&nbsp;"
                   style={[this.state.isValidconfirmpassword ? ChangePasswordStyles.BorderGrey : ChangePasswordStyles.BorderRed, ChangePasswordStyles.textInput]}
                   value={this.state.postChangePassword.confirmpassword}
                   onChangeText={value => this.onValueChange("confirmpassword", value)}
+                  placeholderTextColor='#4A4A4A'
+
                   isvalidInput={this.state.isValidconfirmpassword}
                   onEndEditing={() => this.validateInputs("confirmpassword")}
                   secureTextEntry={true}

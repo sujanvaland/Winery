@@ -62,3 +62,7 @@ export function navigateToPreviousScreen(screen,params) {
 export function navigateToTourListing(params) {
     NavigationService.navigate('TourListing', params);
 }
+
+export function navigateToTourDetail(params) {
+    NavigationService.navigate('TourDetail', params);
+}

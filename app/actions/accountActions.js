@@ -100,9 +100,30 @@ export function oninsertTourFailResponse(response) {
     };
 }
 
-export function getTourById() {
+export function getTours() {
     return {
-        type: types.GETTOURBYID_REQUEST
+        type: types.GETTOURS_REQUEST
+    };
+}
+
+export function ongetToursResponse(response) {
+    return {
+        type: types.GETTOURS_RESPONSE,
+        response
+    };
+}
+
+export function getToursFailed(response) {
+    return {
+        type: types.GETTOURS_FAILED,
+        response
+    };
+}
+
+export function getTourById(tourid) {
+    return {
+        type: types.GETTOURBYID_REQUEST,
+        tourid
     };
 }
 
@@ -120,9 +141,10 @@ export function ongetTourByIdFailResponse(response) {
     };
 }
 
-export function deleteTour() {
+export function deleteTour(tourid) {
     return {
-        type: types.DELETETOUR_REQUEST
+        type: types.DELETETOUR_REQUEST,
+        tourid
     };
 }
 

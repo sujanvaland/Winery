@@ -1,11 +1,12 @@
 import { put, call, select } from 'redux-saga/effects';
 import * as loginActions from 'app/actions/loginActions';
 import * as accountActions from 'app/actions/accountActions';
-import {getAccountDetail,getAllUserType,getWineTypeByUserType,getWineeriesByWineType,insertTour,
+import {getAccountDetail,getAllUserType,getWineTypeByUserType,getWineeriesByWineType,insertTour,getTours,
   getTourById,deleteTour,
   updatePersonalDetail,updateDeviceToken,changePassword,loadProfileImage} from 'app/api/methods/accountDetail';
 import * as navigationActions from 'app/actions/navigationActions';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Alert } from 'react-native';
 // Our worker Saga that loads filter
 
 function* getAccountDetailAsync(action) {
@@ -71,6 +72,19 @@ function* insertTourAsync(action) {
   }
 };
 
+function* getToursAsync(action) {
+  yield put(loginActions.enableLoader());
+  const response = yield call(getTours,action);
+  //console.log(response);
+  if (response.status ==="True") {
+      yield put(accountActions.ongetToursResponse(response.Data));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.getToursFailed(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
 function* getTourByIdAsync(action) {
   yield put(loginActions.enableLoader());
   const response = yield call(getTourById,action);
@@ -88,6 +102,7 @@ function* deleteTourAsync(action) {
   const response = yield call(deleteTour,action);
   if (response.status ==="True") {
       yield put(accountActions.ondeleteTourResponse(response));
+      yield put(accountActions.getTours());
       yield put(loginActions.disableLoader({}));
   } else {
       yield put(accountActions.ondeleteTourFailResponse(response));
@@ -100,10 +115,14 @@ function* updatePersonalDetailAsync(action) {
   yield put(loginActions.enableLoader());
   //how to call api
   const response = yield call(updatePersonalDetail,action);
+  //console.log(action);
   //console.log(response);
-  if (response.Message === "success") {
+  if (response.Status ==="True") {
       yield put(accountActions.onupdatePersonalDetailResponse(response));
-      yield put(accountActions.getAccountDetail());
+      let userName=action.personaldetail.firstname+" "+action.personaldetail.lastname;
+      //console.log(userName);
+      _storeData("customername", userName);
+      navigationActions.navigateToPersonalDetail();
       yield put(loginActions.disableLoader({}));
   } else {
       yield put(accountActions.onupdatePersonalDetailFailedResponse(response));
@@ -133,16 +152,16 @@ function* changePasswordAsync(action) {
   //how to call api
   const response = yield call(changePassword,action);
   //console.log(response);
-  if (response.Message === "success") {
-      // Alert.alert(
-      //     'Success',
-      //     'Change Password Successfully.',
-      //     [
-      //       {text: 'OK'},
-      //     ]
-      //   );
-
-      navigationActions.navigateToPasswordChange();
+  if (response.Status ==="True") {
+      Alert.alert(
+          'Success',
+          'Change Password Successfully.',
+          [
+            {text: 'OK'},
+          ]
+      );
+      _storeData("password", action.action.newpassword);
+      navigationActions.navigateToStoreMap();
       yield put(accountActions.onChangePasswordResponse(response));
       yield put(loginActions.disableLoader({}));
       //console.log(response);
@@ -211,6 +230,7 @@ export {
   getWineTypeByUserTypeAsync,
   getWineeriesByWineTypeAsync,
   insertTourAsync,
+  getToursAsync,
   getTourByIdAsync,
   deleteTourAsync
 }

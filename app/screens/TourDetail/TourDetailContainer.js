@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import TourListingView from './TourListingView';
+import TourDetailView from './TourDetailView';
 import { connect } from 'react-redux';
 import { BackHandler } from 'react-native';
 import * as accountActions from 'app/actions/accountActions';
 import * as loginActions from 'app/actions/loginActions';
 import * as navigationActions from 'app/actions/navigationActions';
 
-class TourListingContainer extends Component {
+class TourDetailContainer extends Component {
   constructor(props) {
     super(props);
   }
@@ -14,9 +14,12 @@ class TourListingContainer extends Component {
   // define a separate function to get triggered on focus
   async onFocusFunction () {
     // do some stuff on every screen focus
-    //_tourData("PreviousScreen", "TourListing");
-    const { getTours } = this.props;
-    getTours();
+    const { loadTourDetail } = this.props;
+    const { params } = this.props.navigation.state;
+    console.log(params);
+    const tourid = params ? params.tourid : null;
+    //const tourid = 6;
+    loadTourDetail(tourid);
   }
   // and don't forget to remove the listener
   componentWillUnmount () {
@@ -53,7 +56,7 @@ class TourListingContainer extends Component {
   };
 
   render() {
-    return <TourListingView {...this.props}/>;
+    return <TourDetailView {...this.props}/>;
   }
 }
 
@@ -61,16 +64,15 @@ function mapStateToProps(state) {
   return {
     loading: state.loadingReducer,
     login_token: state.loginReducer.login_token,
-    tours : state.accountReducer.tours
+    tourdetail : state.accountReducer.tourdetail
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getTours: () => dispatch(accountActions.getTours()),
-    deleteTour: (id) => dispatch(accountActions.deleteTour(id))
+    loadTourDetail:(tourid) => dispatch(accountActions.getTourById(tourid)),
   };
 }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TourListingContainer);
+)(TourDetailContainer);

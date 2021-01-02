@@ -101,7 +101,7 @@ class ForgotpassView extends Component {
                         autoCompleteType='email'
                     />
                 </View>
-                <Text style={ForgotPasswordstyles.FgtText}>We send you a email successfully, please confirm the OTP.</Text>
+                {/* <Text style={ForgotPasswordstyles.FgtText}>We send you a email successfully, please confirm the OTP.</Text> */}
                 <TouchableOpacity disabled={disablebtn} onPress={this.forgotpassword} style={[ForgotPasswordstyles.buttonStyle, (disablebtn) ? ForgotPasswordstyles.buttonStyleDisable : ForgotPasswordstyles.buttonStyleActive]}
                 >
                   <Text style={ForgotPasswordstyles.btnText}>Send Confirmation</Text>

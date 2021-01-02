@@ -57,10 +57,23 @@ export const accountReducer = createReducer(initialState, {
         };
     },
 
+    [types.GETTOURS_RESPONSE](state,action) {
+        return {
+            ...state,
+            tours:action.response
+        };
+    },
+    [types.GETTOURS_FAILED](state) {
+        return {
+            ...state,
+            tours:null
+        };
+    },
+
     [types.GETTOURBYID_RESPONSE](state,action) {
         return {
             ...state,
-            tourbyid:action.response
+            tourdetail:action.response
         };
     },
     [types.GETTOURBYIDFAIL_RESPONSE](state) {

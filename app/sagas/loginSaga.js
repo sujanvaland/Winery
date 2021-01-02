@@ -27,6 +27,7 @@ function* loginAsync(action) {
     _storeData("login_token", response.jwt);
     _storeData("customerguid", response.userId);
     _storeData("customername", response.userName);
+    _storeData("customeremail", response.email);
     _storeData("loginuser", action.username);
     _storeData("password", action.password);
     if(PreviousScreen)

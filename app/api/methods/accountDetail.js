@@ -79,13 +79,25 @@ export async function insertTour(action){
   );
 }
 
+export  async function getTours(action) {
+  let userId =  await retrieveData("customerguid");
+  return Api(
+      ApiConstants.TOURS,
+      {
+        UserId:userId
+      },
+      'post',
+      null
+  );
+}
+
 export function getTourById(action){
   return Api(
     ApiConstants.GETTOURBYID,
     {
-      Id:action.Id
+      Id:action.tourid
     },
-    post,
+    'post',
     null
   );
 }
@@ -94,25 +106,25 @@ export function deleteTour(action){
   return Api(
     ApiConstants.DELETETOUR,
     {
-      Id:action.Id
+      Id:action.tourid
     },
     'post',
     null
   );
 }
 
-export  function updatePersonalDetail(action) {
+export async function updatePersonalDetail(action) {
+  let userId =  await retrieveData("customerguid");
+  let customeremail =  await retrieveData("customeremail");
+  let password =  await retrieveData("password");
   return Api(
       ApiConstants.UPDATEPERSONALDETAIL,
       {
+        Id: userId,
         firstname:action.personaldetail.firstname,
         lastname:action.personaldetail.lastname,
-        birthdate:action.personaldetail.birthdate,
-        gender:action.personaldetail.gender,
-        email:action.personaldetail.email,
-        phone:action.personaldetail.phone,
-        vehicalno:action.personaldetail.vehicalno,
-        role_id:'2'
+        email:customeremail,
+        password:password
       },
       'post',
       null
@@ -130,12 +142,21 @@ export  function updateDeviceToken(action) {
   );
 }
 
-export function changePassword(action) {
+export async function changePassword(action) {
+  let userId =  await retrieveData("customerguid");
+  let customeremail =  await retrieveData("customeremail");
+  let customername = await this._retrieveData("customername");
+  let strcustomername = String(customername).split(' ');
+  let firstname =  strcustomername[0];
+  let lastname =  strcustomername[1];
   return Api(
     ApiConstants.CHANGEPASSWORD,
     {
-      oldpassword:action.action.oldpassword,
-      newpassword:action.action.newpassword
+      Id: userId,
+      firstname:firstname,
+      lastname:lastname,
+      email:customeremail,
+      password:action.action.newpassword
     },
     'post',
     null

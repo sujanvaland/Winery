@@ -3,7 +3,7 @@ import Styles from '../../config/styles';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const { color, Typography } = Styles;
 
-const TourListingStyles = StyleSheet.create({
+const TourDetailStyles = StyleSheet.create({
     InnerContainer: {
 
         height: viewportHeight - viewportWidth * 0.21,
@@ -395,6 +395,16 @@ const TourListingStyles = StyleSheet.create({
     BtnText: {
         color: color.COLOR_WHITE
     },
+    RatingBox: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
+    StarImage: {
+        width: 18,
+        height: 18,
+        resizeMode: 'cover',
+    },
 });
 
-export default TourListingStyles;
+export default TourDetailStyles;

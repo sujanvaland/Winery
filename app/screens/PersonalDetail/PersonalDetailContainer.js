@@ -62,7 +62,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-      onAccount: () => dispatch(accountActions.getAccountDetail()),
+      //onAccount: () => dispatch(accountActions.getAccountDetail()),
       onUpdatePersonalDetail: (personaldetail) => dispatch(accountActions.updatePersonalDetail(personaldetail))
     };
 }
