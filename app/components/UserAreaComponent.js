@@ -74,9 +74,9 @@ class UserAreaComponent extends Component {
         //console.log(newprofileImgPath);
         return (
             <View style={NavStyles.ProfilePicArea}>
-                 {/* <View style={NavStyles.ProfilePic}>
-                    <Image source={require('../assets/img/img_avtar.jpg')} resizeMode="contain" style={NavStyles.PrifileImage} />
-                </View> */}
+                <View style={NavStyles.ProfilePic}>
+                    <Image source={require('../assets/img/logo.png')} resizeMode="contain" style={NavStyles.PrifileImage} />
+                </View>
                 <Text style={NavStyles.UserName}>{this.state.customername}</Text>
                 {/* <Text style={NavStyles.Location}>San Francisco, CA</Text> */}
             </View>

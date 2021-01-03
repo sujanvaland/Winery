@@ -257,9 +257,10 @@ const TourListingStyles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        height: 90,
-        paddingLeft:viewportWidth * 0.01,
-        paddingTop: viewportWidth * 0.01
+        // height: 90,
+        paddingLeft: viewportWidth * 0.01,
+        paddingTop: viewportWidth * 0.01,
+        marginBottom: viewportWidth * 0.02,
     },
     WineButton: {
         display: 'flex',
@@ -379,22 +380,30 @@ const TourListingStyles = StyleSheet.create({
     RedButtonBox: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+
     },
     RedButton: {
-        backgroundColor: color.COLOR_LINKCOLOR,
+        backgroundColor: '#560041',
         width: 100,
         borderRadius: viewportWidth * 0.01,
         paddingVertical: viewportWidth * 0.01,
         paddingBottom: viewportWidth * 0.015,
         textAlign: 'center',
+        marginHorizontal: viewportWidth * 0.01,
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'row'
     },
     BtnText: {
-        color: color.COLOR_WHITE
+        color: color.COLOR_WHITE,
+        fontSize: viewportWidth * 0.03
     },
+    ToursList: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%'
+    }
 });
 
 export default TourListingStyles;

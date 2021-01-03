@@ -7,7 +7,7 @@ import Resource_EN from '../../config/Resource_EN';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
-import { OverlayActivityIndicatorElement} from '../../components';
+import { OverlayActivityIndicatorElement } from '../../components';
 import { get } from 'lodash';
 
 class TourDetailView extends Component {
@@ -39,63 +39,61 @@ class TourDetailView extends Component {
   }
 
   renderwinerylist = () => {
-      let { login_token, tourdetail } = this.props;
-      let winerydata = []
-      if (tourdetail) {
-        winerydata = tourdetail.Data;
+    let { login_token, tourdetail } = this.props;
+    let winerydata = []
+    if (tourdetail) {
+      winerydata = tourdetail.Data;
+    }
+
+    console.log(tourdetail);
+    //console.log("123");
+    //console.log(toursdata);
+    let items = [];
+    winerydata.forEach(item => {
+      let default_rating = item.Rating;
+      let React_Native_Rating_Bar = [];
+      //Array to hold the filled or empty Stars
+      for (var i = 1; i <= 5; i++) {
+        React_Native_Rating_Bar.push(
+          <TouchableOpacity
+            activeOpacity={0.7}
+            key={i}
+          >
+            <Image
+              style={TourDetailStyles.StarImage}
+              source={
+                i <= default_rating
+                  ? { uri: this.Star }
+                  : { uri: this.Star_With_Border }
+              }
+            />
+          </TouchableOpacity>
+        );
       }
 
-      console.log(tourdetail);
-      //console.log("123");
-      //console.log(toursdata);
-      let items = [];
-      winerydata.forEach(item => {
-        let default_rating = item.Rating;
-        let React_Native_Rating_Bar = [];
-          //Array to hold the filled or empty Stars
-          for (var i = 1; i <= 5; i++) {
-            React_Native_Rating_Bar.push(
-              <TouchableOpacity
-                activeOpacity={0.7}
-                key={i}
-              >
-                <Image
-                  style={TourDetailStyles.StarImage}
-                  source={
-                    i <= default_rating
-                      ? { uri: this.Star }
-                      : { uri: this.Star_With_Border }
-                  }
-                />
-              </TouchableOpacity>
-            );
-          }
+      items.push(
+        <View key={item.Id} style={TourDetailStyles.WineListBox}>
+          <View style={TourDetailStyles.ToursList}>
+            <View style={TourDetailStyles.WineTextDetail}>
+              <Text style={TourDetailStyles.WineTexBottle}> <Text style={TourDetailStyles.BoldText}>Winery :</Text>{item.WineryId}</Text>
+            </View>
+            <View style={TourDetailStyles.WineTextDetail}>
+              <Text style={TourDetailStyles.WineTexBottle}> <Text style={TourDetailStyles.BoldText}>Start Time : </Text>{item.StartTime}</Text>
+              <Text style={TourDetailStyles.WineTexBottle}> <Text style={TourDetailStyles.BoldText}>End Time : </Text>{item.EndTime}</Text>
+            </View>
+            <View style={TourDetailStyles.RatingBox}>
+              {React_Native_Rating_Bar}
+            </View>
+            <View>
+              <Text style={TourDetailStyles.WineTextDetail}>{item.Feedback}</Text>
+            </View>
 
-        items.push(
-            <View key={item.Id} style={TourDetailStyles.WineListBox}>
-              <View style={TourDetailStyles.flexBox}>
-                <View style={TourDetailStyles.WineTextDetail}>
-                  <Text style={TourDetailStyles.WineTexBottle}>Winery : {item.WineryId}</Text>
-                </View>
-                <View style={TourDetailStyles.WineTextDetail}>
-                  <Text style={TourDetailStyles.WineTexBottle}>Start Time : {item.StartTime}</Text>
-                </View>
-                <View style={TourDetailStyles.WineTextDetail}>
-                  <Text style={TourDetailStyles.WineTexBottle}>End Time : {item.EndTime}</Text>
-                </View>
-              </View>
-              <View>
-                <View style={TourDetailStyles.RatingBox}>
-                  {React_Native_Rating_Bar}
-                </View>
-                <View>
-                  <Text style={TourDetailStyles.WineTextDetail}>{item.Feedback}</Text>
-                </View>
-              </View>
-            </View>) //get data from AccordianElement components
-      });
-        
-      return items;
+          </View>
+
+        </View>) //get data from AccordianElement components
+    });
+
+    return items;
   }
 }
 
