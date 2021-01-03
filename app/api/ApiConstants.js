@@ -16,7 +16,7 @@ const ApiConstants = {
     GETWINETYPEBYUSERTYPE:'getwinetypesbyusertype.php',
     GETWINERIESBYWINETYPE:'getwineriesbywinetypes.php',
     INSERTTOUR:'inserttour.php',
-    TOURS:'getalltour.php',
+    TOURS:'getalltourbyuser.php',
     GETTOURBYID:'gettourdetailsbytourid.php',
     DELETETOUR:'deletetour.php',
     EVENTLIST: 'event-attendances',
