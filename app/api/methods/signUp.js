@@ -10,6 +10,7 @@ export function signup(userdetail) {
         email: userdetail.email,
         mobile: userdetail.phone,
         password: userdetail.password,
+        DateOfBirth:userdetail.birthDate
       },
       'post',
       null

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid, Alert } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid, Alert, Dimensions, StyleSheet } from 'react-native';
+import { Picker, Item } from "native-base";
 import StartTourStyles from './StartTourStyles';
 import PropTypes from 'prop-types';
-import { Picker } from '@react-native-picker/picker';
-import { Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
@@ -587,20 +586,22 @@ class StartTourView extends Component {
               />
             </View>
             <View style={StartTourStyles.PickeBox}>
-              <Picker
-                selectedValue={this.state.destination}
-                style={StartTourStyles.PickeElement}
-                onValueChange={(itemValue, itemIndex) => this.getdirectiontoDestination(itemValue)}>
-                <Picker.Item label="Select Destination" value="0" />
-                {
-                  destinationDropdown && destinationDropdown.length > 0 &&
-                  destinationDropdown.map((item) => {
-                    return (
-                      <Picker.Item key={item.Id} label={item.Name} value={item.Id} />
-                    );
-                  })
-                }
-              </Picker>
+              <Item picker>
+                <Picker
+                  selectedValue={this.state.destination}
+                  style={StartTourStyles.PickeElement}
+                  onValueChange={(itemValue, itemIndex) => this.getdirectiontoDestination(itemValue)}>
+                  <Picker.Item label="Select Destination" value="0" />
+                  {
+                    destinationDropdown && destinationDropdown.length > 0 &&
+                    destinationDropdown.map((item) => {
+                      return (
+                        <Picker.Item key={item.Id} label={item.Name} value={item.Id} />
+                      );
+                    })
+                  }
+                </Picker>
+              </Item>
             </View>
           </View>
         </View>

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, Dimensions, StyleSheet } from 'react-native';
+import { Picker, Item } from "native-base";
 import StoreMapStyles from './StoreMapStyles';
 import PropTypes from 'prop-types';
-import {Picker} from '@react-native-picker/picker';
-import { Dimensions, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Modal from 'react-native-modal';
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -169,36 +166,40 @@ class StoreMapView extends Component {
         <View style={StoreMapStyles.SearchStore}>
           <View style={StoreMapStyles.PickeBoxMain}>
             <View style={StoreMapStyles.PickeBox}>
-              <Picker
-                selectedValue={this.state.userType}
-                style={StoreMapStyles.PickeElement}
-                textStyle={{fontSize:20}}
-                onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
-                  <Picker.Item label="Select UserType" value="0" /> 
-                {
-                    usertypeArr.map((type)=>{
-                       return(
-                        <Picker.Item key={type.Id} label={type.UserTypeName} value={type.Id} />         
-                       );
-                    })
-                }
-              </Picker>
+              <Item picker>
+                <Picker
+                  selectedValue={this.state.userType}
+                  style={StoreMapStyles.PickeElement}
+                  textStyle={{fontSize:20}}
+                  onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
+                    <Picker.Item label="Select UserType" value="0" /> 
+                  {
+                      usertypeArr.map((type)=>{
+                        return(
+                          <Picker.Item key={type.Id} label={type.UserTypeName} value={type.Id} />         
+                        );
+                      })
+                  }
+                </Picker>
+              </Item>
             </View>
             <View style={StoreMapStyles.PickeBox}>
-              <Picker
-                selectedValue={this.state.wineType}
-                style={StoreMapStyles.PickeElement}
-                onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
-                  <Picker.Item label="Select WineType" value="0" /> 
-                {
-                  wineryType && wineryType.length > 0 &&
-                    wineryType.map((type)=>{
-                       return(
-                        <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />         
-                       );
-                    })
-                }
-              </Picker>
+              <Item picker>
+                <Picker
+                  selectedValue={this.state.wineType}
+                  style={StoreMapStyles.PickeElement}
+                  onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
+                    <Picker.Item label="Select WineType" value="0" /> 
+                  {
+                    wineryType && wineryType.length > 0 &&
+                      wineryType.map((type)=>{
+                        return(
+                          <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />         
+                        );
+                      })
+                  }
+                </Picker>
+              </Item>
             </View>
           </View>
         </View>
@@ -318,50 +319,6 @@ class StoreMapView extends Component {
             </TouchableOpacity>
           }
         </View>
-
-        {/* <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
-          <View style={StoreMapStyles.FeedbackModal}>
-            <View style={StoreMapStyles.ModalHeader}>
-              <Text style={StoreMapStyles.ModalHeaderText}>Give Your Feedback</Text>
-            </View>
-            <View>
-              <View style={StoreMapStyles.PickerBox}>
-                <Picker
-                  style={StoreMapStyles.PickeElementModal}
-                >
-                  <Picker.Item value="" label="Select Wines" />
-                  <Picker.Item value="" label="Select" />
-                </Picker>
-              </View>
-              <View style={StoreMapStyles.RatingBox}>
-                <Text style={StoreMapStyles.RatingBoxTitle}>Give Ratings</Text>
-                <Rating
-                  ratingCount={5}
-                  imageSize={25}
-                  ratingColor='#3498db'
-                  //showRating
-                  onFinishRating={this.ratingCompleted}
-                />
-              </View>
-              <View style={StoreMapStyles.RatingBox}>
-                <Text style={StoreMapStyles.RatingBoxTitle}>Note</Text>
-                <TextInput style={StoreMapStyles.RatingBoxNotedesc}>
-
-                </TextInput>
-              </View>
-              <View style={StoreMapStyles.ModalButtonArea}>
-                <TouchableOpacity style={StoreMapStyles.ModalButton}>
-                  <Text style={StoreMapStyles.ModalButtonText}>Submit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.toggleModal} style={[StoreMapStyles.ModalButton, StoreMapStyles.ModalButtonSubmit]}>
-                  <Text style={StoreMapStyles.ModalButtonText}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal> */}
-
-
       </View>
 
 
