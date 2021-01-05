@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects';
 import * as loginActions from 'app/actions/loginActions';
 import * as accountActions from 'app/actions/accountActions';
 import {getAccountDetail,getAllUserType,getWineTypeByUserType,getWineeriesByWineType,insertTour,getTours,
-  getTourById,deleteTour,
+  getTourById,deleteTour, updateFeedback,
   updatePersonalDetail,updateDeviceToken,changePassword,loadProfileImage} from 'app/api/methods/accountDetail';
 import * as navigationActions from 'app/actions/navigationActions';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -122,6 +122,8 @@ function* updatePersonalDetailAsync(action) {
       let userName=action.personaldetail.firstname+" "+action.personaldetail.lastname;
       //console.log(userName);
       _storeData("customername", userName);
+      _storeData("customerphone", action.personaldetail.phone);
+      _storeData("customerbirthdate", action.personaldetail.birthDate);
       navigationActions.navigateToPersonalDetail();
       yield put(loginActions.disableLoader({}));
   } else {
@@ -199,6 +201,20 @@ function* loadprofileimageAsync(action) {
   }
 }
 
+function* updateFeedbackAsync(action) {
+  yield put(loginActions.enableLoader());
+  //console.log(action);
+  const response = yield call(updateFeedback,action);
+  if (response.status ==="True") {
+      yield put(accountActions.onupdateFeedbackResponse(response));
+      yield put(accountActions.getTourById(action.FeedbackData.TourId));
+      yield put(loginActions.disableLoader({}));
+  } else {
+      yield put(accountActions.onupdateFeedbackFailResponse(response));
+      yield put(loginActions.disableLoader({}));
+  }
+};
+
 const _storeData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
@@ -232,5 +248,6 @@ export {
   insertTourAsync,
   getToursAsync,
   getTourByIdAsync,
-  deleteTourAsync
+  deleteTourAsync,
+  updateFeedbackAsync
 }

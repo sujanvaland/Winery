@@ -11,7 +11,8 @@ import {
     getAccountDetailAsync, getAllUserTypeAsync, getWineTypeByUserTypeAsync,
     getWineeriesByWineTypeAsync, insertTourAsync,getToursAsync, deleteTourAsync, getTourByIdAsync, 
     updatePersonalDetailAsync,
-    changePasswordAsync
+    changePasswordAsync,
+    updateFeedbackAsync
 } from './accountSaga';
 import { getUpcomingEventsAsync, getPastEventsAsync } from './eventSaga';
 
@@ -38,4 +39,5 @@ export default function* watch() {
     yield all([takeEvery(types.GETTOURS_REQUEST, getToursAsync)]);
     yield all([takeEvery(types.DELETETOUR_REQUEST, deleteTourAsync)]);
     yield all([takeEvery(types.GETTOURBYID_REQUEST, getTourByIdAsync)]);
+    yield all([takeEvery(types.UPDATEFEEDBACK_REQUEST, updateFeedbackAsync)]);
 }

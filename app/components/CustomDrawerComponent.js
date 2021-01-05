@@ -44,6 +44,8 @@ class CustomDrawerComponent extends Component {
         this._storeData("customerguid", "");
         this._storeData("customername", "");
         this._storeData("customeremail", "");
+        this._storeData("customerphone", "");
+        this._storeData("customerbirthdate", "");
         navigationActions.navigateToLogin();
     }
 
@@ -54,6 +56,8 @@ class CustomDrawerComponent extends Component {
         this._storeData("customerguid", "");
         this._storeData("customername", "");
         this._storeData("customeremail", "");
+        this._storeData("customerphone", "");
+        this._storeData("customerbirthdate", "");
         navigationActions.navigateToStoreMap();
     }
 

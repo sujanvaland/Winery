@@ -123,6 +123,8 @@ export async function updatePersonalDetail(action) {
         Id: userId,
         firstname:action.personaldetail.firstname,
         lastname:action.personaldetail.lastname,
+        mobile:action.personaldetail.phone,
+        DateOfBirth:action.personaldetail.birthDate,
         email:customeremail,
         password:password
       },
@@ -145,16 +147,20 @@ export  function updateDeviceToken(action) {
 export async function changePassword(action) {
   let userId =  await retrieveData("customerguid");
   let customeremail =  await retrieveData("customeremail");
-  let customername = await this._retrieveData("customername");
+  let customername = await retrieveData("customername");
   let strcustomername = String(customername).split(' ');
   let firstname =  strcustomername[0];
   let lastname =  strcustomername[1];
+  let customerphone =  await retrieveData("customerphone");
+  let customerbirthdate = await retrieveData("customerbirthdate");
   return Api(
     ApiConstants.CHANGEPASSWORD,
     {
       Id: userId,
       firstname:firstname,
       lastname:lastname,
+      mobile:customerphone,
+      DateOfBirth:customerbirthdate,
       email:customeremail,
       password:action.action.newpassword
     },
@@ -169,5 +175,18 @@ export  function loadProfileImage(action) {
       null,
       'get',
       null
+  );
+}
+
+export function updateFeedback(action){
+  return Api(
+    ApiConstants.UPDATEFEEDBACK,
+    {
+      Id: action.FeedbackData.Id,
+      Rating: action.FeedbackData.Rating,
+      Feedback: action.FeedbackData.Feedback
+    },
+    'post',
+    null
   );
 }
