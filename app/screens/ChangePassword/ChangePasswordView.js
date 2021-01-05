@@ -8,7 +8,7 @@ import Resource_EN from '../../config/Resource_EN';
 import { ScrollView } from 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-simple-toast';
-import { OverlayActivityIndicatorElement} from '../../components';
+import { OverlayActivityIndicatorElement } from '../../components';
 import { get } from 'lodash';
 
 class ChangePasswordView extends Component {
@@ -199,7 +199,7 @@ class ChangePasswordView extends Component {
                   style={[this.state.isValidnewpassword ? ChangePasswordStyles.BorderGrey : ChangePasswordStyles.BorderRed, ChangePasswordStyles.textInput]}
                   value={this.state.postChangePassword.newpassword}
                   onChangeText={value => this.onValueChange("newpassword", value)}
-                  isvalidInput={this.state.isValidnewpassword}autoCapitalize={'none'}
+                  isvalidInput={this.state.isValidnewpassword} autoCapitalize={'none'}
                   onEndEditing={() => this.validateInputs("newpassword")}
                   secureTextEntry={true}
                   autoCapitalize={'none'}
@@ -211,7 +211,7 @@ class ChangePasswordView extends Component {
                   <Image style={ChangePasswordStyles.passwordImg} source={require('../../assets/img/password.png')} resizeMode="cover" />
                   <Image style={ChangePasswordStyles.lineImg} source={require('../../assets/img/line.png')} resizeMode="cover" />
                 </View>
-                <TextBoxElementChangepass 
+                <TextBoxElementChangepass
                   placeholder="Confirm Password"
                   style={[this.state.isValidconfirmpassword ? ChangePasswordStyles.BorderGrey : ChangePasswordStyles.BorderRed, ChangePasswordStyles.textInput]}
                   value={this.state.postChangePassword.confirmpassword}

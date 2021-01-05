@@ -257,9 +257,10 @@ const TourDetailStyles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        height: 90,
-        paddingLeft:viewportWidth * 0.01,
-        paddingTop: viewportWidth * 0.01
+        // height: 90,
+        paddingLeft: viewportWidth * 0.01,
+        paddingTop: viewportWidth * 0.01,
+        marginVertical: viewportWidth * 0.005
     },
     WineButton: {
         display: 'flex',
@@ -273,16 +274,16 @@ const TourDetailStyles = StyleSheet.create({
     },
     WinePrice: {
         fontSize: viewportWidth * 0.04,
-        fontFamily: Typography.FONT_MEDIUM,
+        fontFamily: Typography.FONT_REGULAR,
         marginBottom: viewportWidth * 0.015
     },
     WineTexBottle: {
         fontSize: viewportWidth * 0.035,
-        fontFamily: Typography.FONT_MEDIUM,
+        fontFamily: Typography.FONT_REGULAR,
     },
     WineTourName: {
         fontSize: viewportWidth * 0.035,
-        fontFamily: Typography.FONT_MEDIUM,
+        fontFamily: Typography.FONT_REGULAR,
         maxWidth: viewportWidth * 0.6,
         borderWidth: 0
     },
@@ -355,9 +356,10 @@ const TourDetailStyles = StyleSheet.create({
 
 
     },
-    WineTexBottle: {
+    BoldText: {
         fontWeight: 'bold'
     },
+
     BtnFeedback: {
         color: color.COLOR_WHITE,
         paddingHorizontal: viewportWidth * 0.03,
@@ -398,13 +400,20 @@ const TourDetailStyles = StyleSheet.create({
     RatingBox: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        marginTop: viewportWidth * 0.02,
+        marginBottom: viewportWidth * 0.02,
     },
     StarImage: {
         width: 18,
         height: 18,
         resizeMode: 'cover',
     },
+    ToursList: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%'
+    }
 });
 
 export default TourDetailStyles;

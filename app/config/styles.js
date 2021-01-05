@@ -32,7 +32,8 @@ const AppStyles = {
         COLOR_INNERTITLE: '#353535',
         COLOR_LEVELCOLOR: '#dedede',
         COLOR_MENUTOP: '#f5f5f5',
-        COLOR_TEXTCOLOR: '#ffffff'
+        COLOR_TEXTCOLOR: '#ffffff',
+        COLOR_DARKTEXT: '#000000'
 
 
 

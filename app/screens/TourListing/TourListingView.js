@@ -7,7 +7,7 @@ import Resource_EN from '../../config/Resource_EN';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
-import { OverlayActivityIndicatorElement} from '../../components';
+import { OverlayActivityIndicatorElement } from '../../components';
 import { get } from 'lodash';
 
 class TourListingView extends Component {
@@ -20,7 +20,7 @@ class TourListingView extends Component {
   }
 
   navigateToTourDetail = (obj) => {
-      navigationActions.navigateToTourDetail(obj);
+    navigationActions.navigateToTourDetail(obj);
   };
 
   deleteTour = (id) => {
@@ -44,10 +44,10 @@ class TourListingView extends Component {
     // you must return Promise everytime
     const { getTours } = this.props;
     return new Promise((resolve) => {
-    setTimeout(() => {
+      setTimeout(() => {
         getTours();
         resolve();
-    }, 500)
+      }, 500)
     })
   }
 
@@ -70,35 +70,35 @@ class TourListingView extends Component {
   }
 
   rendertourslist = () => {
-      let { login_token, tours } = this.props;
-      let toursdata = []
-      if (tours) {
-        toursdata = tours;
-      }
-      //console.log("123");
-      //console.log(toursdata);
-      let items = [];
-      toursdata.forEach(item => {items.push(
-            <View key={item.Id} style={TourListingStyles.WineListBox}>
-              <View style={TourListingStyles.flexBox}>
-                <View style={TourListingStyles.WineTextDetail}>
-                  <Text style={TourListingStyles.WineTexBottle}>{item.TourDate}</Text>
-                </View>
-                <View style={TourListingStyles.RedButtonBox}>
-                    <TouchableOpacity style={TourListingStyles.RedButton} onPress={() => this.navigateToTourDetail({ tourid: item.Id})}>
-                        <Text style={TourListingStyles.BtnText}>Detail</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={TourListingStyles.RedButtonBox}>
-                    <TouchableOpacity style={TourListingStyles.RedButton} onPress={() => this.deleteTour(item.Id)}>
-                        <Text style={TourListingStyles.BtnText}>Delete</Text>
-                    </TouchableOpacity>
-                </View>
-              </View>
-            </View>) //get data from AccordianElement components
-      });
-        
-      return items;
+    let { login_token, tours } = this.props;
+    let toursdata = []
+    if (tours) {
+      toursdata = tours;
+    }
+    //console.log("123");
+    //console.log(toursdata);
+    let items = [];
+    toursdata.forEach(item => {
+      items.push(
+        <View key={item.Id} style={TourListingStyles.WineListBox}>
+          <View style={TourListingStyles.ToursList}>
+            <View style={TourListingStyles.WineTextDetail}>
+              <Text style={TourListingStyles.WineTexBottle}>{item.TourDate}</Text>
+            </View>
+            <View style={TourListingStyles.RedButtonBox}>
+              <TouchableOpacity style={TourListingStyles.RedButton} onPress={() => this.navigateToTourDetail({ tourid: item.Id })}>
+                <Text style={TourListingStyles.BtnText}>Detail</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={TourListingStyles.RedButton} onPress={() => this.deleteTour(item.Id)}>
+                <Text style={TourListingStyles.BtnText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </View>) //get data from AccordianElement components
+    });
+
+    return items;
   }
 }
 

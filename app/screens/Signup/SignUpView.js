@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
 import { View, Text, Image, TouchableOpacity, ImageBackground, KeyboardAvoidingView, StatusBar } from 'react-native';
+import { DatePicker } from 'native-base';
 import styles from './signupStyles';
 import globalStyles from '../../assets/css/globalStyles';
 import Resource_EN from '../../config/Resource_EN';
@@ -32,26 +33,27 @@ class SignUpView extends Component {
         email: "",
         phone: "",
         password: "",
+        birthDate: "",
         isvalidfirstname: true,
         isvalidlastname: true,
         isvalidemail: true,
         isvalidphone: true,
         isvalidpassword: true,
+        isvalidbirthdate: true,
       },
       isvalidfirstname: false,
       isvalidlastname: false,
       isvalidemail: false,
       isvalidphone: false,
       isvalidpassword: false,
+      isvalidbirthdate: false,
       toggleCheckBox: false,
 
     };
   }
 
-
-
   signup = () => {
-    const { isvalidfirstname, isvalidlastname, isvalidemail, isvalidphone, isvalidpassword } = this.state;
+    const { isvalidfirstname, isvalidlastname, isvalidemail, isvalidphone, isvalidpassword, isvalidbirthdate } = this.state;
     let allInputsValidated = false;
 
     //console.log(isvalidfirstname, isvalidlastname, isvalidemail,isvalidphone,isvalidpassword)
@@ -64,16 +66,11 @@ class SignUpView extends Component {
       this.updateState("isvalidemail", isvalidemail);
       this.updateState("isvalidphone", isvalidphone);
       this.updateState("isvalidpassword", isvalidpassword);
+      this.updateState("isvalidbirthdate", isvalidbirthdate);
     }
 
     if (allInputsValidated) {
-      // if(!this.state.termsChecked){
-      //   Toast.show("Please agree to Terms of Use", Toast.SHORT);
-      //   allInputsValidated = false;
-      // }
-    }
-
-    if (allInputsValidated) {
+      //console.log(this.state.userDetails);
       this.props.onSignUp(this.state.userDetails);
     }
   };
@@ -88,7 +85,8 @@ class SignUpView extends Component {
         lastname: '',
         email: '',
         phone: '',
-        password: ''
+        password: '',
+        birthDate: ''
       }
     }));
   }
@@ -215,6 +213,17 @@ class SignUpView extends Component {
         }
       }
     }
+
+    if (fieldName == "birthDate") {
+      if (this.state.userDetails.birthDate == "") {
+        this.updateState("isvalidbirthdate", true);
+        this.setState({ isvalidbirthdate: true });
+      }
+      else {
+        this.updateState("isvalidbirthdate", true);
+        this.setState({ isvalidbirthdate: true });
+      }
+    }
   };
 
   updateState = (fieldName, value) => {
@@ -331,6 +340,34 @@ class SignUpView extends Component {
                     maxLength={15}
                   />
 
+                </View>
+
+                <View style={styles.textBoxContent}>
+                  <DatePicker
+                    maximumDate={new Date()}
+                    locale={"en"}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    animationType={"fade"}
+                    androidMode={"default"}
+                    placeHolderText="Birth Date"
+                    textStyle={{ color: "#d3d3d3" }}
+                    placeHolderTextStyle={{ color: "#d3d3d3" }}
+                    onDateChange={(date) => {
+                      var addDay=new Date(date.getTime() + 24 * 60 * 60 * 1000);
+                      var isodate = addDay.toISOString(); 
+                      var strSplitDate = String(isodate).split('T');
+                      var dateArray = strSplitDate[0].split('-');
+                      let newdate = dateArray[0] + "-" + dateArray[1] + "-" + dateArray[2];
+                      // console.log(date);
+                      // console.log(addDay);
+                      // console.log(isodate);
+                      // console.log(newdate);
+                      this.updateState("birthDate", newdate);
+                      this.updateState("isvalidbirthdate", true);
+                      this.setState({ isvalidbirthdate: true });
+                    }}
+                  />
                 </View>
                 
                 <View style={styles.textBoxContent}>
