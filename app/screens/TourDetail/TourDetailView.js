@@ -24,7 +24,7 @@ class TourDetailView extends Component {
       isValidSendFeedback: true,
       Max_Rating: 5,
       postSendFeedback: {
-        TourId:0,
+        TourId: 0,
         Id: 0,
         Rating: 0,
         Feedback: ''
@@ -43,7 +43,7 @@ class TourDetailView extends Component {
       var strSplitDate = String(strDate).split(' ');
       var dateArray = strSplitDate[0].split('-');
       let monthint = parseInt(dateArray[1]);
-      let date = month_names[monthint - 1] + " " + dateArray[2] + ", " + dateArray[0] + " "+ strSplitDate[1];
+      let date = month_names[monthint - 1] + " " + dateArray[2] + ", " + dateArray[0] + " " + strSplitDate[1];
       return date;
     }
     return "";
@@ -53,7 +53,7 @@ class TourDetailView extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
     this.setState({
       postSendFeedback: {
-        TourId:item.TourId,
+        TourId: item.TourId,
         Id: item.Id,
         Rating: item.Rating,
         Feedback: item.Feedback,
@@ -64,7 +64,7 @@ class TourDetailView extends Component {
   _onCancelSendFeedbackForm = () => {
     this.setState({
       postSendFeedback: {
-        TourId:0,
+        TourId: 0,
         Id: 0,
         Rating: 0,
         Feedback: ''
@@ -179,45 +179,47 @@ class TourDetailView extends Component {
           </View>
         </ScrollView>
         <Modal transparent={true} isVisible={this.state.isModalVisible} style={TourDetailStyles.FeedbackModalMain}>
-          <View style={TourDetailStyles.FeedbackModal}>
-            <View style={TourDetailStyles.ModalHeader}>
-              <Text style={TourDetailStyles.ModalHeaderText}>Update Your Feedback</Text>
-            </View>
-            <View style={TourDetailStyles.FeedbackFormBoxMain}>
-              <View style={TourDetailStyles.FeedbackFormBox}>
-                {/* <View style={TourDetailStyles.TextBoxcontainer}>
+          <ScrollView>
+            <View style={TourDetailStyles.FeedbackModal}>
+              <View style={TourDetailStyles.ModalHeader}>
+                <Text style={TourDetailStyles.ModalHeaderText}>Update Your Feedback</Text>
+              </View>
+              <View style={TourDetailStyles.FeedbackFormBoxMain}>
+                <View style={TourDetailStyles.FeedbackFormBox}>
+                  {/* <View style={TourDetailStyles.TextBoxcontainer}>
                   <Text style={TourDetailStyles.RatingBoxTitle}>Winery Name</Text>
                   <Text style={TourDetailStyles.RatingBoxTitleValue}>{this.state.destinationname}</Text>
                 </View> */}
-                <View style={TourDetailStyles.RatingBox}>
-                  <Text style={TourDetailStyles.RatingBoxTitle}>Update Ratings</Text>
-                  <View style={TourDetailStyles.RatingsBoxforRating}>
-                    {React_Native_Rating_Bar}
+                  <View style={TourDetailStyles.RatingBox}>
+                    <Text style={TourDetailStyles.RatingBoxTitle}>Update Ratings</Text>
+                    <View style={TourDetailStyles.RatingsBoxforRating}>
+                      {React_Native_Rating_Bar}
+                    </View>
                   </View>
-                </View>
-                <View style={TourDetailStyles.RatingBox}>
-                  <Text style={TourDetailStyles.RatingBoxTitle}>Feedback</Text>
-                  <Textarea placeholder="Write Feedback"
-                    style={[this.state.isValidSendFeedback ? TourDetailStyles.BorderGrey : TourDetailStyles.BorderRed, TourDetailStyles.RatingBoxNotedesc]}
-                    rowSpan={3}
-                    value={this.state.postSendFeedback.Feedback}
-                    placeholderTextColor='#4A4A4A'
-                    isvalidInput={this.state.isValidSendFeedback}
-                    onEndEditing={() => this.validateSendFeedbackInputs("Feedback")}
-                    onChangeText={value => this.onSendFeedbackValueChange("Feedback", value)} />
-                </View>
-                <View style={TourDetailStyles.ModalButtonArea}>
-                  <TouchableOpacity style={TourDetailStyles.ModalButton}
-                    onPress={() => this._onSendFeedback()}>
-                    <Text style={TourDetailStyles.ModalButtonText}>Submit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this._onCancelSendFeedbackForm()} style={[TourDetailStyles.ModalButton, TourDetailStyles.ModalButtonSubmit]}>
-                    <Text style={TourDetailStyles.ModalButtonText}>Cancel</Text>
-                  </TouchableOpacity>
+                  <View style={TourDetailStyles.RatingBox}>
+                    <Text style={TourDetailStyles.RatingBoxTitle}>Feedback</Text>
+                    <Textarea placeholder="Write Feedback"
+                      style={[this.state.isValidSendFeedback ? TourDetailStyles.BorderGrey : TourDetailStyles.BorderRed, TourDetailStyles.RatingBoxNotedesc]}
+                      rowSpan={3}
+                      value={this.state.postSendFeedback.Feedback}
+                      placeholderTextColor='#4A4A4A'
+                      isvalidInput={this.state.isValidSendFeedback}
+                      onEndEditing={() => this.validateSendFeedbackInputs("Feedback")}
+                      onChangeText={value => this.onSendFeedbackValueChange("Feedback", value)} />
+                  </View>
+                  <View style={TourDetailStyles.ModalButtonArea}>
+                    <TouchableOpacity style={TourDetailStyles.ModalButton}
+                      onPress={() => this._onSendFeedback()}>
+                      <Text style={TourDetailStyles.ModalButtonText}>Submit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._onCancelSendFeedbackForm()} style={[TourDetailStyles.ModalButton, TourDetailStyles.ModalButtonSubmit]}>
+                      <Text style={TourDetailStyles.ModalButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
         </Modal>
       </View >
     );

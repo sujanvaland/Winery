@@ -399,7 +399,7 @@ const TourDetailStyles = StyleSheet.create({
     },
     RatingBox: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'flex-start',
         marginTop: viewportWidth * 0.02,
         marginBottom: viewportWidth * 0.02,
@@ -534,7 +534,7 @@ const TourDetailStyles = StyleSheet.create({
     RatingsBoxforRating: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
     RatingBoxNotedesc: {
