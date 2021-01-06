@@ -120,7 +120,7 @@ export async function updatePersonalDetail(action) {
   return Api(
       ApiConstants.UPDATEPERSONALDETAIL,
       {
-        Id: userId,
+        id: userId,
         firstname:action.personaldetail.firstname,
         lastname:action.personaldetail.lastname,
         mobile:action.personaldetail.phone,
@@ -156,7 +156,7 @@ export async function changePassword(action) {
   return Api(
     ApiConstants.CHANGEPASSWORD,
     {
-      Id: userId,
+      id: userId,
       firstname:firstname,
       lastname:lastname,
       mobile:customerphone,
