@@ -7,7 +7,7 @@ import NetInfo from "@react-native-community/netinfo";
 // import RNFetchBlob from 'react-native-fetch-blob'
 export default function api(path, params, method, token) {
     return CallApi(params,path,method).then((data) => {
-      //console.log(data);
+      console.log(data);
         try {
           let response = JSON.parse(data);
           return response;
@@ -67,8 +67,13 @@ async function CallApi(params,path,method){
       //xhr.setRequestHeader("customerguid", customerguid);
       xhr.setRequestHeader("Authorization", "Bearer "+login_token);
     }
+  
+    if(data == null || data == undefined || data == "" || data == "null" || data === null ){
+      xhr.send();
+    }else{
+      xhr.send(data);
+    }
     
-    xhr.send(data);
   });
 }
 

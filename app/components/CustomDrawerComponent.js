@@ -44,6 +44,8 @@ class CustomDrawerComponent extends Component {
         this._storeData("customerguid", "");
         this._storeData("customername", "");
         this._storeData("customeremail", "");
+        this._storeData("customerphone", "");
+        this._storeData("customerbirthdate", "");
         navigationActions.navigateToLogin();
     }
 
@@ -54,6 +56,8 @@ class CustomDrawerComponent extends Component {
         this._storeData("customerguid", "");
         this._storeData("customername", "");
         this._storeData("customeremail", "");
+        this._storeData("customerphone", "");
+        this._storeData("customerbirthdate", "");
         navigationActions.navigateToStoreMap();
     }
 
@@ -131,7 +135,7 @@ class CustomDrawerComponent extends Component {
                     <View>
                         <View style={NavStyles.MyaccountBox}>
                             <TouchableOpacity onPress={() => this.navigateToTourListing()} style={NavStyles.LogoutBtn}>
-                                <Image source={require('../assets/img/icon_myprofile_menu.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
+                                <Image source={require('../assets/img/icon_tours.png')} resizeMode="contain" style={NavigationStyles.MenuIcon} />
                                 <Text style={NavStyles.LogoutBtnText}>My Tours</Text>
                             </TouchableOpacity>
                         </View>
