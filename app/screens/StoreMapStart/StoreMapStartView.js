@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import StoreMapStartStyles from './StoreMapStartStyles';
 import PropTypes from 'prop-types';
-import { Picker } from '@react-native-picker/picker';
 import { Dimensions, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import Geolocation from 'react-native-geolocation-service';
-
+import { Icon, Picker, Item } from "native-base";
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 
@@ -190,36 +189,39 @@ class StoreMapStartView extends Component {
         <View style={StoreMapStartStyles.SearchStore}>
           <View style={StoreMapStartStyles.PickeBoxMain}>
             <View style={StoreMapStartStyles.PickeBox}>
-              {/* <Picker
-                selectedValue={this.state.userType}
-                style={StoreMapStartStyles.PickeElement}
-                textStyle={{fontSize:20}}
-                onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
-                  <Picker.Item label="Select UserType" value="0" /> 
-                {
-                    usertypeArr.map((type)=>{
+              <Item picker>
+                <Picker
+                  selectedValue={this.state.userType}
+                  mode="dropdown"
+                  textStyle={{ fontSize: 15, }}
+                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
+                  placeholder="Select Usertype"
+                  onValueChange={(itemValue) => this.getWineTypeByUserType(itemValue)}
+                >
+                  {usertypeArr.map((type)=>{
                        return(
                         <Picker.Item key={type.Id} label={type.UserTypeName} value={type.Id} />         
                        );
-                    })
-                }
-              </Picker> */}
+                    })}
+                </Picker>
+              </Item>
             </View>
             <View style={StoreMapStartStyles.PickeBox}>
-              <Picker
-                selectedValue={this.state.wineType}
-                style={StoreMapStartStyles.PickeElement}
-                onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
-                <Picker.Item label="Select WineType" value="0" />
-                {
-                  wineryType && wineryType.length > 0 &&
-                  wineryType.map((type) => {
-                    return (
-                      <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />
-                    );
-                  })
-                }
-              </Picker>
+            <Item picker>
+                <Picker
+                  selectedValue={this.state.wineType}
+                  mode="dropdown"
+                  textStyle={{ fontSize: 15, }}
+                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
+                  placeholder="Select Winetype"
+                  onValueChange={(itemValue) => this.getWineryFromWineType(itemValue)}
+                >
+                  {wineryType.map((state, i) => {
+                    let itemValue = state.Id;
+                    return <Picker.Item key={i} value={itemValue} label={state.WineTypeName} />
+                  })}
+                </Picker>
+              </Item>
             </View>
           </View>
         </View>

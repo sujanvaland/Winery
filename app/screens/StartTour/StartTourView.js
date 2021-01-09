@@ -114,53 +114,94 @@ class StartTourView extends Component {
     // );
   }
 
-  async getCurrentLocation() {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      {
+  async getCurrentLocation(){
+    if (Platform.OS === 'ios') {
+      const result = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,{
         title: 'Location Permission',
-        message: 'Winery Lovers needs access to your location',
+        message: 'WineLovers needs access to your location',
         buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
-      },
-    );
+      });
 
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      //console.log('123');
-      Geolocation.getCurrentPosition(
-        async (position) => {
-          let currentLoc = [];
-          currentLoc.push({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          })
-          await this.setState({ coordinates: currentLoc });
-          /*await this.setState({ latitude: position.coords.latitude });
-          await this.setState({ longitude: position.coords.longitude });
-          await this.setState({destinationLatitude:position.coords.latitude});
-          await this.setState({destinationLongitude:position.coords.longitude});*/
-          //console.log('456');
-          // Geocoder.from(position.coords.latitude, position.coords.longitude)
-          //   .then(json => {
-          //      //console.log(json);
-          //      var addressComponent = json.results[0].address_components;
-          //      var formatted_address = json.results[0].formatted_address;
-          //      this.setState({
-          //         sourceAddress: formatted_address
-          //       })
-          //       //console.log(addressComponent);
-          //     })
-          //   .catch(error => console.warn(error));
+      if ("granted" === result) {
+        Geolocation.getCurrentPosition(
+          async (position) => {
+            let currentLoc = [];
+            currentLoc.push({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            })
+            await this.setState({ coordinates: currentLoc });
+            /*await this.setState({ latitude: position.coords.latitude });
+            await this.setState({ longitude: position.coords.longitude });
+            await this.setState({destinationLatitude:position.coords.latitude});
+            await this.setState({destinationLongitude:position.coords.longitude});*/
+            //console.log('456');
+            // Geocoder.from(position.coords.latitude, position.coords.longitude)
+            //   .then(json => {
+            //      //console.log(json);
+            //      var addressComponent = json.results[0].address_components;
+            //      var formatted_address = json.results[0].formatted_address;
+            //      this.setState({
+            //         sourceAddress: formatted_address
+            //       })
+            //       //console.log(addressComponent);
+            //     })
+            //   .catch(error => console.warn(error));
+          },
+          (error) => {
+            console.warn(error.code, error.message);
+          },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+        )
+      }
+    }else{
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'Winery Lovers needs access to your location',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
         },
-        (error) => {
-          console.warn(error.code, error.message);
-        },
-        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
-      )
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        //console.log('123');
+        Geolocation.getCurrentPosition(
+          async (position) => {
+            let currentLoc = [];
+            currentLoc.push({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            })
+            await this.setState({ coordinates: currentLoc });
+            /*await this.setState({ latitude: position.coords.latitude });
+            await this.setState({ longitude: position.coords.longitude });
+            await this.setState({destinationLatitude:position.coords.latitude});
+            await this.setState({destinationLongitude:position.coords.longitude});*/
+            //console.log('456');
+            // Geocoder.from(position.coords.latitude, position.coords.longitude)
+            //   .then(json => {
+            //      //console.log(json);
+            //      var addressComponent = json.results[0].address_components;
+            //      var formatted_address = json.results[0].formatted_address;
+            //      this.setState({
+            //         sourceAddress: formatted_address
+            //       })
+            //       //console.log(addressComponent);
+            //     })
+            //   .catch(error => console.warn(error));
+          },
+          (error) => {
+            console.warn(error.code, error.message);
+          },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+        )
+      }
     }
   }
-  
 
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -589,11 +630,9 @@ class StartTourView extends Component {
               <Item picker>
                 <Picker
                   selectedValue={this.state.destination}
-                  style={StartTourStyles.PickeElement}
+                  placeholder="Select Destination"
                   onValueChange={(itemValue, itemIndex) => this.getdirectiontoDestination(itemValue)}>
-                  <Picker.Item label="Select Destination" value="0" />
                   {
-                    destinationDropdown && destinationDropdown.length > 0 &&
                     destinationDropdown.map((item) => {
                       return (
                         <Picker.Item key={item.Id} label={item.Name} value={item.Id} />

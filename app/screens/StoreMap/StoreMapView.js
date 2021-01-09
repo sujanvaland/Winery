@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid, Dimensions, StyleSheet } from 'react-native';
-import { Picker, Item } from "native-base";
+import { View, Text, Image, TextInput, TouchableOpacity,PermissionsAndroid,Platform } from 'react-native';
 import StoreMapStyles from './StoreMapStyles';
 import PropTypes from 'prop-types';
+//import {Picker} from '@react-native-picker/picker';
+import { Dimensions, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Modal from 'react-native-modal';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
-
+import { Icon, Picker, Item } from "native-base";
+import {check, PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
+
 
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -38,32 +43,48 @@ class StoreMapView extends Component {
   }
 
   async getCurrentLocation(){
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      {
+    if (Platform.OS === 'ios') {
+      const result = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,{
         title: 'Location Permission',
-        message: 'Winery Lovers needs access to your location',
+        message: 'WineLovers needs access to your location',
         buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
-      },
-    );
-   
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      Geolocation.getCurrentPosition(
-        async (position) => {
-              let currentLoc = [];
-              currentLoc.push({
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude
-              })
-              await this.setState({coordinates:currentLoc});
-          },
-          (error) => {
-              console.warn(error.code, error.message);
-          },
-          {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
-      )
+      });
+
+      if ("granted" === result) {
+        Geolocation.getCurrentPosition(
+          async (position) => {
+                let currentLoc = [];
+                currentLoc.push({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+                await this.setState({coordinates:currentLoc});
+            },
+            (error) => {
+                console.warn(error.code, error.message);
+            },
+            {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
+        )
+      }
+    }else{
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          async (position) => {
+                let currentLoc = [];
+                currentLoc.push({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+                await this.setState({coordinates:currentLoc});
+            },
+            (error) => {
+                console.warn(error.code, error.message);
+            },
+            {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
+        )
+      }
     }
   }
 
@@ -127,7 +148,7 @@ class StoreMapView extends Component {
       wineryType = userwinetype;
     }
     
-    //console.log(routewaypointslist);
+   
     if(routewaypointslist){
       //console.log("123");
       wineries = routewaypointslist.winerylist.filter(function(item){
@@ -169,17 +190,16 @@ class StoreMapView extends Component {
               <Item picker>
                 <Picker
                   selectedValue={this.state.userType}
-                  style={StoreMapStyles.PickeElement}
-                  textStyle={{fontSize:20}}
-                  onValueChange={(itemValue, itemIndex) =>this.getWineTypeByUserType(itemValue)}>
-                    <Picker.Item label="Select UserType" value="0" /> 
-                  {
-                      usertypeArr.map((type)=>{
-                        return(
-                          <Picker.Item key={type.Id} label={type.UserTypeName} value={type.Id} />         
-                        );
-                      })
-                  }
+                  mode="dropdown"
+                  textStyle={{ fontSize: 15, }}
+                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
+                  placeholder="Select Usertype"
+                  onValueChange={(itemValue) => this.getWineTypeByUserType(itemValue)}
+                >
+                  {usertypeArr.map((state, i) => {
+                    let itemValue = state.Id;
+                    return <Picker.Item key={i} value={itemValue} label={state.UserTypeName} />
+                  })}
                 </Picker>
               </Item>
             </View>
@@ -187,19 +207,19 @@ class StoreMapView extends Component {
               <Item picker>
                 <Picker
                   selectedValue={this.state.wineType}
-                  style={StoreMapStyles.PickeElement}
-                  onValueChange={(itemValue, itemIndex) => this.getWineryFromWineType(itemValue)}>
-                    <Picker.Item label="Select WineType" value="0" /> 
-                  {
-                    wineryType && wineryType.length > 0 &&
-                      wineryType.map((type)=>{
-                        return(
-                          <Picker.Item key={type.Id} label={type.WineTypeName} value={type.WineTypeId} />         
-                        );
-                      })
-                  }
+                  mode="dropdown"
+                  textStyle={{ fontSize: 15, }}
+                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
+                  placeholder="Select Winetype"
+                  onValueChange={(itemValue) => this.getWineryFromWineType(itemValue)}
+                >
+                  {wineryType.map((state, i) => {
+                    let itemValue = state.Id;
+                    return <Picker.Item key={i} value={itemValue} label={state.WineTypeName} />
+                  })}
                 </Picker>
               </Item>
+              
             </View>
           </View>
         </View>
@@ -319,6 +339,50 @@ class StoreMapView extends Component {
             </TouchableOpacity>
           }
         </View>
+
+        {/* <Modal transparent={true} isVisible={this.state.isModalVisible} style={StoreMapStyles.FeedbackModalMain}>
+          <View style={StoreMapStyles.FeedbackModal}>
+            <View style={StoreMapStyles.ModalHeader}>
+              <Text style={StoreMapStyles.ModalHeaderText}>Give Your Feedback</Text>
+            </View>
+            <View>
+              <View style={StoreMapStyles.PickerBox}>
+                <Picker
+                  style={StoreMapStyles.PickeElementModal}
+                >
+                  <Picker.Item value="" label="Select Wines" />
+                  <Picker.Item value="" label="Select" />
+                </Picker>
+              </View>
+              <View style={StoreMapStyles.RatingBox}>
+                <Text style={StoreMapStyles.RatingBoxTitle}>Give Ratings</Text>
+                <Rating
+                  ratingCount={5}
+                  imageSize={25}
+                  ratingColor='#3498db'
+                  //showRating
+                  onFinishRating={this.ratingCompleted}
+                />
+              </View>
+              <View style={StoreMapStyles.RatingBox}>
+                <Text style={StoreMapStyles.RatingBoxTitle}>Note</Text>
+                <TextInput style={StoreMapStyles.RatingBoxNotedesc}>
+
+                </TextInput>
+              </View>
+              <View style={StoreMapStyles.ModalButtonArea}>
+                <TouchableOpacity style={StoreMapStyles.ModalButton}>
+                  <Text style={StoreMapStyles.ModalButtonText}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.toggleModal} style={[StoreMapStyles.ModalButton, StoreMapStyles.ModalButtonSubmit]}>
+                  <Text style={StoreMapStyles.ModalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal> */}
+
+
       </View>
 
 
