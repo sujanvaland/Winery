@@ -51,6 +51,19 @@ class TourListingView extends Component {
     })
   }
 
+getParsedDate(strDate) {
+    //get date formate
+    if (strDate != "") {
+      let month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var strSplitDate = String(strDate).split(' ');
+      var dateArray = strSplitDate[0].split('-');
+      let monthint = parseInt(dateArray[1]);
+      let date = month_names[monthint - 1] + " " + dateArray[2] + ", " + dateArray[0] + " "+ strSplitDate[1];
+      return date;
+    }
+    return "";
+}
+
 
   render() {
     const { button } = Resource_EN;
@@ -83,7 +96,7 @@ class TourListingView extends Component {
         <View key={item.Id} style={TourListingStyles.WineListBox}>
           <View style={TourListingStyles.ToursList}>
             <View style={TourListingStyles.WineTextDetail}>
-              <Text style={TourListingStyles.WineTexBottle}>{item.TourDate}</Text>
+              <Text style={TourListingStyles.WineTexBottle}>{this.getParsedDate(item.TourDate)}</Text>
             </View>
             <View style={TourListingStyles.RedButtonBox}>
               <TouchableOpacity style={TourListingStyles.RedButton} onPress={() => this.navigateToTourDetail({ tourid: item.Id })}>

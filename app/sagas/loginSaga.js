@@ -28,6 +28,8 @@ function* loginAsync(action) {
     _storeData("customerguid", response.userId);
     _storeData("customername", response.userName);
     _storeData("customeremail", response.email);
+    _storeData("customerphone", response.mobile);
+    _storeData("customerbirthdate", response.DateOfBirth);
     _storeData("loginuser", action.username);
     _storeData("password", action.password);
     if(PreviousScreen)

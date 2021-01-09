@@ -19,7 +19,9 @@ class PersonalDetailView extends Component {
     super(props);
     this.state = {
       customername:"",
-      customeremail:""
+      customeremail:"",
+      customerphone:"",
+      customerbirthdate:""
     }
   }
 
@@ -37,13 +39,17 @@ class PersonalDetailView extends Component {
     SplashScreen.hide();
     let customername = await this._retrieveData("customername");
     let customeremail = await this._retrieveData("customeremail");
+    let customerphone = await this._retrieveData("customerphone");
+    let customerbirthdate = await this._retrieveData("customerbirthdate");
     //console.log("customername");
     //console.log(customername);
     // console.log("customeremail");
     // console.log(customeremail);
     this.setState({
         customername: customername,
-        customeremail: customeremail
+        customeremail: customeremail,
+        customerphone: customerphone,
+        customerbirthdate: customerbirthdate
     });
     
   }
@@ -51,6 +57,19 @@ class PersonalDetailView extends Component {
   navigateToEditProfile = () => {
     this.props.navigation.push('EditProfile');
     //navigationActions.navigateToEditProfile();
+  }
+
+  getParsedDate(strDate) {
+    //get date formate
+    if (strDate != "") {
+      let month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      //var strSplitDate = String(strDate).split(' ');
+      var dateArray = strDate.split('-');
+      let monthint = parseInt(dateArray[1]);
+      let date = month_names[monthint - 1] + " " + dateArray[2] + ", " + dateArray[0];
+      return date;
+    }
+    return "";
   }
 
 
@@ -84,11 +103,20 @@ class PersonalDetailView extends Component {
                   <Image source={require('../../assets/img/icon_email.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
                   <Text style={[PersonalDetailstyles.EmailText, globalStyles.FontRegular]}>{this.state.customeremail}</Text>
                 </View>
+                { this.state.customerphone != '' && this.state.customerphone != null &&
+                  <View style={PersonalDetailstyles.ProfileContactdetal}>
+                    <Image source={require('../../assets/img/icon_phone.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
+                    <Text style={[PersonalDetailstyles.EmailText, globalStyles.FontRegular]}>{this.state.customerphone}</Text>
+                  </View>
+                }
+
+                { this.state.customerbirthdate != '0000-00-00' &&
+                  <View style={PersonalDetailstyles.ProfileContactdetal}>
+                    <Image source={require('../../assets/img/icon_phone.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
+                    <Text style={[PersonalDetailstyles.EmailText, globalStyles.FontRegular]}>{this.getParsedDate(this.state.customerbirthdate)}</Text>
+                  </View>
+                }
                 {/* <View style={PersonalDetailstyles.ProfileContactdetal}>
-                  <Image source={require('../../assets/img/icon_phone.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
-                  <Text style={[PersonalDetailstyles.EmailText, globalStyles.FontRegular]}>+56 92387452374</Text>
-                </View>
-                <View style={PersonalDetailstyles.ProfileContactdetal}>
                   <Image source={require('../../assets/img/icon_address.png')} resizeMode="contain" style={PersonalDetailstyles.IconAddress} />
                   <Text style={[PersonalDetailstyles.EmailTex, globalStyles.FontRegular]}>Av. Angamos 8142</Text>
                 </View> */}

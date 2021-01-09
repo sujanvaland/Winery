@@ -17,9 +17,10 @@ const ApiConstants = {
     GETWINERIESBYWINETYPE:'getwineriesbywinetypes.php',
     INSERTTOUR:'inserttour.php',
     TOURS:'getalltourbyuser.php',
-    GETTOURBYID:'gettourdetailsbytourid.php',
+    GETTOURBYID:'gettourbyid.php',
     DELETETOUR:'deletetour.php',
     EVENTLIST: 'event-attendances',
+    UPDATEFEEDBACK:'updatebasictourdetails.php',
 
     // Update before build
     BUILDNO: "b01",

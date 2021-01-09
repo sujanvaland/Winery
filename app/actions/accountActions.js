@@ -253,3 +253,24 @@ export function ongetRoute(response) {
         response
     };
 }
+
+export function updateFeedback(FeedbackData) {
+    return {
+        type: types.UPDATEFEEDBACK_REQUEST,
+        FeedbackData
+    };
+}
+
+export function onupdateFeedbackResponse(response) {
+    return {
+        type: types.UPDATEFEEDBACK_RESPONSE,
+        response
+    };
+}
+
+export function onupdateFeedbackFailResponse(response) {
+    return {
+        type: types.UPDATEFEEDBACKFAIL_RESPONSE,
+        response
+    };
+}

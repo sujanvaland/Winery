@@ -70,6 +70,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loadTourDetail:(tourid) => dispatch(accountActions.getTourById(tourid)),
+    updateFeedback:(FeedbackData) => dispatch(accountActions.updateFeedback(FeedbackData)),
+    
   };
 }
 export default connect(
