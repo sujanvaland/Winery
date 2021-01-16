@@ -16,10 +16,10 @@ import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-// const LATITUDE = 40.740130;
-// const LONGITUDE = -73.985440;
-const LATITUDE = 0;
-const LONGITUDE = 0;
+const LATITUDE = 40.740130;
+const LONGITUDE = -73.985440;
+// const LATITUDE = 0;
+// const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
@@ -101,19 +101,20 @@ class StartTourView extends Component {
           //console.log(addressComponent);
         })
       .catch(error => console.warn(error));
-    // setInterval(
-    //   function() {
-    //       // let lat = this.state.latitude;
-    //       // let long = this.state.longitude;
-    //       // lat = lat + 0.001;
-    //       // long = long + 0.001;
-    //       // //console.log(lat,long);
-    //       // this.setState({latitude:lat,longitude:long});
-    //       //this.getCurrentLocation();
-    //   }
-    //   .bind(this),
-    //   5000
-    // );
+    
+      setInterval(
+        function() {
+            let lat = this.state.latitude;
+            let long = this.state.longitude;
+            lat = lat + 0.001;
+            long = long + 0.001;
+            //console.log(lat,long);
+            this.setState({latitude:lat,longitude:long});
+            this.getCurrentLocation();
+        }
+        .bind(this),
+        5000
+      );
   }
 
   async getCurrentLocation(){
@@ -634,6 +635,7 @@ class StartTourView extends Component {
                   selectedValue={this.state.destination}
                   placeholder="Select Destination"
                   onValueChange={(itemValue, itemIndex) => this.getdirectiontoDestination(itemValue)}>
+                  <Picker.Item key="0" label="Select Destination" value="0" />
                   {
                     destinationDropdown.map((item) => {
                       return (

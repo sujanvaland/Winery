@@ -71,7 +71,7 @@ class StoreMapView extends Component {
         )
       }
     }else{
-      console.log("In Current Location");
+      //console.log("In Current Location");
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
         {
@@ -91,7 +91,7 @@ class StoreMapView extends Component {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 });
-                console.log(currentLoc);
+                //console.log(currentLoc);
                 await this.setState({coordinates:currentLoc});
             },
             (error) => {
@@ -207,16 +207,16 @@ class StoreMapView extends Component {
     
     let LATITUDE = 40.740130;
     let LONGITUDE = -73.985440;
-    // let LATITUDE = 0;
-    // let LONGITUDE = 0;
+    // let LATITUDE = 22.3337;
+    // let LONGITUDE = 73.2267;
     if(this.state.coordinates.length > 0){
-      console.log("123");
+      //console.log("123");
       LATITUDE = this.state.coordinates[0].latitude;
       LONGITUDE = this.state.coordinates[0].longitude;
     }
 
-    console.log(LATITUDE);
-    console.log(LONGITUDE);
+    // console.log(LATITUDE);
+    // console.log(LONGITUDE);
     
     return (
       <View style={StoreMapStyles.InnerContainer}>
