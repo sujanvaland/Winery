@@ -16,10 +16,10 @@ import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 40.740130;
-const LONGITUDE = -73.985440;
-// const LATITUDE = 0;
-// const LONGITUDE = 0;
+//const LATITUDE = 40.740130;
+//const LONGITUDE = -73.985440;
+const LATITUDE = 0;
+const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';

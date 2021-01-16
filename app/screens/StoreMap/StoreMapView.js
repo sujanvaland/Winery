@@ -8,10 +8,11 @@ import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from 'react-native-modal';
 import { Rating, AirbnbRating } from 'react-native-ratings';
-import Geolocation from 'react-native-geolocation-service';
+//import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 import { Icon, Picker, Item } from "native-base";
 import {check, PERMISSIONS, RESULTS, request} from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 
@@ -205,12 +206,12 @@ class StoreMapView extends Component {
 
     
     
-    let LATITUDE = 40.740130;
-    let LONGITUDE = -73.985440;
-    // let LATITUDE = 22.3337;
-    // let LONGITUDE = 73.2267;
+    // let LATITUDE = 40.740130;
+    // let LONGITUDE = -73.985440;
+    let LATITUDE = 0;
+    let LONGITUDE = 0;
     if(this.state.coordinates.length > 0){
-      //console.log("123");
+      console.log(this.state.coordinates);
       LATITUDE = this.state.coordinates[0].latitude;
       LONGITUDE = this.state.coordinates[0].longitude;
     }
