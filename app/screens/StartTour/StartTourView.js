@@ -16,8 +16,10 @@ import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 40.740130;
-const LONGITUDE = -73.985440;
+// const LATITUDE = 40.740130;
+// const LONGITUDE = -73.985440;
+const LATITUDE = 0;
+const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAKKEplE__ZhgDZAKSM7-ObelAcBPX0P_M';
@@ -133,22 +135,22 @@ class StartTourView extends Component {
               longitude: position.coords.longitude
             })
             await this.setState({ coordinates: currentLoc });
-            /*await this.setState({ latitude: position.coords.latitude });
+            await this.setState({ latitude: position.coords.latitude });
             await this.setState({ longitude: position.coords.longitude });
             await this.setState({destinationLatitude:position.coords.latitude});
-            await this.setState({destinationLongitude:position.coords.longitude});*/
+            await this.setState({destinationLongitude:position.coords.longitude});
             //console.log('456');
-            // Geocoder.from(position.coords.latitude, position.coords.longitude)
-            //   .then(json => {
-            //      //console.log(json);
-            //      var addressComponent = json.results[0].address_components;
-            //      var formatted_address = json.results[0].formatted_address;
-            //      this.setState({
-            //         sourceAddress: formatted_address
-            //       })
-            //       //console.log(addressComponent);
-            //     })
-            //   .catch(error => console.warn(error));
+            Geocoder.from(position.coords.latitude, position.coords.longitude)
+              .then(json => {
+                 //console.log(json);
+                 var addressComponent = json.results[0].address_components;
+                 var formatted_address = json.results[0].formatted_address;
+                 this.setState({
+                    sourceAddress: formatted_address
+                  })
+                  //console.log(addressComponent);
+                })
+              .catch(error => console.warn(error));
           },
           (error) => {
             console.warn(error.code, error.message);
@@ -177,22 +179,22 @@ class StartTourView extends Component {
               longitude: position.coords.longitude
             })
             await this.setState({ coordinates: currentLoc });
-            /*await this.setState({ latitude: position.coords.latitude });
+            await this.setState({ latitude: position.coords.latitude });
             await this.setState({ longitude: position.coords.longitude });
             await this.setState({destinationLatitude:position.coords.latitude});
-            await this.setState({destinationLongitude:position.coords.longitude});*/
+            await this.setState({destinationLongitude:position.coords.longitude});
             //console.log('456');
-            // Geocoder.from(position.coords.latitude, position.coords.longitude)
-            //   .then(json => {
-            //      //console.log(json);
-            //      var addressComponent = json.results[0].address_components;
-            //      var formatted_address = json.results[0].formatted_address;
-            //      this.setState({
-            //         sourceAddress: formatted_address
-            //       })
-            //       //console.log(addressComponent);
-            //     })
-            //   .catch(error => console.warn(error));
+            Geocoder.from(position.coords.latitude, position.coords.longitude)
+              .then(json => {
+                 //console.log(json);
+                 var addressComponent = json.results[0].address_components;
+                 var formatted_address = json.results[0].formatted_address;
+                 this.setState({
+                    sourceAddress: formatted_address
+                  })
+                  //console.log(addressComponent);
+                })
+              .catch(error => console.warn(error));
           },
           (error) => {
             console.warn(error.code, error.message);

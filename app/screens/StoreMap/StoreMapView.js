@@ -32,6 +32,7 @@ class StoreMapView extends Component {
       showStartbtn:false,
       isSelected: false,
       isModalVisible: false,
+      winetypedropdown:false
     };
 
     this.mapView = null;
@@ -43,6 +44,7 @@ class StoreMapView extends Component {
   }
 
   async getCurrentLocation(){
+
     if (Platform.OS === 'ios') {
       const result = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,{
         title: 'Location Permission',
@@ -69,6 +71,18 @@ class StoreMapView extends Component {
         )
       }
     }else{
+      console.log("In Current Location");
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+            title: 'Location Permission',
+            message: 'Winery Lovers needs access to your location',
+            message: 'WineLovers needs access to your location',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+        },
+      );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           async (position) => {
@@ -76,13 +90,14 @@ class StoreMapView extends Component {
                 currentLoc.push({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
-                })
+                });
+                console.log(currentLoc);
                 await this.setState({coordinates:currentLoc});
             },
             (error) => {
                 console.warn(error.code, error.message);
             },
-            {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000},
         )
       }
     }
@@ -118,21 +133,38 @@ class StoreMapView extends Component {
   }
 
   getWineTypeByUserType = (UserTypeId) =>{
-    // this.setState({isRouteVisible:false});
-    // this.setState({routewaypointslist:[]});
-    this.setState({ userType: UserTypeId });
-    this.props.getWineTypeByUserType(UserTypeId);
-    let finalobj=null;
-    this.props.ongetRoute(finalobj);
+    if(UserTypeId > 0)
+    {
+      // this.setState({isRouteVisible:false});
+      // this.setState({routewaypointslist:[]});
+      this.setState({winetypedropdown:true, userType: UserTypeId });
+      this.props.getWineTypeByUserType(UserTypeId);
+      let finalobj=null;
+      this.props.ongetRoute(finalobj);
+    }
+    else
+    {
+      this.setState({userType: 0, wineType:0 });
+      this.setState({winetypedropdown:false,showSelectWinerybtn:false});
+    }
   }
 
   getWineryFromWineType = (WineTypeId) =>{
-    // this.setState({isRouteVisible:false});
-    // this.setState({routewaypointslist:[]});
-    this.setState({wineType: WineTypeId,showSelectWinerybtn:true});
-    this.props.getWineriesWineType([WineTypeId]);
-    let finalobj=null;
-    this.props.ongetRoute(finalobj);
+    if(WineTypeId > 0)
+    {
+      // this.setState({isRouteVisible:false});
+      // this.setState({routewaypointslist:[]});
+      this.setState({wineType: WineTypeId,showSelectWinerybtn:true});
+      this.props.getWineriesWineType([WineTypeId]);
+      let finalobj=null;
+      this.props.ongetRoute(finalobj);
+    }
+    else
+    {
+      this.setState({wineType:0});
+      this.setState({showSelectWinerybtn:false});
+    }
+    
   }
   
   render() {
@@ -175,12 +207,16 @@ class StoreMapView extends Component {
     
     let LATITUDE = 40.740130;
     let LONGITUDE = -73.985440;
-    // if(this.state.coordinates.length > 0){
-    //   LATITUDE = this.state.coordinates[0].latitude;
-    //   LONGITUDE = this.state.coordinates[0].longitude;
-    // }
+    // let LATITUDE = 0;
+    // let LONGITUDE = 0;
+    if(this.state.coordinates.length > 0){
+      console.log("123");
+      LATITUDE = this.state.coordinates[0].latitude;
+      LONGITUDE = this.state.coordinates[0].longitude;
+    }
 
-    // console.log("--------LATITUDE,LONGITUDE------");
+    console.log(LATITUDE);
+    console.log(LONGITUDE);
     
     return (
       <View style={StoreMapStyles.InnerContainer}>
@@ -196,6 +232,7 @@ class StoreMapView extends Component {
                   placeholder="Select Usertype"
                   onValueChange={(itemValue) => this.getWineTypeByUserType(itemValue)}
                 >
+                  <Picker.Item key='0' value="0" label="Select UserType" />
                   {usertypeArr.map((state, i) => {
                     let itemValue = state.Id;
                     return <Picker.Item key={i} value={itemValue} label={state.UserTypeName} />
@@ -203,24 +240,26 @@ class StoreMapView extends Component {
                 </Picker>
               </Item>
             </View>
-            <View style={StoreMapStyles.PickeBox}>
-              <Item picker>
-                <Picker
-                  selectedValue={this.state.wineType}
-                  mode="dropdown"
-                  textStyle={{ fontSize: 15, }}
-                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
-                  placeholder="Select Winetype"
-                  onValueChange={(itemValue) => this.getWineryFromWineType(itemValue)}
-                >
-                  {wineryType.map((state, i) => {
-                    let itemValue = state.Id;
-                    return <Picker.Item key={i} value={itemValue} label={state.WineTypeName} />
-                  })}
-                </Picker>
-              </Item>
-              
-            </View>
+            { this.state.winetypedropdown &&
+              <View style={StoreMapStyles.PickeBox}>
+                <Item picker>
+                  <Picker
+                    selectedValue={this.state.wineType}
+                    mode="dropdown"
+                    textStyle={{ fontSize: 15, }}
+                    iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
+                    placeholder="Select Winetype"
+                    onValueChange={(itemValue) => this.getWineryFromWineType(itemValue)}
+                  >
+                    <Picker.Item key='0' value="0" label="Select WineType" />
+                    {wineryType.map((state, i) => {
+                      let itemValue = state.Id;
+                      return <Picker.Item key={i} value={itemValue} label={state.WineTypeName} />
+                    })}
+                  </Picker>
+                </Item>
+              </View>
+            }
           </View>
         </View>
         <View style={StoreMapStyles.MapViewbox}>
@@ -326,7 +365,7 @@ class StoreMapView extends Component {
               </TouchableOpacity>
             } */}
             {
-              this.state.showSelectWinerybtn &&
+              this.state.showSelectWinerybtn && wineries?.length > 0 &&
               <TouchableOpacity style={StoreMapStyles.BtnFeedback} onPress={this.navigateToStoreListing}>
                 <Text style={StoreMapStyles.WhiteText}>Select Winery</Text>
               </TouchableOpacity>
