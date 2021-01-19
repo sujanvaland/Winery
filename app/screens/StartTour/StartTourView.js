@@ -156,7 +156,7 @@ class StartTourView extends Component {
           (error) => {
             console.warn(error.code, error.message);
           },
-          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000000 },
         )
       }
     }else{
@@ -200,7 +200,7 @@ class StartTourView extends Component {
           (error) => {
             console.warn(error.code, error.message);
           },
-          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000000 },
         )
       }
     }
