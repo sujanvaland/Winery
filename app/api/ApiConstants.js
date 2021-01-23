@@ -23,8 +23,8 @@ const ApiConstants = {
     UPDATEFEEDBACK:'updatebasictourdetails.php',
 
     // Update before build
-    BUILDNO: "b01",
-    VERSION: "1.0.0"
+    BUILDNO: "b05",
+    VERSION: "1.0.5"
 };
 
 export default ApiConstants;

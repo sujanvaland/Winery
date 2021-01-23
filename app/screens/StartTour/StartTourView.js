@@ -15,6 +15,7 @@ import Toast from 'react-native-simple-toast';
 import * as navigationActions from 'app/actions/navigationActions';
 const { width, height } = Dimensions.get('window');
 
+
 const ASPECT_RATIO = width / height;
 //const LATITUDE = 40.740130;
 //const LONGITUDE = -73.985440;
@@ -633,6 +634,9 @@ class StartTourView extends Component {
               <Item picker>
                 <Picker
                   selectedValue={this.state.destination}
+                  mode="dropdown"
+                  textStyle={{ fontSize: 15, }}
+                  iosIcon={<Icon name="ios-arrow-down" style={{ fontSize: 15, color: '#333333' }} />}
                   placeholder="Select Destination"
                   onValueChange={(itemValue, itemIndex) => this.getdirectiontoDestination(itemValue)}>
                   <Picker.Item key="0" label="Select Destination" value="0" />
